@@ -409,7 +409,7 @@ function showModule(index) {
     }
 
     // Check selected answer
-    if (opt === q.answer) {
+    if (opt.includes(q.answer)) {
         btn.classList.add("correct");
     } else {
         btn.classList.add("wrong");
