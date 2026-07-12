@@ -2,266 +2,394 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI & Cloud Computing Quiz</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>RDBMS Question Bank - 200 MCQ</title>
     <style>
-    :root {
-        --bg-color: #121212;
-        --card-bg: #1e1e1e;
-        --text-color: #e0e0e0;
-        --accent-color: #bb86fc;
-        --correct-color: #4caf50;
-        --wrong-color: #f44336;
-        --tab-inactive: #333;
-    }
+        :root {
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --accent: #38bdf8;
+            --text: #f1f5f9;
+            --text-dim: #94a3b8;
+            --correct: #22c55e;
+            --wrong: #ef4444;
+            --border: #334155;
+        }
 
-    body {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-        background-color: var(--bg-color);
-        color: var(--text-color);
-        margin: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        line-height: 1.5;
-    }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
-    header {
-        width: 100%;
-        padding: 1.5rem 0;
-        text-align: center;
-        background: #1a1a1a;
-        border-bottom: 2px solid var(--accent-color);
-    }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            line-height: 1.5;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
 
-    h1 { font-size: 1.4rem; margin: 0 10px; }
-    header p { font-size: 0.9rem; margin-top: 5px; opacity: 0.8; }
+        .sticky-top {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--bg);
+            border-bottom: 1px solid var(--border);
+        }
 
-    .tabs {
-        display: flex;
-        gap: 8px;
-        position: sticky;
-        top: 0;
-        background: var(--bg-color);
-        padding: 12px;
-        z-index: 100;
-        width: 100%;
-        justify-content: center;
-        flex-wrap: wrap; /* Important for mobile: wraps buttons to next line */
-        box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-    }
+        header { padding: 12px 16px; text-align: center; }
+        header h1 { font-size: 1.1rem; margin: 0; color: var(--accent); }
 
-    .tab-btn {
-        padding: 8px 14px;
-        background: var(--tab-inactive);
-        color: white;
-        border: none;
-        cursor: pointer;
-        border-radius: 20px; /* Rounded pill style looks better on mobile */
-        transition: 0.3s;
-        font-size: 0.85rem;
-        white-space: nowrap;
-    }
+        .tabs {
+            display: flex;
+            overflow-x: auto;
+            padding: 10px;
+            gap: 8px;
+            scrollbar-width: none;
+        }
+        .tabs::-webkit-scrollbar { display: none; }
 
-    .tab-btn.active {
-        background: var(--accent-color);
-        color: black;
-        font-weight: bold;
-    }
+        .tab-btn {
+            flex: 0 0 auto;
+            padding: 8px 16px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            color: var(--text-dim);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .tab-btn.active { background: var(--accent); color: #000; border-color: var(--accent); }
 
-    .container {
-        width: 95%; /* More width on mobile */
-        max-width: 800px;
-        padding: 20px 0 80px 0;
-    }
+        #quiz-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            max-width: 600px;
+            margin: 0 auto;
+            width: 100%;
+        }
 
-    .question-card {
-        background: var(--card-bg);
-        padding: 18px;
-        margin-bottom: 20px;
-        border-radius: 12px;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-    }
+        .q-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border);
+        }
 
-    .question-text {
-        font-size: 1rem;
-        margin-bottom: 15px;
-        font-weight: 500;
-        color: #ffffff;
-    }
+        .q-text { font-size: 1rem; font-weight: 600; margin-bottom: 16px; }
 
-    .options-list {
-        list-style: none;
-        padding: 0;
-    }
+        .options { display: flex; flex-direction: column; gap: 8px; }
 
-    .option {
-        padding: 14px; /* Larger tap target */
-        margin: 10px 0;
-        background: #2d2d2d;
-        border: 1px solid #444;
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 0.95rem;
-        -webkit-tap-highlight-color: transparent; /* Removes blue flash on mobile tap */
-    }
+        .opt {
+            padding: 12px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            display: flex;
+            cursor: pointer;
+        }
 
-    .option.correct {
-        background-color: var(--correct-color) !important;
-        border-color: var(--correct-color);
-        color: white;
-    }
+        .opt-letter { font-weight: 800; color: var(--accent); margin-right: 10px; }
 
-    .option.wrong {
-        background-color: var(--wrong-color) !important;
-        border-color: var(--wrong-color);
-        color: white;
-    }
+        .answered .opt { pointer-events: none; }
+        .opt.correct { background: var(--correct) !important; border-color: var(--correct); color: white; }
+        .opt.wrong { background: var(--wrong) !important; border-color: var(--wrong); color: white; }
+        .opt.correct .opt-letter, .opt.wrong .opt-letter { color: white; }
 
-    .feedback {
-        margin-top: 12px;
-        font-size: 0.9rem;
-        padding: 10px;
-        border-radius: 5px;
-        background: rgba(255, 152, 0, 0.1);
-        display: none;
-    }
-
-    /* Hide scrollbar for tab container if needed */
-    .tabs::-webkit-scrollbar {
-        display: none;
-    }
-</style>
+        .feedback {
+            margin-top: 12px;
+            padding: 8px;
+            border-radius: 6px;
+            background: rgba(34, 197, 94, 0.1);
+            color: var(--correct);
+            font-weight: 700;
+            font-size: 0.8rem;
+            display: none;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
 
-<header>
-    <h1>SRINIVAS UNIVERSITY</h1>
-    <p>Introduction to AI and Cloud Computing (25BCA23)</p>
-</header>
-
-<div class="tabs" id="tabBar">
-    <button class="tab-btn active" onclick="showModule(1)">Module 1</button>
-    <button class="tab-btn" onclick="showModule(2)">Module 2</button>
-    <button class="tab-btn" onclick="showModule(3)">Module 3</button>
-    <button class="tab-btn" onclick="showModule(4)">Module 4</button>
-    <button class="tab-btn" onclick="showModule(5)">Module 5</button>
+<div class="sticky-top">
+    <header><h1>RDBMS COMPLETE QUIZ</h1></header>
+    <div class="tabs" id="tabBar">
+        <button class="tab-btn active" onclick="loadSet(1)">1-35</button>
+        <button class="tab-btn" onclick="loadSet(2)">36-70</button>
+        <button class="tab-btn" onclick="loadSet(3)">71-105</button>
+        <button class="tab-btn" onclick="loadSet(4)">106-140</button>
+        <button class="tab-btn" onclick="loadSet(5)">141-175</button>
+        <button class="tab-btn" onclick="loadSet(6)">176-200</button>
+    </div>
 </div>
 
-<div class="container" id="quizContainer">
-    <!-- Questions will be injected here by JavaScript -->
-</div>
+<div id="quiz-container"></div>
 
 <script>
-const quizData = {
-    1: [
-        { q: "1. Which branch of computer science is concerned with the study and creation of computer system that execute some form of intelligence?", a: "c", options: { a: "Data mining", b: "Expert system", c: "Artificial intelligence", d: "Electronic intelligence" }},
-        { q: "2. Who coined the term “Artificial Intelligence”?", a: "b", options: { a: "Alan turing", b: "John McCarthy", c: "Newan", d: "Newell" }},
-        { q: "3. What is the system that uses artificial intelligence and rules about behavior?", a: "b", options: { a: "Production system", b: "Heuristic system", c: "Intelligent system", d: "State space system" }, note: "Note: PDF lists Answer as 'b. Production system' despite label mismatch."},
-        { q: "4. When did semantic net develop?", a: "d", options: { a: "Classical Period", b: "Ancient Period", c: "Modern Period", d: "Romantic Period" }},
-        { q: "5. Which category of AI tasks does Games belong to?", a: "c", options: { a: "Mundane Tasks", b: "Expert Tasks", c: "Formal Tasks", d: "Perception Tasks" }},
-        { q: "6. Give an example of a production system that is both partially commutative and monotonic?", a: "a", options: { a: "Theorem proving", b: "Chemical synthesis", c: "Robot navigation", d: "Game playing" }},
-        { q: "7. Natural Language Processing (NLP) belong to which category?", a: "c", options: { a: "Formal tasks", b: "Informal Tasks", c: "Mundane tasks", d: "Expert Tasks" }},
-        { q: "8. What is the Space complexity of Depth First Search?", a: "b", options: { a: "O(b)", b: "O(d)", c: "O(bd)", d: "O(db)" }}
-    ],
-    2: [
-        { q: "33. Define the term used to describe the facts, information, and skills acquired through experience or education?", a: "b", options: { a: "Belief", b: "Knowledge", c: "Hypothesis", d: "Trust" }},
-        { q: "34. What is compiled knowledge related to the performance of some task?", a: "a", options: { a: "Procedural knowledge", b: "Declarative knowledge", c: "Semantic knowledge", d: "Syntactic knowledge" }},
-        { q: "35. What is passive knowledge expressed as statements of facts about the world?", a: "b", options: { a: "Procedural knowledge", b: "Declarative knowledge", c: "Semantic knowledge", d: "Syntactic knowledge" }},
-        { q: "36. What is a true justified belief defined as?", a: "b", options: { a: "Trust", b: "Knowledge", c: "Belief", d: "Hypothesis" }},
-        { q: "37. What is a justified belief that is not known to be true?", a: "c", options: { a: "Belief", b: "Knowledge", c: "Hypothesis", d: "Trust" }},
-        { q: "38. What is the study of the nature called?", a: "b", options: { a: "Phonology", b: "Epistemology", c: "Morphology", d: "Lexicology" }},
-        { q: "39. What is the simplest heuristic search strategy that operates as an exhaustive search of the problem space?", a: "c", options: { a: "Hill Climbing", b: "Best First Search", c: "Generate and Test", d: "Problem Reduction" }},
-        { q: "40. List the two lists of nodes used in the Best First Search algorithm to keep track of generated and examined nodes.", a: "b", options: { a: "START and GOAL", b: "OPEN and CLOSED", c: "ASCENT and DESCENT", d: "SUCCESSOR and PARENT" }}
-    ],
-    3: [
-        { q: "65. Which knowledge is used to convert the sounds into character?", a: "a", options: { a: "Phonological", b: "Morphological", c: "Syntactical", d: "Semantic" }},
-        { q: "66. How is a Phoneme defined in the study of language structure?", a: "b", options: { a: "As a unit of written grammar", b: "As the smallest unit of sound that distinguishes meaning", c: "As the total set of words in a dictionary", d: "As a symbol that represents an object" }},
-        { q: "67. Which term is defined as the smallest unit of a language that carries an individual meaning?", a: "c", options: { a: "Phoneme", b: "Lexicon", c: "Morpheme", d: "Icon" }},
-        { q: "68. What type of knowledge relates to how words are formed in a language?", a: "b", options: { a: "Semantic", b: "Morphological", c: "Syntactical", d: "Phonological" }},
-        { q: "69. What type of knowledge deals with the rules for arranging words to form grammatically correct sentence?", a: "b", options: { a: "Morphological", b: "Syntactic", c: "Semantic", d: "World" }},
-        { q: "70. What are the symbols that are further broken down in a grammar called?", a: "b", options: { a: "Terminals", b: "Non-terminals", c: "Root", d: "Empty string" }},
-        { q: "71. In a formal grammar, why is a Noun Phrase classified as a non-terminal symbol?", a: "b", options: { a: "It represents a single, specific word in a sentence.", b: "It is a category that can be further expanded into simpler components.", c: "It is the final element that cannot be broken down.", d: "It acts as the root of every possible language tree." }},
-        { q: "72. In a formal grammar, what is the role of symbols that cannot be further decomposed?", a: "c", options: { a: "Root", b: "Empty string", c: "Terminal", d: "non-terminal" }}
-    ],
-    4: [
-        { q: "97. How would you enhance user interaction on a website by allowing customers to leave reviews, share posts, and collaborate through forums?", a: "b", options: { a: "Web 1.0", b: "Web 2.0", c: "Web 3.0", d: "Cloud Computing" }},
-        { q: "98. How would you use Amazon Web Services to deploy a cloud-based application?", a: "c", options: { a: "Software as a Service (SaaS)", b: "Platform as a Service (PaaS)", c: "Infrastructure as a Service (IaaS)", d: "Database as a Service (DBaaS)" }},
-        { q: "99. An organization needs both secure private resources and scalable public cloud services. Which cloud deployment model should it use?", a: "c", options: { a: "Private", b: "Public", c: "Hybrid", d: "Community" }},
-        { q: "100. How would you identify which cloud deployment model is exclusively used by a single organization and offers greater control over security and resources?", a: "c", options: { a: "Public", b: "Hybrid", c: "Internal Cloud", d: "Community" }},
-        { q: "101. Predict the possible consequences for a company that operates entirely using the Public Cloud model.", a: "d", options: { a: "Private", b: "Public", c: "Hybrid", d: "Multiple Organizations Sharing Resources" }},
-        { q: "102. What changes would you make to a network setup to allow multiple operating systems to run on a single physical machine?", a: "a", options: { a: "Hardware Virtualization", b: "Server Virtualization", c: "Storage Virtualization", d: "Data Virtualization" }},
-        { q: "103. How would you use distributed computing to turn a network into a supercomputer for solving complex tasks?", a: "b", options: { a: "Cloud computing", b: "Grid computing", c: "Utility computing", d: "Virtualization" }},
-        { q: "104. How would you design a web-based platform that allows students to share notes and collaborate on projects using Web 2.0 tools?", a: "b", options: { a: "Static web pages with only reading access", b: "User login with content sharing and commenting system", c: "Offline desktop application without internet access", d: "Read-only PDF document repository" }}
-    ],
-    5: [
-        { q: "129. How would you use a cloud-based solution to ensure your team that can edit the same document simultaneously from different locations?", a: "b", options: { a: "Store it on a local NAS drive", b: "Upload it to Google Drive", c: "Save it on a physical Hard Disk", d: "Email copies to everyone" }},
-        { q: "130. How would you solve the problem of physical hardware limitations when scaling a company's storage needs?", a: "b", options: { a: "Install more NAS units", b: "Deploy Data centers", c: "Use local virtualization", d: "Increase RAM" }},
-        { q: "131. What would you do if you need to prevent unauthorized access to a user's account even after their password was leaked?", a: "b", options: { a: "Change the username", b: "Implement Mobile ID Management (MIM) for 2FA", c: "Use Single Sign On (SSO)", d: "Disable the internet connection" }},
-        { q: "132. What would you do if your company need to host a website but wanted to avoid the cost of buying and maintaining physical servers?", a: "b", options: { a: "Increase the local bandwidth", b: "Implement Infrastructure as a Service (IaaS)", c: "Install more RAM in local machines", d: "Use a browser-based development environment" }},
-        { q: "133. What would you do to distribute workloads & computing resources within a cloud technology's environment.", a: "a", options: { a: "Cloud load-balancing", b: "Multi-factor authentication", c: "Single Sign On", d: "Network Attached Storage" }},
-        { q: "134. How can developers edit application code in PaaS?", a: "b", options: { a: "Only via command-line interface", b: "Via Application Programming Interface (API) or point-and-click tools", c: "Only using third-party software", d: "Only through manual database scripts" }},
-        { q: "135. How would you use OpenID to simplify user authentication across multiple websites?", a: "b", options: { a: "Ask users to create a new account for every website", b: "Allow users to log in to multiple websites using a single ID", c: "Store each website’s password locally on the device", d: "Require users to reset their password daily" }},
-        { q: "136. What approach would you use to simplify login processes for all users using IDaaS?", a: "b", options: { a: "Require separate credentials for each service", b: "Implement Single Sign-On (SSO) via IDaaS", c: "Store passwords locally", d: "Avoid identity management entirely" }}
-    ]
-};
+const allQuestions = [
+    { id: 1, q: "1. What is a relational database?", a: "B", o: { A: "A database that stores only images and videos", B: "A collection of data items with pre-defined relationships between them, organized as tables", C: "A database that only stores unstructured data", D: "A database that stores data randomly" }},
+    { id: 2, q: "2. What is a table in a relational database used for?", a: "B", o: { A: "To draw pictures of objects", B: "To hold information about the objects represented in the database", C: "To delete unnecessary data", D: "To store code for applications" }},
+    { id: 3, q: "3. In a relational database, what does each column represent?", a: "B", o: { A: "The number of tables in the database", B: "The attributes/features of the data", C: "A unique key to identify each row", D: "A random text description" }},
+    { id: 4, q: "4. What does each row (record) in a relational database contain?", a: "C", o: { A: "Information about multiple tables at once", B: "A random piece of data", C: "A record with a unique identifier (key) and values for each attribute", D: "Only null values" }},
+    { id: 5, q: "5. Why do relational databases make relationships between data points easy to identify?", a: "B", o: { A: "Because data is stored without structure", B: "Because each record assigns a value to each feature/attribute", C: "Because all data is stored in one giant table", D: "Because relational databases do not store attributes" }},
+    { id: 6, q: "6. Who invented the relational database model?", a: "B", o: { A: "Bill Gates", B: "E. F. Codd", C: "Tim Berners-Lee", D: "Larry Page" }},
+    { id: 7, q: "7. What was the major shift Codd proposed in his 1970 paper?", a: "C", o: { A: "Moving all data to cloud storage", B: "Storing data in PDF documents", C: "Moving from hierarchical/navigational structures to data organized in tables", D: "Using images instead of text for records" }},
+    { id: 8, q: "8. In a relational database, what is another word for a table?", a: "A", o: { A: "Relation", B: "Function", C: "Browser", D: "Variable" }},
+    { id: 9, q: "9. What does each row (record/tuple) in a table contain?", a: "C", o: { A: "Only the headers of the table", B: "Random and unrelated values", C: "A unique instance of data (a key) for the categories defined by the columns", D: "A list of database users" }},
+    { id: 10, q: "10. What is a primary key?", a: "C", o: { A: "A tool used to encrypt the database", B: "A field that links two tables", C: "A unique identifier for the information in a table", D: "A comment added to explain a column" }},
+    { id: 11, q: "11. What is a foreign key?", a: "A", o: { A: "A field that links to the primary key of another table", B: "A password used to access the database", C: "A field used to store images only", D: "A key from an external hard drive" }},
+    { id: 12, q: "12. In an RDBMS, where is information saved?", a: "B", o: { A: "In audio files", B: "In tables", C: "In binary executable files", D: "In image containers" }},
+    { id: 13, q: "13. What allows multiple users to access an RDBMS at the same time?", a: "B", o: { A: "Multiple servers", B: "A single user managing concurrency", C: "Screenshots of the tables", D: "Video streaming" }},
+    { id: 14, q: "14. What is the purpose of a primary key?", a: "B", o: { A: "To encrypt data", B: "To exclusively find and identify rows", C: "To generate graphics", D: "To delete columns" }},
+    { id: 15, q: "15. How is data always saved in an RDBMS?", a: "B", o: { A: "Randomly across files", B: "In rows and columns", C: "In NoSQL documents", D: "In paragraphs" }},
+    { id: 16, q: "16. What is used to retrieve information faster in RDBMS?", a: "B", o: { A: "Python loops", B: "Indexes", C: "CSS selectors", D: "Windows folders" }},
+    { id: 17, q: "17. What does SQL stand for?", a: "C", o: { A: "Standard Query Lines", B: "Sequential Query Listing", C: "Structured Query Language", D: "Secure Query Logic" }},
+    { id: 18, q: "18. What is the current SQL version mentioned?", a: "B", o: { A: "SQL:1998", B: "SQL:2016", C: "SQL:2020", D: "SQL:2005" }},
+    { id: 19, q: "19. Which SQL part deals with defining database objects like tables, views, triggers?", a: "A", o: { A: "Data Definition Language", B: "Data Manipulation Language", C: "Data Control Language", D: "Data Upgrade Language" }},
+    { id: 20, q: "20. Which SQL part lets you update and query data?", a: "C", o: { A: "Data Presentation Language", B: "Data Definition Language", C: "Data Manipulation Language", D: "Data Control Language" }},
+    { id: 21, q: "21. What is MySQL?", a: "C", o: { A: "A programming IDE", B: "A NoSQL database", C: "An open-source relational database management system", D: "A cloud analytics engine" }},
+    { id: 22, q: "22. What is a main advantage of relational databases?", a: "C", o: { A: "They cannot be extended after creation", B: "Data must be physically reorganized after every update", C: "Users can easily categorize, store and later query/filter data", D: "Data cannot be filtered after storing" }},
+    { id: 23, q: "23. What is one security benefit of an RDBMS?", a: "B", o: { A: "Everyone automatically gets full access", B: "Data in tables can be limited to allow access only to specific users", C: "Only anonymous users can access tables", D: "There is no need for permissions" }},
+    { id: 24, q: "24. What is true about a primary key?", a: "C", o: { A: "It can contain null values", B: "A table can have multiple primary keys", C: "It is a unique key and cannot contain null values", D: "It is optional and cannot be created with CREATE TABLE" }},
+    { id: 25, q: "25. How many primary keys can a table have?", a: "C", o: { A: "Unlimited", B: "Exactly two", C: "No more than one", D: "Only if set after data entry" }},
+    { id: 26, q: "26. What is a foreign key?", a: "B", o: { A: "A rule that protects only physical storage devices", B: "A set of columns that must match a primary key in another table", C: "A backup copy of the primary key", D: "A key used only for encryption" }},
+    { id: 27, q: "27. Does a foreign key require an index?", a: "B", o: { A: "Yes, always", B: "No, foreign keys do not require an index on underlying columns", C: "Yes, but only if it has 3 columns", D: "Only in serverless databases" }},
+    { id: 28, q: "28. What happens if any component of a composite foreign key is null?", a: "B", o: { A: "The whole foreign key is invalid", B: "The value of the composite foreign key is null", C: "Primary key gets deleted", D: "Nothing changes" }},
+    { id: 29, q: "29. What is SQLite?", a: "C", o: { A: "A server-based relational database requiring configuration", B: "A cloud-only enterprise SQL system", C: "An in-process library that is serverless, self-contained and transactional", D: "A non-SQL text file format" }},
+    { id: 30, q: "30. Where is data stored in general “data store” concept?", a: "C", o: { A: "Only relational databases", B: "Only cloud services", C: "Any persistent storage including files, emails, etc.", D: "Only blockchain systems" }},
+    { id: 31, q: "31. What is data storage in IT?", a: "B", o: { A: "The mechanism to delete data", B: "The mechanism to collect, organize and exchange bits and bytes of data we rely on", C: "A tool that compresses every document", D: "An antivirus process" }},
+    { id: 32, q: "32. What is an update anomaly?", a: "B", o: { A: "When a table cannot be opened", B: "When updating redundant scattered data leaves some values old and some new", C: "When a foreign key is added without permission", D: "When SQL queries are too long" }},
+    { id: 33, q: "33. What is a deletion anomaly?", a: "C", o: { A: "When deleting a record removes only primary keys", B: "When deleting records also deletes the database file", C: "When deleting a record accidentally removes important attributes that should not be deleted", D: "When delete command never works" }},
+    { id: 34, q: "34. What is an insert anomaly?", a: "B", o: { A: "When data can be inserted without a table", B: "When data cannot be inserted because other required attributes do not exist yet", C: "When a record duplicates itself", D: "When SQL insert statement crashes the server" }},
+    { id: 35, q: "35. What is normalization?", a: "C", o: { A: "A method to add more redundancy", B: "A method to bring anomalies intentionally", C: "A method to remove anomalies and bring database to consistent state", D: "A method for database encryption" }},
+    { id: 36, q: "36. What is a main purpose of a database index?", a: "B", o: { A: "To slow down data retrieval", B: "To improve the speed of data retrieval", C: "To delete rows faster", D: "To hide data from users" }},
+    { id: 37, q: "37. What does an index avoid having to do?", a: "B", o: { A: "Sort columns alphabetically", B: "Search every row in a table on each access", C: "Merge two databases at once", D: "Convert SQL to NoSQL" }},
+    { id: 38, q: "38. What is stored in an index?", a: "B", o: { A: "The entire table including all data", B: "A copy of selected columns plus a pointer to full row location", C: "Only foreign keys", D: "Images and binary objects only" }},
+    { id: 39, q: "39. What is the first column used in indexing called?", a: "B", o: { A: "Data block", B: "Search key", C: "SQL key", D: "Cluster key" }},
+    { id: 40, q: "40. What does the search key contain?", a: "A", o: { A: "Sorted copy of primary key or candidate key values", B: "Random values", C: "Only usernames", D: "Only dates of creation" }},
+    { id: 41, q: "41. Which of the following refers to the extra space required by an index?", a: "A", o: { A: "Space Overhead", B: "Index Power", C: "Space Mapping", D: "Extra Storage Key" }},
+    { id: 42, q: "42. What is true about a non-clustered index?", a: "B", o: { A: "It sorts the physical data inside the table", B: "It is stored separately from table data", C: "You can have only one per table", D: "It automatically replaces the clustered index" }},
+    { id: 43, q: "43. Why are non-clustered indexes slower than clustered indexes?", a: "C", o: { A: "They are always corrupted", B: "They require building a join table", C: "They require an extra step: lookup in index then fetch from table", D: "They sort in reverse alphabetical order" }},
+    { id: 44, q: "44. What is true about a clustered index?", a: "C", o: { A: "It is stored separately from the table data", B: "A table can have multiple clustered indexes", C: "It defines physical order of table data", D: "It cannot be created on primary key" }},
+    { id: 45, q: "45. How many clustered indexes can a table have?", a: "B", o: { A: "Unlimited", B: "Exactly one", C: "At least two", D: "Only if table has no foreign keys" }},
+    { id: 46, q: "46. In SQL Server, what does a primary key constraint automatically create?", a: "B", o: { A: "A non-clustered index", B: "A clustered index", C: "A filtered index", D: "A hashed index" }},
+    { id: 47, q: "47. What is the Entity-Relationship (ER) model primarily used for?", a: "B", o: { A: "Physical storage optimization", B: "Initial conceptual design of the database", C: "Replacing SQL syntax", D: "Encrypting data values" }},
+    { id: 48, q: "48. What are objects called in database language?", a: "C", o: { A: "Instances", B: "Records", C: "Entities", D: "Tables" }},
+    { id: 49, q: "49. What are attributes?", a: "B", o: { A: "Names of tables only", B: "Properties of an entity class", C: "Values stored in indexes only", D: "Only primary keys" }},
+    { id: 50, q: "50. What is the job of a database designer regarding attributes?", a: "C", o: { A: "To ignore attributes", B: "To let the user decide them automatically", C: "To determine which attributes to include for each entity class", D: "To remove all attributes except primary key" }},
+    { id: 51, q: "51. Which of these is NOT a purpose of attributes listed?", a: "D", o: { A: "To uniquely identify entities", B: "To describe relationships between entities", C: "To store information we want in the database", D: "To automatically create physical disk blocks" }},
+    { id: 52, q: "52. What is a domain?", a: "B", o: { A: "A SQL SELECT statement", B: "A unique set of permitted values for an attribute", C: "A kind of relational join", D: "A primary key" }},
+    { id: 53, q: "53. What is meant by “atomic value” in domain definition?", a: "C", o: { A: "A value that cannot be stored", B: "A value divisible only by 2", C: "A value that is indivisible in the relational model", D: "A value always stored as integer" }},
+    { id: 54, q: "54. What is one benefit of domains?", a: "B", o: { A: "They increase errors in tables", B: "They prevent inappropriate values from being entered", C: "They block referential integrity", D: "They cannot be propagated" }},
+    { id: 55, q: "55. What is a relationship?", a: "C", o: { A: "A backup copy of a table", B: "A SQL function", C: "An association between two entity types", D: "A type of index" }},
+    { id: 56, q: "56. In ER diagrams, relationships are represented by what symbol?", a: "B", o: { A: "Rectangle", B: "Diamond", C: "Ellipse", D: "Triangle" }},
+    { id: 57, q: "57. Which is the most common type of relationship?", a: "C", o: { A: "Many-to-Many", B: "One-to-One", C: "One-to-Many", D: "None of these" }},
+    { id: 58, q: "58. A many-to-many relationship is usually implemented using what?", a: "C", o: { A: "Foreign key only", B: "Triggers", C: "A linking / associate table", D: "Indexes only" }},
+    { id: 59, q: "59. Why do relational DBMSs avoid direct many-to-many relationships?", a: "B", o: { A: "They are too fast", B: "They create confusion like multiple identical invoice numbers", C: "They reduce data integrity", D: "They are always encrypted" }},
+    { id: 60, q: "60. How do we remove a many-to-many relationship?", a: "B", o: { A: "Remove primary keys", B: "Use a third table called a join / bridging table", C: "Use indexes only", D: "Sort the data" }},
+    { id: 61, q: "61. In a join table, what are the match fields?", a: "C", o: { A: "Primary keys of the same table", B: "Functions that calculate totals", C: "Foreign keys referencing primary keys of the two tables being joined", D: "Temporary keys erased later" }},
+    { id: 62, q: "62. What is a business rule in database terms?", a: "B", o: { A: "A UI guideline", B: "A statement that imposes constraints on some aspect of the database", C: "A backup strategy", D: "A SQL function format" }},
+    { id: 63, q: "63. Business rules reflect:", a: "A", o: { A: "How the business perceives its use of data", B: "The best SQL query syntax", C: "How indexes are created", D: "Only the DBA’s personal preference" }},
+    { id: 64, q: "64. Business rule constraints fall into two categories:", a: "B", o: { A: "column widths and fonts", B: "field constraints & relationship constraints", C: "platform constraints & network constraints", D: "backup constraints & enqueue constraints" }},
+    { id: 65, q: "65. Identifying business rules is important because:", a: "B", o: { A: "It increases file size", B: "It allows creation of proper participation rules and constraints", C: "It removes need for normalization", D: "It is required only in NoSQL" }},
+    { id: 66, q: "66. Data flow shows:", a: "B", o: { A: "Only entities and attributes", B: "How data moves, who handles it, and what is done to it", C: "Binary storage in discs", D: "Only the indexes" }},
+    { id: 67, q: "67. Data model shows:", a: "C", o: { A: "Who uses the data", B: "Physical RAM allocation", C: "internal logical relationships between the data", D: "network bandwidth" }},
+    { id: 68, q: "68. Data flows are documented in:", a: "C", o: { A: "ER Diagrams", B: "UML sequence diagrams", C: "Data Flow Diagrams (DFDs)", D: "Excel charts" }},
+    { id: 69, q: "69. A schema is:", a: "B", o: { A: "a DB backup schedule", B: "the design / skeleton structure that represents the logical view of the database", C: "an index file", D: "the filename extension of DB2 log files" }},
+    { id: 70, q: "70. Schemas help multiple applications by:", a: "B", o: { A: "forcing identical column names", B: "preventing namespace collisions", C: "slowing down SQL execution", D: "deleting unused tables" }},
+    { id: 71, q: "71. A schema owner initially has:", a: "B", o: { A: "no privileges", B: "all privileges on the schema", C: "only read-only privileges", D: "only DROP privileges" }},
+    { id: 72, q: "72. Logical Database Schema defines:", a: "B", o: { A: "actual storage like files and indexes", B: "how tables & views & integrity constraints logically relate", C: "the HTML front end", D: "which user opens which report" }},
+    { id: 73, q: "73. What is a relation in the relational model?", a: "B", o: { A: "A CSS style class", B: "A table of values where each row is related data values", C: "A physical file name on disk", D: "A JSON object" }},
+    { id: 74, q: "74. In the relational model, how is data stored logically?", a: "B", o: { A: "As binary images", B: "As tables", C: "As Python dictionaries", D: "As XML" }},
+    { id: 75, q: "75. What is an Attribute?", a: "B", o: { A: "A duplicate record", B: "A column in a table that describes a property of a relation", C: "A type of schema", D: "A foreign language word" }},
+    { id: 76, q: "76. What is a tuple?", a: "B", o: { A: "A group of tables", B: "A single row / single record in a table", C: "A type of index", D: "A schema name" }},
+    { id: 77, q: "77. What is Degree in a relation?", a: "B", o: { A: "Total number of tables", B: "Total number of attributes in a relation", C: "Total number of schemas", D: "Total number of foreign keys" }},
+    { id: 78, q: "78. What is Cardinality in a relation?", a: "C", o: { A: "Total number of primary keys", B: "Total number of constraints", C: "Total number of rows present in the relation", D: "Number of domains" }},
+    { id: 79, q: "79. What is always true about relation instances?", a: "B", o: { A: "They must contain duplicate tuples", B: "They never have duplicate tuples", C: "They are always physically sorted", D: "They must be stored in XML" }},
+    { id: 80, q: "80. Which statement is true for a primary key?", a: "B", o: { A: "It can have NULL values", B: "It must be unique and NOT NULL", C: "It can be defined multiple times per table", D: "It only works in views" }},
+    { id: 81, q: "81. How many primary keys can a table have?", a: "A", o: { A: "One", B: "Two", C: "Up to 10", D: "Unlimited" }},
+    { id: 82, q: "82. What gets automatically created in DB2 when a primary key is defined?", a: "C", o: { A: "A foreign index", B: "A dictionary file", C: "A primary index (unique index)", D: "A schema" }},
+    { id: 83, q: "83. What is a VIEW in relational databases?", a: "B", o: { A: "A separate physical table with its own storage", B: "An alternative representation of data from base tables, with no permanent storage", C: "A data back-up copy of a table", D: "A physical cluster of tables merged" }},
+    { id: 84, q: "84. Which statement is NOT a purpose of views?", a: "D", o: { A: "Combine data from tables", B: "Simplify authorization", C: "Control access", D: "Replace the DB2 engine" }},
+    { id: 85, q: "85. Views can show:", a: "C", o: { A: "Only full tables every time", B: "Only primary keys", C: "Portions or summary of data needed", D: "Only columns that begin with “ID”" }},
+    { id: 86, q: "86. Which is the correct basic syntax to create a view?", a: "C", o: { A: "MAKE VIEW …", B: "VIEW CREATE …", C: "CREATE VIEW <view_name> AS SELECT …", D: "CREATE TABLE VIEW …" }},
+    { id: 87, q: "87. What does a Data Dictionary store?", a: "B", o: { A: "Only table data values", B: "Metadata information about the database objects", C: "Only usernames and passwords", D: "CSV file paths" }},
+    { id: 88, q: "88. Which is TRUE about an active data dictionary?", a: "B", o: { A: "It is updated manually only", B: "It is managed by the DBMS & updated automatically when the structure changes", C: "It is always stored in Excel", D: "It cannot store constraints" }},
+    { id: 89, q: "89. Which is TRUE about a passive data dictionary?", a: "B", o: { A: "It is part of DBMS and auto updated", B: "It is manually maintained outside DBMS", C: "It can only be stored in DB2 catalog tables", D: "It cannot be viewed by humans" }},
+    { id: 90, q: "90. Which of the following is NOT typically stored in a data dictionary?", a: "C", o: { A: "Table constraints", B: "Physical storage structure info", C: "CPU serial numbers of database server", D: "Usage statistics" }},
+    { id: 91, q: "91. What is the main purpose of mapping ER diagrams to relational schema?", a: "A", o: { A: "To translate conceptual data model into relational tables", B: "To export tables to Excel", C: "To create CSV backups", D: "To compress SQL files" }},
+    { id: 92, q: "92. During mapping an entity to relations, what should be done?", a: "B", o: { A: "Ignore attributes", B: "Create a table and make attributes into fields", C: "Only create tables for relationships and none for entities", D: "Replace entity with a view" }},
+    { id: 93, q: "93. When mapping a relationship, what primary keys should be added?", a: "C", o: { A: "None", B: "Only one entity’s key", C: "Primary keys of all participating entities", D: "Random keys" }},
+    { id: 94, q: "94. What is a weak entity?", a: "B", o: { A: "An entity that stores passwords", B: "An entity that does not have its own primary key", C: "An entity that is not used by any application", D: "A table without any columns" }},
+    { id: 95, q: "95. When mapping a weak entity what must be added?", a: "A", o: { A: "The identifying entity’s primary key as foreign key", B: "NULL values in all columns", C: "A composite view", D: "A schema object" }},
+    { id: 96, q: "96. What is specialization/generalization in ER known as?", a: "B", o: { A: "Polygraphs", B: "Hierarchical entity sets", C: "Check constraints", D: "Synonyms" }},
+    { id: 97, q: "97. Codd introduced 1NF in what year?", a: "B", o: { A: "1985", B: "1970", C: "2020", D: "1961" }},
+    { id: 98, q: "98. Informally, a relational database is considered \"normalized\" if it meets:", a: "C", o: { A: "UNF", B: "1NF only", C: "3NF", D: "6NF" }},
+    { id: 99, q: "99. What is the requirement for First Normal Form?", a: "B", o: { A: "Attributes may contain repeating groups", B: "Attributes must be single-valued only", C: "Composite keys must be removed", D: "Must have a foreign key" }},
+    { id: 100, q: "100. When is Second Normal Form violated?", a: "B", o: { A: "When each attribute depends on the entire composite key", B: "When a non-primary attribute depends only on part of a composite key", C: "When the key contains only one field", D: "When there are no foreign keys" }},
+    { id: 101, q: "101. Third Normal Form requires what?", a: "A", o: { A: "Non-key attributes must depend only on the key and not on other non-key attributes", B: "All tables must have only 1 row", C: "All attributes must be text type", D: "Views must be created" }},
+    { id: 102, q: "102. What does DDL stand for?", a: "B", o: { A: "Data Driven Language", B: "Data Definition Language", C: "Data Debug Language", D: "Data Development Logic" }},
+    { id: 103, q: "103. DDL is used mainly to:", a: "B", o: { A: "modify data values inside rows", B: "define and modify structure of database objects", C: "generate CSV reports", D: "backup and restore data" }},
+    { id: 104, q: "104. Which of the following is NOT a database object managed by DDL?", a: "D", o: { A: "schemas", B: "tables", C: "indexes", D: "PDF files" }},
+    { id: 105, q: "105. The CREATE command is used to:", a: "B", o: { A: "insert data", B: "create schema, tables, index, constraints", C: "delete rows only", D: "grant privileges only" }},
+    { id: 106, q: "106. Which command modifies an existing table structure (add or drop columns)?", a: "B", o: { A: "SELECT", B: "ALTER", C: "INSERT", D: "WITH" }},
+    { id: 107, q: "107. If you want to completely remove a table definition and its data, you use:", a: "C", o: { A: "TRUNCATE", B: "DELETE", C: "DROP", D: "UPDATE" }},
+    { id: 108, q: "108. Which command removes all rows from a table but keeps the structure?", a: "B", o: { A: "DROP", B: "TRUNCATE", C: "INSERT", D: "GRANT" }},
+    { id: 109, q: "109. What does the DATE data type represent?", a: "C", o: { A: "Only time portion", B: "Only numeric digits", C: "Year, month, day", D: "String characters only" }},
+    { id: 110, q: "110. What does the TIME data type represent?", a: "C", o: { A: "Only year and month", B: "Text only", C: "hours, minutes, seconds", D: "file names" }},
+    { id: 111, q: "111. TIMESTAMP represents:", a: "B", o: { A: "only a year value", B: "seven values including date + time to microseconds", C: "only a text description", D: "variable length character column" }},
+    { id: 112, q: "112. CHAR is:", a: "A", o: { A: "fixed length character type", B: "floating point number type", C: "integer type", D: "variable length character type" }},
+    { id: 113, q: "113. VARCHAR is:", a: "B", o: { A: "fixed length character type", B: "variable length character type", C: "numeric constraint", D: "unique key index" }},
+    { id: 114, q: "114. Which statement is used to add a column to an existing table?", a: "B", o: { A: "CREATE TABLE", B: "ALTER TABLE … ADD", C: "DROP TABLE", D: "TRUNCATE TABLE" }},
+    { id: 115, q: "115. After DROP TABLE STUDENT is executed, what happens?", a: "B", o: { A: "only data is erased, structure remains", B: "both object & structure are removed", C: "primary key only is removed", D: "trigger only is removed" }},
+    { id: 116, q: "116. Which DDL command is used to create a database schema?", a: "C", o: { A: "ALTER", B: "DROP", C: "CREATE", D: "TRUNCATE" }},
+    { id: 117, q: "117. Stored procedures are mainly used to:", a: "A", o: { A: "improve performance & reduce database access network traffic", B: "delete tables faster", C: "format backup files", D: "import CSV files only" }},
+    { id: 118, q: "118. A trigger is:", a: "B", o: { A: "an excel macro stored locally", B: "a piece of code automatically executed when data is modified in a table", C: "a GUI form in Windows", D: "a Python script that tests queries" }},
+    { id: 119, q: "119. Triggers are fired in response to:", a: "C", o: { A: "stored procedure execution only", B: "database structure design only", C: "data modification events like INSERT/UPDATE/DELETE/MERGE", D: "only SELECT statements" }},
+    { id: 120, q: "120. Triggers are stored:", a: "B", o: { A: "in the desktop client", B: "in the database", C: "in the network driver", D: "in the DBA’s laptop" }},
+    { id: 121, q: "121. Which of these is NOT a trigger type?", a: "C", o: { A: "BEFORE trigger", B: "AFTER trigger", C: "DURING trigger", D: "none — all are triggers" }},
+    { id: 122, q: "122. BEFORE triggers execute:", a: "A", o: { A: "before any SQL operation", B: "after any SQL operation", C: "only on error raised", D: "only on SELECT statement" }},
+    { id: 123, q: "123. AFTER triggers execute:", a: "B", o: { A: "before any SQL operation", B: "after any SQL operation", C: "only when database shuts down", D: "only when index rebuild happens" }},
+    { id: 124, q: "124. DML stands for:", a: "A", o: { A: "Data Manipulation Language", B: "Data Migration Language", C: "Data Management Layout", D: "Default Mapping List" }},
+    { id: 125, q: "125. DML statements are used to:", a: "C", o: { A: "create schemas", B: "create tables only", C: "store, retrieve, change, delete data", D: "backup full database" }},
+    { id: 126, q: "126. Which of the below is NOT a DML statement?", a: "D", o: { A: "INSERT", B: "UPDATE", C: "DELETE", D: "CREATE" }},
+    { id: 127, q: "127. Which DML statement adds new rows?", a: "C", o: { A: "UPDATE", B: "DELETE", C: "INSERT", D: "TRUNCATE" }},
+    { id: 128, q: "128. Which statement changes existing data values in a table?", a: "B", o: { A: "INSERT", B: "UPDATE", C: "DROP", D: "CREATE" }},
+    { id: 129, q: "129. Which statement removes rows from a table?", a: "B", o: { A: "UPDATE", B: "DELETE", C: "ALTER", D: "CREATE" }},
+    { id: 130, q: "130. The INSERT statement can insert rows into:", a: "C", o: { A: "only base tables", B: "only system tables", C: "tables or updatable views", D: "only temporary tables" }},
+    { id: 131, q: "131. Which DB2 utilities can bulk-load data?", a: "A", o: { A: "LOAD and IMPORT", B: "BACKUP and RESTORE", C: "EXPORT and REORG", D: "RUNSTATS and FENCED" }},
+    { id: 132, q: "132. The basic syntax of INSERT is:", a: "A", o: { A: "INSERT INTO table VALUES (…) ", B: "SELECT FROM table VALUES (…) ", C: "CHANGE table VALUES (…) ", D: "MAKE table VALUES (…) " }},
+    { id: 133, q: "133. The UPDATE statement can set a column to:", a: "D", o: { A: "a literal value", B: "NULL", C: "DEFAULT", D: "all of the above" }},
+    { id: 134, q: "134. UPDATE can be used with a WHERE clause to:", a: "A", o: { A: "decide which rows to modify", B: "rename the table", C: "compress the index", D: "create a table backup" }},
+    { id: 135, q: "135. UPDATE without a WHERE clause:", a: "B", o: { A: "adjusts only one row", B: "changes every row", C: "does nothing", D: "throws a runtime error always" }},
+    { id: 136, q: "136. DELETE is used to:", a: "B", o: { A: "remove single column value only", B: "remove entire rows from a table", C: "rename a table", D: "drop a table definition" }},
+    { id: 137, q: "137. UPDATE cannot remove full rows, only:", a: "B", o: { A: "drop constraints", B: "set columns to NULL", C: "change schema name", D: "remove index pages" }},
+    { id: 138, q: "138. DELETE can delete rows from:", a: "C", o: { A: "only base tables", B: "only system tables", C: "base tables or updatable views", D: "only alias objects" }},
+    { id: 139, q: "139. Basic syntax of DELETE is:", a: "C", o: { A: "DELETE row FROM table", B: "DELETE table FROM db", C: "DELETE FROM table [WHERE condition]", D: "REMOVE table [WHERE condition]" }},
+    { id: 140, q: "140. SELECT is used to:", a: "A", o: { A: "retrieve data", B: "create tables", C: "define columns", D: "control user access" }},
+    { id: 141, q: "141. Result set means:", a: "B", o: { A: "a backup of database", B: "the rows returned by a SELECT query", C: "a temp table that holds metadata", D: "the schema definition" }},
+    { id: 142, q: "142. If no matching data is found, SELECT returns:", a: "C", o: { A: "runtime error", B: "NULL pointer exception", C: "empty result set", D: "drops the table" }},
+    { id: 143, q: "143. SELECT statements can use subqueries:", a: "A", o: { A: "True", B: "False" }},
+    { id: 144, q: "144. SELECT is the only DML command that can be:", a: "A", o: { A: "recursive", B: "transactional", C: "used with WHERE", D: "combined with GRANT" }},
+    { id: 145, q: "145. SELECT * FROM table means:", a: "B", o: { A: "return only primary key columns", B: "return all rows and all columns", C: "return only top 10 rows", D: "return metadata only" }},
+    { id: 146, q: "146. ORDER of execution of SELECT clauses begins with:", a: "D", o: { A: "SELECT", B: "ORDER BY", C: "WHERE", D: "FROM" }},
+    { id: 147, q: "147. The correct logical order of SELECT clauses is:", a: "B", o: { A: "SELECT → WHERE → FROM", B: "FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY", C: "SELECT → ORDER BY → FROM → HAVING", D: "WHERE → FROM → ORDER BY → GROUP BY" }},
+    { id: 148, q: "148. The WHERE clause is used to:", a: "B", o: { A: "specify sort order", B: "filter rows", C: "create new table", D: "create new index" }},
+    { id: 149, q: "149. The ORDER BY clause is used to:", a: "B", o: { A: "drop views", B: "sort the results", C: "compile triggers", D: "define constraints" }},
+    { id: 150, q: "150. GROUP BY is used specifically for:", a: "A", o: { A: "grouping rows for aggregate functions", B: "deleting metadata objects", C: "altering schema names", D: "exporting data" }},
+    { id: 151, q: "151. JOIN is used to:", a: "A", o: { A: "combine rows from 2 or more tables based on related columns", B: "delete rows from a table", C: "compress table space", D: "rename schemas" }},
+    { id: 152, q: "152. INNER JOIN returns rows when:", a: "C", o: { A: "same number of columns exist", B: "datatypes match", C: "both tables have matching values", D: "left table exists" }},
+    { id: 153, q: "153. LEFT JOIN returns:", a: "B", o: { A: "only rows that exist in both tables", B: "all rows from left table even if no match on right", C: "deletes unmatched rows from right", D: "only primary key rows" }},
+    { id: 154, q: "154. RIGHT JOIN returns:", a: "A", o: { A: "all rows from right table even if no match on left", B: "only rows that match values on both sides", C: "aggregated records from left table", D: "rows in alphabetical order" }},
+    { id: 155, q: "155. FULL JOIN returns rows when:", a: "C", o: { A: "only left has data", B: "only right has data", C: "match exists in one or both tables", D: "primary key is same" }},
+    { id: 156, q: "156. UNION combines:", a: "B", o: { A: "table definitions", B: "result sets of 2 or more SELECT statements", C: "indexes", D: "schemas" }},
+    { id: 157, q: "157. In UNION each SELECT must have:", a: "A", o: { A: "same number of columns", B: "identical column names", C: "identical constraints", D: "created on same date" }},
+    { id: 158, q: "158. In UNION columns must have:", a: "B", o: { A: "same PK name", B: "similar data types", C: "same check constraints", D: "same foreign key names" }},
+    { id: 159, q: "159. UNION columns must be:", a: "C", o: { A: "in any order", B: "in reverse order", C: "in same order", D: "sorted by default" }},
+    { id: 160, q: "160. INTERSECT returns rows that are:", a: "C", o: { A: "unique to left table only", B: "unique to right table only", C: "in common between two result sets", D: "duplicates only" }},
+    { id: 161, q: "161. INTERSECT removes duplicates:", a: "A", o: { A: "True", B: "False" }},
+    { id: 162, q: "162. UNION by default removes duplicates:", a: "A", o: { A: "True", B: "False" }},
+    { id: 163, q: "163. If you want duplicates preserved you would use:", a: "A", o: { A: "UNION ALL", B: "INTERSECT ALL", C: "JOIN ALL", D: "MERGE ALL" }},
+    { id: 164, q: "164. Using JOIN vs UNION — JOIN combines based on:", a: "A", o: { A: "matching column values", B: "memory address", C: "OS page number", D: "identical table names" }},
+    { id: 165, q: "165. Using UNION vs JOIN — UNION stacks result sets:", a: "A", o: { A: "vertically (append rows)", B: "horizontally (append columns)", C: "deletes intermediate tables", D: "changes data types" }},
+    { id: 166, q: "166. JDBC stands for:", a: "B", o: { A: "Java Data Connection Base", B: "Java Database Connectivity", C: "Java Data Control Block", D: "Java Driver Communication" }},
+    { id: 167, q: "167. JDBC is used to:", a: "B", o: { A: "print PDF files", B: "connect Java programs to databases", C: "uninstall SQL engines", D: "load HTML files" }},
+    { id: 168, q: "168. JDBC can work with:", a: "C", o: { A: "only Oracle", B: "only MySQL", C: "RDBMS, spreadsheets, text files", D: "only MongoDB" }},
+    { id: 169, q: "169. To work with a specific DB in JDBC you need:", a: "B", o: { A: "JDBC filter", B: "JDBC driver", C: "XML config", D: "JDK extension" }},
+    { id: 170, q: "170. package used for JDBC on client side:", a: "A", o: { A: "java.sql", B: "java.jdbc", C: "java.db", D: "org.sql" }},
+    { id: 171, q: "171. package used for server side JDBC:", a: "B", o: { A: "java.server", B: "javax.sql", C: "javax.server", D: "java.net.sql" }},
+    { id: 172, q: "172. using JDBC you can:", a: "A", o: { A: "call stored procedures", B: "make UIs", C: "compile java", D: "design HTML" }},
+    { id: 173, q: "173. JDBC is part of:", a: "B", o: { A: "JRE only", B: "Java SE SDK", C: "MYSQL client", D: "Apache POI" }},
+    { id: 174, q: "174. JDBC API to JDBC DRIVER communication is handled by:", a: "C", o: { A: "browser", B: "OS kernel", C: "JDBC Driver", D: "Docker" }},
+    { id: 175, q: "175. JDBC API to JDBC Manager communication handled by:", a: "A", o: { A: "JDBC API", B: "DB2 optimizer", C: "MySQL daemon", D: "Redis client" }},
+    { id: 176, q: "176. Before connecting JDBC application loads:", a: "B", o: { A: "schema engine", B: "particular DB driver", C: "JVM plugin", D: "host IP address" }},
+    { id: 177, q: "177. DriverManager:", a: "A", o: { A: "manages all installed drivers", B: "draws UI windows", C: "compiles SQL", D: "encrypts tables" }},
+    { id: 178, q: "178. When connection requested DriverManager:", a: "B", o: { A: "makes a thread", B: "chooses correct driver", C: "starts browser", D: "deletes cache" }},
+    { id: 179, q: "179. JDBC Driver is:", a: "A", o: { A: "class that knows how to talk to a DB", B: "java plugin for keyboard", C: "OS memory manager", D: "GUI renderer" }},
+    { id: 180, q: "180. Example driver class for MySQL is:", a: "A", o: { A: "com.mysql.cj.jdbc.Driver", B: "mysql.driver.class", C: "org.db.mysql", D: "javax.mysql.connect" }},
+    { id: 181, q: "181. Connection object in JDBC represents:", a: "B", o: { A: "table schema", B: "link between java app and DB", C: "ResultSet buffer", D: "filesystem tree" }},
+    { id: 182, q: "182. Which object sends SQL commands?", a: "C", o: { A: "ResultSet", B: "Connection", C: "Statement", D: "DriverManager" }},
+    { id: 183, q: "183. Statement object is created from:", a: "C", o: { A: "Driver class", B: "ResultSet class", C: "Connection object", D: "SQL file" }},
+    { id: 184, q: "184. ResultSet holds:", a: "B", o: { A: "indexes", B: "result of query", C: "stored procedures code", D: "table creation scripts" }},
+    { id: 185, q: "185. ResultSet works like:", a: "B", o: { A: "menu bar", B: "cursor over rows", C: "trigger engine", D: "queue scheduler" }},
+    { id: 186, q: "186. To run SELECT we use:", a: "B", o: { A: "ResultSet.execute()", B: "Statement.executeQuery()", C: "Driver.execute()", D: "Connection.next()" }},
+    { id: 187, q: "187. To run INSERT we use:", a: "B", o: { A: "executeInsert()", B: "Statement.executeUpdate()", C: "Statement.read()", D: "ResultSet.update()" }},
+    { id: 188, q: "188. Connection is obtained via:", a: "B", o: { A: "Driver.getConnection()", B: "DriverManager.getConnection()", C: "ResultSet.getConnection()", D: "JDBC.getConnection()" }},
+    { id: 189, q: "189. JDBC is for:", a: "C", o: { A: "low level socket comms", B: "storage engine tuning", C: "DB access via Java", D: "HTTPS server" }},
+    { id: 190, q: "190. In JDBC metadata means:", a: "A", o: { A: "info about database objects", B: "only logs", C: "only triggers", D: "only drivers" }},
+    { id: 191, q: "191. The primary interface to request drivers is:", a: "A", o: { A: "DriverManager", B: "Connection", C: "DB2 engine", D: "Netbeans" }},
+    { id: 192, q: "192. Which is NOT JDBC object?", a: "D", o: { A: "Statement", B: "ResultSet", C: "Connection", D: "JPanel" }},
+    { id: 193, q: "193. To move cursor to next row in ResultSet:", a: "B", o: { A: "rs.move()", B: "rs.next()", C: "rs.row()", D: "rs.goto()" }},
+    { id: 194, q: "194. Calling stored procedures in JDBC done using:", a: "A", o: { A: "CallableStatement", B: "PanelStatement", C: "TriggerStatement", D: "ConstructorStatement" }},
+    { id: 195, q: "195. JDBC is mainly for:", a: "B", o: { A: "HTML Rendering", B: "Database communication", C: "CSS styling", D: "JVM bytecode optimization" }},
+    { id: 196, q: "196. Database security means protection of:", a: "B", o: { A: "movies and songs", B: "database, data, DBMS & apps that access it", C: "only table schemas", D: "only stored procedures" }},
+    { id: 197, q: "197. Database security protects against:", a: "C", o: { A: "only hackers", B: "only natural disasters", C: "internal + external threats", D: "only cloud outages" }},
+    { id: 198, q: "198. Security for databases is usually planned and maintained by:", a: "B", o: { A: "graphic designers", B: "database administrators / security professionals", C: "SQL beginners", D: "game developers" }},
+    { id: 199, q: "199. Database security also includes protecting data from:", a: "A", o: { A: "misuse by users who ALREADY have access", B: "CSS styling problems", C: "slow networks", D: "java exceptions" }},
+    { id: 200, q: "200. Why is database security important?", a: "A", o: { A: "data is an economic resource that must be handled firmly", B: "to draw UI buttons", C: "to make HTML pages load faster", D: "to reduce RAM usage" }},
+];
 
-function showModule(moduleNum) {
+function loadSet(setNum) {
+    const container = document.getElementById('quiz-container');
+    container.innerHTML = '';
+    
     // Update Tab UI
-    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-    document.querySelector(`button[onclick="showModule(${moduleNum})"]`).classList.add('active');
+    document.querySelectorAll('.tab-btn').forEach((btn, idx) => {
+        btn.classList.toggle('active', (idx + 1) === setNum);
+    });
 
-    const container = document.getElementById('quizContainer');
-    container.innerHTML = ''; // Clear current questions
+    const startIdx = (setNum - 1) * 35;
+    const endIdx = setNum === 6 ? 200 : setNum * 35;
+    
+    const questionsSlice = allQuestions.slice(startIdx, endIdx);
 
-    const questions = quizData[moduleNum];
-    questions.forEach((item, index) => {
+    questionsSlice.forEach(item => {
         const card = document.createElement('div');
-        card.className = 'question-card';
+        card.className = 'q-card';
+        card.id = `qcard-${item.id}`;
         
-        let optionsHtml = '';
-        for (const [key, value] of Object.entries(item.options)) {
-            optionsHtml += `<li class="option" onclick="checkAnswer(this, '${key}', '${item.a}', 'feedback-${moduleNum}-${index}')">${key}) ${value}</li>`;
+        let optsHtml = '';
+        for (const [key, value] of Object.entries(item.o)) {
+            optsHtml += `
+                <div class="opt" onclick="check(${item.id}, '${key}', '${item.a}')">
+                    <span class="opt-letter">${key}</span>
+                    <span>${value}</span>
+                </div>`;
         }
 
         card.innerHTML = `
-            <div class="question-text">${item.q}</div>
-            <ul class="options-list">
-                ${optionsHtml}
-            </ul>
-            <div id="feedback-${moduleNum}-${index}" class="feedback">Correct Answer: ${item.a}) ${item.options[item.a]}</div>
+            <div class="q-text">${item.q}</div>
+            <div class="options">${optsHtml}</div>
+            <div class="feedback" id="feed-${item.id}">Correct Answer: ${item.a}</div>
         `;
         container.appendChild(card);
     });
-    window.scrollTo(0,0);
+    container.scrollTop = 0;
 }
 
-function checkAnswer(element, selected, correct, feedbackId) {
-    const parent = element.parentElement;
-    const options = parent.querySelectorAll('.option');
-    const feedbackDiv = document.getElementById(feedbackId);
+function check(qid, choice, correct) {
+    const card = document.getElementById(`qcard-${qid}`);
+    if (card.classList.contains('answered')) return;
 
-    // Disable further clicks for this question
-    options.forEach(opt => opt.style.pointerEvents = 'none');
+    card.classList.add('answered');
+    const opts = card.querySelectorAll('.opt');
+    const feed = document.getElementById(`feed-${qid}`);
 
-    if (selected === correct) {
-        element.classList.add('correct');
-    } else {
-        element.classList.add('wrong');
-        // Find and highlight the correct one
-        options.forEach(opt => {
-            if (opt.innerText.startsWith(correct + ')')) {
-                opt.classList.add('correct');
-            }
-        });
-        feedbackDiv.style.display = 'block';
-        feedbackDiv.style.color = '#ff9800';
-    }
+    opts.forEach(o => {
+        const letter = o.querySelector('.opt-letter').innerText;
+        if(letter === correct) o.classList.add('correct');
+        if(letter === choice && choice !== correct) {
+            o.classList.add('wrong');
+            feed.style.display = 'block';
+        }
+    });
 }
 
-// Initialize with Module 1
-showModule(1);
+// Start
+loadSet(1);
 </script>
-
 </body>
 </html>
