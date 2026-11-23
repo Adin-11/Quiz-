@@ -1,395 +1,1945 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" class="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>RDBMS Question Bank - 200 MCQ</title>
-    <style>
-        :root {
-            --bg: #0f172a;
-            --card-bg: #1e293b;
-            --accent: #38bdf8;
-            --text: #f1f5f9;
-            --text-dim: #94a3b8;
-            --correct: #22c55e;
-            --wrong: #ef4444;
-            --border: #334155;
-        }
-
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            margin: 0;
-            line-height: 1.5;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-        }
-
-        .sticky-top {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            background: var(--bg);
-            border-bottom: 1px solid var(--border);
-        }
-
-        header { padding: 12px 16px; text-align: center; }
-        header h1 { font-size: 1.1rem; margin: 0; color: var(--accent); }
-
-        .tabs {
-            display: flex;
-            overflow-x: auto;
-            padding: 10px;
-            gap: 8px;
-            scrollbar-width: none;
-        }
-        .tabs::-webkit-scrollbar { display: none; }
-
-        .tab-btn {
-            flex: 0 0 auto;
-            padding: 8px 16px;
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            color: var(--text-dim);
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-        .tab-btn.active { background: var(--accent); color: #000; border-color: var(--accent); }
-
-        #quiz-container {
-            flex: 1;
-            overflow-y: auto;
-            padding: 16px;
-            max-width: 600px;
-            margin: 0 auto;
-            width: 100%;
-        }
-
-        .q-card {
-            background: var(--card-bg);
-            border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 20px;
-            border: 1px solid var(--border);
-        }
-
-        .q-text { font-size: 1rem; font-weight: 600; margin-bottom: 16px; }
-
-        .options { display: flex; flex-direction: column; gap: 8px; }
-
-        .opt {
-            padding: 12px;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            font-size: 0.9rem;
-            display: flex;
-            cursor: pointer;
-        }
-
-        .opt-letter { font-weight: 800; color: var(--accent); margin-right: 10px; }
-
-        .answered .opt { pointer-events: none; }
-        .opt.correct { background: var(--correct) !important; border-color: var(--correct); color: white; }
-        .opt.wrong { background: var(--wrong) !important; border-color: var(--wrong); color: white; }
-        .opt.correct .opt-letter, .opt.wrong .opt-letter { color: white; }
-
-        .feedback {
-            margin-top: 12px;
-            padding: 8px;
-            border-radius: 6px;
-            background: rgba(34, 197, 94, 0.1);
-            color: var(--correct);
-            font-weight: 700;
-            font-size: 0.8rem;
-            display: none;
-            text-align: center;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DS Using C++ & Microsoft Azure — Interactive MCQ Quiz</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --surface-subtle: #f1f5f9;
+      --border: #e2e8f0;
+      --border-strong: #cbd5e1;
+      --text: #0f172a;
+      --text-muted: #475569;
+      --accent: #0284c7;
+      --accent-hover: #0369a1;
+      --accent-soft: #e0f2fe;
+      --green-bg: #ecfdf5;
+      --green-border: #10b981;
+      --green-text: #065f46;
+      --red-bg: #fff1f2;
+      --red-border: #f43f5e;
+      --red-text: #9f1239;
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+    html.dark {
+      --bg: #0b1120;
+      --surface: #111827;
+      --surface-subtle: #0f172a;
+      --border: #1e293b;
+      --border-strong: #334155;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --accent: #0284c7;
+      --accent-hover: #0369a1;
+      --accent-soft: rgba(2, 132, 199, 0.16);
+      --green-bg: rgba(6, 78, 59, 0.35);
+      --green-border: #10b981;
+      --green-text: #a7f3d0;
+      --red-bg: rgba(136, 19, 55, 0.35);
+      --red-border: #f43f5e;
+      --red-text: #fecdd3;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+    }
+    .header-inner {
+      max-width: 1024px;
+      margin: 0 auto;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .brand {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+    }
+    .course-meta {
+      display: none;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-muted);
+      gap: 8px;
+      align-items: center;
+    }
+    @media (min-width: 768px) {
+      .course-meta { display: flex; }
+      .header-inner { padding: 14px 24px; }
+    }
+    .mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      min-height: 42px;
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border-strong);
+      background: var(--surface);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background-color 0.15s ease, border-color 0.15s ease;
+    }
+    .btn:hover:not(:disabled) { background: var(--surface-subtle); }
+    .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+    .btn-primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #ffffff;
+    }
+    .btn-primary:hover:not(:disabled) { background: var(--accent-hover); }
+    main {
+      max-width: 1024px;
+      margin: 0 auto;
+      padding: 24px 16px 48px;
+    }
+    @media (min-width: 640px) {
+      main { padding: 32px 24px 56px; }
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(1.5rem, 3vw, 1.875rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .subtitle {
+      margin: 6px 0 0;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+    .controls-row {
+      margin-top: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    @media (min-width: 640px) {
+      .controls-row {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+    .tabs {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      scrollbar-width: none;
+    }
+    .tabs::-webkit-scrollbar { display: none; }
+    .tab-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 44px;
+      padding: 8px 16px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: background-color 0.15s ease, border-color 0.15s ease;
+    }
+    .tab-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #ffffff;
+    }
+    .tab-count {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      opacity: 0.8;
+    }
+    .actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .module-header {
+      margin-top: 20px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    @media (min-width: 640px) {
+      .module-header {
+        flex-direction: row;
+        align-items: baseline;
+        justify-content: space-between;
+      }
+    }
+    .module-title { margin: 0; font-size: 18px; font-weight: 700; }
+    .module-topic { margin: 2px 0 0; font-size: 13px; color: var(--text-muted); }
+    .module-stats { font-size: 13px; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+    .questions-list {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .q-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+    }
+    @media (min-width: 640px) {
+      .q-card { padding: 24px; }
+    }
+    .q-text {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 1.55;
+    }
+    .q-code, .q-sublines {
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--surface-subtle);
+      font-family: var(--font-mono);
+      font-size: 13px;
+      overflow-x: auto;
+      white-space: pre;
+    }
+    .q-diagram {
+      margin-top: 12px;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--surface-subtle);
+      display: inline-flex;
+      max-width: 100%;
+      overflow-x: auto;
+    }
+    .arr-box {
+      display: inline-flex;
+      border: 1px solid var(--border-strong);
+      font-family: var(--font-mono);
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .arr-cell {
+      padding: 8px 16px;
+      border-right: 1px solid var(--border-strong);
+    }
+    .arr-cell:last-child { border-right: none; }
+    .matrix-wrap {
+      display: inline-flex;
+      align-items: stretch;
+      font-family: var(--font-mono);
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .matrix-bracket-l {
+      width: 8px;
+      border-top: 2px solid var(--text-muted);
+      border-bottom: 2px solid var(--text-muted);
+      border-left: 2px solid var(--text-muted);
+      border-radius: 4px 0 0 4px;
+    }
+    .matrix-bracket-r {
+      width: 8px;
+      border-top: 2px solid var(--text-muted);
+      border-bottom: 2px solid var(--text-muted);
+      border-right: 2px solid var(--text-muted);
+      border-radius: 0 4px 4px 0;
+    }
+    .matrix-grid {
+      display: grid;
+      grid-template-columns: repeat(3, auto);
+      gap: 6px 20px;
+      padding: 6px 14px;
+      text-align: center;
+    }
+    .options {
+      margin-top: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .opt-btn {
+      width: 100%;
+      min-height: 46px;
+      padding: 12px 16px;
+      border-radius: 8px;
+      border: 1px solid var(--border-strong);
+      background: var(--surface-subtle);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      transition: background-color 0.15s ease, border-color 0.15s ease;
+    }
+    .opt-btn:hover:not(:disabled) {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+    .opt-btn:disabled { cursor: default; }
+    .opt-btn.correct {
+      background: var(--green-bg);
+      border-color: var(--green-border);
+      color: var(--green-text);
+      font-weight: 600;
+    }
+    .opt-btn.wrong {
+      background: var(--red-bg);
+      border-color: var(--red-border);
+      color: var(--red-text);
+      font-weight: 600;
+    }
+    .opt-btn.muted { opacity: 0.72; }
+    .opt-badge {
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .feedback-bar {
+      margin-top: 14px;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      border: 1px solid;
+    }
+    .feedback-bar.correct {
+      background: var(--green-bg);
+      border-color: var(--green-border);
+      color: var(--green-text);
+    }
+    .feedback-bar.wrong {
+      background: var(--red-bg);
+      border-color: var(--red-border);
+      color: var(--red-text);
+    }
+    .score-card {
+      margin-top: 28px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .score-top {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    @media (min-width: 640px) {
+      .score-top {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+    .score-grid {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 10px;
+    }
+    .score-mini {
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--surface-subtle);
+      text-align: left;
+      cursor: pointer;
+      color: var(--text);
+      font-family: inherit;
+    }
+    .score-mini.active {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+  </style>
 </head>
 <body>
-
-<div class="sticky-top">
-    <header><h1>RDBMS COMPLETE QUIZ</h1></header>
-    <div class="tabs" id="tabBar">
-        <button class="tab-btn active" onclick="loadSet(1)">1-35</button>
-        <button class="tab-btn" onclick="loadSet(2)">36-70</button>
-        <button class="tab-btn" onclick="loadSet(3)">71-105</button>
-        <button class="tab-btn" onclick="loadSet(4)">106-140</button>
-        <button class="tab-btn" onclick="loadSet(5)">141-175</button>
-        <button class="tab-btn" onclick="loadSet(6)">176-200</button>
+  <header>
+    <div class="header-inner">
+      <span class="brand">DS Using C++ &amp; Azure</span>
+      <div class="course-meta">
+        <span>BCA III Semester</span>
+        <span>&middot;</span>
+        <span class="mono">25BCACZ31</span>
+        <span>&middot;</span>
+        <span class="mono">100 MCQs</span>
+      </div>
+      <button type="button" id="themeToggle" class="btn" aria-label="Toggle dark mode">Light Mode</button>
     </div>
-</div>
+  </header>
 
-<div id="quiz-container"></div>
+  <main>
+    <section>
+      <h1>All Modules &ndash; Interactive Quiz</h1>
+      <p class="subtitle">Click a module tab, select answers, get instant feedback, then show your score.</p>
+    </section>
 
-<script>
-const allQuestions = [
-    { id: 1, q: "1. What is a relational database?", a: "B", o: { A: "A database that stores only images and videos", B: "A collection of data items with pre-defined relationships between them, organized as tables", C: "A database that only stores unstructured data", D: "A database that stores data randomly" }},
-    { id: 2, q: "2. What is a table in a relational database used for?", a: "B", o: { A: "To draw pictures of objects", B: "To hold information about the objects represented in the database", C: "To delete unnecessary data", D: "To store code for applications" }},
-    { id: 3, q: "3. In a relational database, what does each column represent?", a: "B", o: { A: "The number of tables in the database", B: "The attributes/features of the data", C: "A unique key to identify each row", D: "A random text description" }},
-    { id: 4, q: "4. What does each row (record) in a relational database contain?", a: "C", o: { A: "Information about multiple tables at once", B: "A random piece of data", C: "A record with a unique identifier (key) and values for each attribute", D: "Only null values" }},
-    { id: 5, q: "5. Why do relational databases make relationships between data points easy to identify?", a: "B", o: { A: "Because data is stored without structure", B: "Because each record assigns a value to each feature/attribute", C: "Because all data is stored in one giant table", D: "Because relational databases do not store attributes" }},
-    { id: 6, q: "6. Who invented the relational database model?", a: "B", o: { A: "Bill Gates", B: "E. F. Codd", C: "Tim Berners-Lee", D: "Larry Page" }},
-    { id: 7, q: "7. What was the major shift Codd proposed in his 1970 paper?", a: "C", o: { A: "Moving all data to cloud storage", B: "Storing data in PDF documents", C: "Moving from hierarchical/navigational structures to data organized in tables", D: "Using images instead of text for records" }},
-    { id: 8, q: "8. In a relational database, what is another word for a table?", a: "A", o: { A: "Relation", B: "Function", C: "Browser", D: "Variable" }},
-    { id: 9, q: "9. What does each row (record/tuple) in a table contain?", a: "C", o: { A: "Only the headers of the table", B: "Random and unrelated values", C: "A unique instance of data (a key) for the categories defined by the columns", D: "A list of database users" }},
-    { id: 10, q: "10. What is a primary key?", a: "C", o: { A: "A tool used to encrypt the database", B: "A field that links two tables", C: "A unique identifier for the information in a table", D: "A comment added to explain a column" }},
-    { id: 11, q: "11. What is a foreign key?", a: "A", o: { A: "A field that links to the primary key of another table", B: "A password used to access the database", C: "A field used to store images only", D: "A key from an external hard drive" }},
-    { id: 12, q: "12. In an RDBMS, where is information saved?", a: "B", o: { A: "In audio files", B: "In tables", C: "In binary executable files", D: "In image containers" }},
-    { id: 13, q: "13. What allows multiple users to access an RDBMS at the same time?", a: "B", o: { A: "Multiple servers", B: "A single user managing concurrency", C: "Screenshots of the tables", D: "Video streaming" }},
-    { id: 14, q: "14. What is the purpose of a primary key?", a: "B", o: { A: "To encrypt data", B: "To exclusively find and identify rows", C: "To generate graphics", D: "To delete columns" }},
-    { id: 15, q: "15. How is data always saved in an RDBMS?", a: "B", o: { A: "Randomly across files", B: "In rows and columns", C: "In NoSQL documents", D: "In paragraphs" }},
-    { id: 16, q: "16. What is used to retrieve information faster in RDBMS?", a: "B", o: { A: "Python loops", B: "Indexes", C: "CSS selectors", D: "Windows folders" }},
-    { id: 17, q: "17. What does SQL stand for?", a: "C", o: { A: "Standard Query Lines", B: "Sequential Query Listing", C: "Structured Query Language", D: "Secure Query Logic" }},
-    { id: 18, q: "18. What is the current SQL version mentioned?", a: "B", o: { A: "SQL:1998", B: "SQL:2016", C: "SQL:2020", D: "SQL:2005" }},
-    { id: 19, q: "19. Which SQL part deals with defining database objects like tables, views, triggers?", a: "A", o: { A: "Data Definition Language", B: "Data Manipulation Language", C: "Data Control Language", D: "Data Upgrade Language" }},
-    { id: 20, q: "20. Which SQL part lets you update and query data?", a: "C", o: { A: "Data Presentation Language", B: "Data Definition Language", C: "Data Manipulation Language", D: "Data Control Language" }},
-    { id: 21, q: "21. What is MySQL?", a: "C", o: { A: "A programming IDE", B: "A NoSQL database", C: "An open-source relational database management system", D: "A cloud analytics engine" }},
-    { id: 22, q: "22. What is a main advantage of relational databases?", a: "C", o: { A: "They cannot be extended after creation", B: "Data must be physically reorganized after every update", C: "Users can easily categorize, store and later query/filter data", D: "Data cannot be filtered after storing" }},
-    { id: 23, q: "23. What is one security benefit of an RDBMS?", a: "B", o: { A: "Everyone automatically gets full access", B: "Data in tables can be limited to allow access only to specific users", C: "Only anonymous users can access tables", D: "There is no need for permissions" }},
-    { id: 24, q: "24. What is true about a primary key?", a: "C", o: { A: "It can contain null values", B: "A table can have multiple primary keys", C: "It is a unique key and cannot contain null values", D: "It is optional and cannot be created with CREATE TABLE" }},
-    { id: 25, q: "25. How many primary keys can a table have?", a: "C", o: { A: "Unlimited", B: "Exactly two", C: "No more than one", D: "Only if set after data entry" }},
-    { id: 26, q: "26. What is a foreign key?", a: "B", o: { A: "A rule that protects only physical storage devices", B: "A set of columns that must match a primary key in another table", C: "A backup copy of the primary key", D: "A key used only for encryption" }},
-    { id: 27, q: "27. Does a foreign key require an index?", a: "B", o: { A: "Yes, always", B: "No, foreign keys do not require an index on underlying columns", C: "Yes, but only if it has 3 columns", D: "Only in serverless databases" }},
-    { id: 28, q: "28. What happens if any component of a composite foreign key is null?", a: "B", o: { A: "The whole foreign key is invalid", B: "The value of the composite foreign key is null", C: "Primary key gets deleted", D: "Nothing changes" }},
-    { id: 29, q: "29. What is SQLite?", a: "C", o: { A: "A server-based relational database requiring configuration", B: "A cloud-only enterprise SQL system", C: "An in-process library that is serverless, self-contained and transactional", D: "A non-SQL text file format" }},
-    { id: 30, q: "30. Where is data stored in general “data store” concept?", a: "C", o: { A: "Only relational databases", B: "Only cloud services", C: "Any persistent storage including files, emails, etc.", D: "Only blockchain systems" }},
-    { id: 31, q: "31. What is data storage in IT?", a: "B", o: { A: "The mechanism to delete data", B: "The mechanism to collect, organize and exchange bits and bytes of data we rely on", C: "A tool that compresses every document", D: "An antivirus process" }},
-    { id: 32, q: "32. What is an update anomaly?", a: "B", o: { A: "When a table cannot be opened", B: "When updating redundant scattered data leaves some values old and some new", C: "When a foreign key is added without permission", D: "When SQL queries are too long" }},
-    { id: 33, q: "33. What is a deletion anomaly?", a: "C", o: { A: "When deleting a record removes only primary keys", B: "When deleting records also deletes the database file", C: "When deleting a record accidentally removes important attributes that should not be deleted", D: "When delete command never works" }},
-    { id: 34, q: "34. What is an insert anomaly?", a: "B", o: { A: "When data can be inserted without a table", B: "When data cannot be inserted because other required attributes do not exist yet", C: "When a record duplicates itself", D: "When SQL insert statement crashes the server" }},
-    { id: 35, q: "35. What is normalization?", a: "C", o: { A: "A method to add more redundancy", B: "A method to bring anomalies intentionally", C: "A method to remove anomalies and bring database to consistent state", D: "A method for database encryption" }},
-    { id: 36, q: "36. What is a main purpose of a database index?", a: "B", o: { A: "To slow down data retrieval", B: "To improve the speed of data retrieval", C: "To delete rows faster", D: "To hide data from users" }},
-    { id: 37, q: "37. What does an index avoid having to do?", a: "B", o: { A: "Sort columns alphabetically", B: "Search every row in a table on each access", C: "Merge two databases at once", D: "Convert SQL to NoSQL" }},
-    { id: 38, q: "38. What is stored in an index?", a: "B", o: { A: "The entire table including all data", B: "A copy of selected columns plus a pointer to full row location", C: "Only foreign keys", D: "Images and binary objects only" }},
-    { id: 39, q: "39. What is the first column used in indexing called?", a: "B", o: { A: "Data block", B: "Search key", C: "SQL key", D: "Cluster key" }},
-    { id: 40, q: "40. What does the search key contain?", a: "A", o: { A: "Sorted copy of primary key or candidate key values", B: "Random values", C: "Only usernames", D: "Only dates of creation" }},
-    { id: 41, q: "41. Which of the following refers to the extra space required by an index?", a: "A", o: { A: "Space Overhead", B: "Index Power", C: "Space Mapping", D: "Extra Storage Key" }},
-    { id: 42, q: "42. What is true about a non-clustered index?", a: "B", o: { A: "It sorts the physical data inside the table", B: "It is stored separately from table data", C: "You can have only one per table", D: "It automatically replaces the clustered index" }},
-    { id: 43, q: "43. Why are non-clustered indexes slower than clustered indexes?", a: "C", o: { A: "They are always corrupted", B: "They require building a join table", C: "They require an extra step: lookup in index then fetch from table", D: "They sort in reverse alphabetical order" }},
-    { id: 44, q: "44. What is true about a clustered index?", a: "C", o: { A: "It is stored separately from the table data", B: "A table can have multiple clustered indexes", C: "It defines physical order of table data", D: "It cannot be created on primary key" }},
-    { id: 45, q: "45. How many clustered indexes can a table have?", a: "B", o: { A: "Unlimited", B: "Exactly one", C: "At least two", D: "Only if table has no foreign keys" }},
-    { id: 46, q: "46. In SQL Server, what does a primary key constraint automatically create?", a: "B", o: { A: "A non-clustered index", B: "A clustered index", C: "A filtered index", D: "A hashed index" }},
-    { id: 47, q: "47. What is the Entity-Relationship (ER) model primarily used for?", a: "B", o: { A: "Physical storage optimization", B: "Initial conceptual design of the database", C: "Replacing SQL syntax", D: "Encrypting data values" }},
-    { id: 48, q: "48. What are objects called in database language?", a: "C", o: { A: "Instances", B: "Records", C: "Entities", D: "Tables" }},
-    { id: 49, q: "49. What are attributes?", a: "B", o: { A: "Names of tables only", B: "Properties of an entity class", C: "Values stored in indexes only", D: "Only primary keys" }},
-    { id: 50, q: "50. What is the job of a database designer regarding attributes?", a: "C", o: { A: "To ignore attributes", B: "To let the user decide them automatically", C: "To determine which attributes to include for each entity class", D: "To remove all attributes except primary key" }},
-    { id: 51, q: "51. Which of these is NOT a purpose of attributes listed?", a: "D", o: { A: "To uniquely identify entities", B: "To describe relationships between entities", C: "To store information we want in the database", D: "To automatically create physical disk blocks" }},
-    { id: 52, q: "52. What is a domain?", a: "B", o: { A: "A SQL SELECT statement", B: "A unique set of permitted values for an attribute", C: "A kind of relational join", D: "A primary key" }},
-    { id: 53, q: "53. What is meant by “atomic value” in domain definition?", a: "C", o: { A: "A value that cannot be stored", B: "A value divisible only by 2", C: "A value that is indivisible in the relational model", D: "A value always stored as integer" }},
-    { id: 54, q: "54. What is one benefit of domains?", a: "B", o: { A: "They increase errors in tables", B: "They prevent inappropriate values from being entered", C: "They block referential integrity", D: "They cannot be propagated" }},
-    { id: 55, q: "55. What is a relationship?", a: "C", o: { A: "A backup copy of a table", B: "A SQL function", C: "An association between two entity types", D: "A type of index" }},
-    { id: 56, q: "56. In ER diagrams, relationships are represented by what symbol?", a: "B", o: { A: "Rectangle", B: "Diamond", C: "Ellipse", D: "Triangle" }},
-    { id: 57, q: "57. Which is the most common type of relationship?", a: "C", o: { A: "Many-to-Many", B: "One-to-One", C: "One-to-Many", D: "None of these" }},
-    { id: 58, q: "58. A many-to-many relationship is usually implemented using what?", a: "C", o: { A: "Foreign key only", B: "Triggers", C: "A linking / associate table", D: "Indexes only" }},
-    { id: 59, q: "59. Why do relational DBMSs avoid direct many-to-many relationships?", a: "B", o: { A: "They are too fast", B: "They create confusion like multiple identical invoice numbers", C: "They reduce data integrity", D: "They are always encrypted" }},
-    { id: 60, q: "60. How do we remove a many-to-many relationship?", a: "B", o: { A: "Remove primary keys", B: "Use a third table called a join / bridging table", C: "Use indexes only", D: "Sort the data" }},
-    { id: 61, q: "61. In a join table, what are the match fields?", a: "C", o: { A: "Primary keys of the same table", B: "Functions that calculate totals", C: "Foreign keys referencing primary keys of the two tables being joined", D: "Temporary keys erased later" }},
-    { id: 62, q: "62. What is a business rule in database terms?", a: "B", o: { A: "A UI guideline", B: "A statement that imposes constraints on some aspect of the database", C: "A backup strategy", D: "A SQL function format" }},
-    { id: 63, q: "63. Business rules reflect:", a: "A", o: { A: "How the business perceives its use of data", B: "The best SQL query syntax", C: "How indexes are created", D: "Only the DBA’s personal preference" }},
-    { id: 64, q: "64. Business rule constraints fall into two categories:", a: "B", o: { A: "column widths and fonts", B: "field constraints & relationship constraints", C: "platform constraints & network constraints", D: "backup constraints & enqueue constraints" }},
-    { id: 65, q: "65. Identifying business rules is important because:", a: "B", o: { A: "It increases file size", B: "It allows creation of proper participation rules and constraints", C: "It removes need for normalization", D: "It is required only in NoSQL" }},
-    { id: 66, q: "66. Data flow shows:", a: "B", o: { A: "Only entities and attributes", B: "How data moves, who handles it, and what is done to it", C: "Binary storage in discs", D: "Only the indexes" }},
-    { id: 67, q: "67. Data model shows:", a: "C", o: { A: "Who uses the data", B: "Physical RAM allocation", C: "internal logical relationships between the data", D: "network bandwidth" }},
-    { id: 68, q: "68. Data flows are documented in:", a: "C", o: { A: "ER Diagrams", B: "UML sequence diagrams", C: "Data Flow Diagrams (DFDs)", D: "Excel charts" }},
-    { id: 69, q: "69. A schema is:", a: "B", o: { A: "a DB backup schedule", B: "the design / skeleton structure that represents the logical view of the database", C: "an index file", D: "the filename extension of DB2 log files" }},
-    { id: 70, q: "70. Schemas help multiple applications by:", a: "B", o: { A: "forcing identical column names", B: "preventing namespace collisions", C: "slowing down SQL execution", D: "deleting unused tables" }},
-    { id: 71, q: "71. A schema owner initially has:", a: "B", o: { A: "no privileges", B: "all privileges on the schema", C: "only read-only privileges", D: "only DROP privileges" }},
-    { id: 72, q: "72. Logical Database Schema defines:", a: "B", o: { A: "actual storage like files and indexes", B: "how tables & views & integrity constraints logically relate", C: "the HTML front end", D: "which user opens which report" }},
-    { id: 73, q: "73. What is a relation in the relational model?", a: "B", o: { A: "A CSS style class", B: "A table of values where each row is related data values", C: "A physical file name on disk", D: "A JSON object" }},
-    { id: 74, q: "74. In the relational model, how is data stored logically?", a: "B", o: { A: "As binary images", B: "As tables", C: "As Python dictionaries", D: "As XML" }},
-    { id: 75, q: "75. What is an Attribute?", a: "B", o: { A: "A duplicate record", B: "A column in a table that describes a property of a relation", C: "A type of schema", D: "A foreign language word" }},
-    { id: 76, q: "76. What is a tuple?", a: "B", o: { A: "A group of tables", B: "A single row / single record in a table", C: "A type of index", D: "A schema name" }},
-    { id: 77, q: "77. What is Degree in a relation?", a: "B", o: { A: "Total number of tables", B: "Total number of attributes in a relation", C: "Total number of schemas", D: "Total number of foreign keys" }},
-    { id: 78, q: "78. What is Cardinality in a relation?", a: "C", o: { A: "Total number of primary keys", B: "Total number of constraints", C: "Total number of rows present in the relation", D: "Number of domains" }},
-    { id: 79, q: "79. What is always true about relation instances?", a: "B", o: { A: "They must contain duplicate tuples", B: "They never have duplicate tuples", C: "They are always physically sorted", D: "They must be stored in XML" }},
-    { id: 80, q: "80. Which statement is true for a primary key?", a: "B", o: { A: "It can have NULL values", B: "It must be unique and NOT NULL", C: "It can be defined multiple times per table", D: "It only works in views" }},
-    { id: 81, q: "81. How many primary keys can a table have?", a: "A", o: { A: "One", B: "Two", C: "Up to 10", D: "Unlimited" }},
-    { id: 82, q: "82. What gets automatically created in DB2 when a primary key is defined?", a: "C", o: { A: "A foreign index", B: "A dictionary file", C: "A primary index (unique index)", D: "A schema" }},
-    { id: 83, q: "83. What is a VIEW in relational databases?", a: "B", o: { A: "A separate physical table with its own storage", B: "An alternative representation of data from base tables, with no permanent storage", C: "A data back-up copy of a table", D: "A physical cluster of tables merged" }},
-    { id: 84, q: "84. Which statement is NOT a purpose of views?", a: "D", o: { A: "Combine data from tables", B: "Simplify authorization", C: "Control access", D: "Replace the DB2 engine" }},
-    { id: 85, q: "85. Views can show:", a: "C", o: { A: "Only full tables every time", B: "Only primary keys", C: "Portions or summary of data needed", D: "Only columns that begin with “ID”" }},
-    { id: 86, q: "86. Which is the correct basic syntax to create a view?", a: "C", o: { A: "MAKE VIEW …", B: "VIEW CREATE …", C: "CREATE VIEW <view_name> AS SELECT …", D: "CREATE TABLE VIEW …" }},
-    { id: 87, q: "87. What does a Data Dictionary store?", a: "B", o: { A: "Only table data values", B: "Metadata information about the database objects", C: "Only usernames and passwords", D: "CSV file paths" }},
-    { id: 88, q: "88. Which is TRUE about an active data dictionary?", a: "B", o: { A: "It is updated manually only", B: "It is managed by the DBMS & updated automatically when the structure changes", C: "It is always stored in Excel", D: "It cannot store constraints" }},
-    { id: 89, q: "89. Which is TRUE about a passive data dictionary?", a: "B", o: { A: "It is part of DBMS and auto updated", B: "It is manually maintained outside DBMS", C: "It can only be stored in DB2 catalog tables", D: "It cannot be viewed by humans" }},
-    { id: 90, q: "90. Which of the following is NOT typically stored in a data dictionary?", a: "C", o: { A: "Table constraints", B: "Physical storage structure info", C: "CPU serial numbers of database server", D: "Usage statistics" }},
-    { id: 91, q: "91. What is the main purpose of mapping ER diagrams to relational schema?", a: "A", o: { A: "To translate conceptual data model into relational tables", B: "To export tables to Excel", C: "To create CSV backups", D: "To compress SQL files" }},
-    { id: 92, q: "92. During mapping an entity to relations, what should be done?", a: "B", o: { A: "Ignore attributes", B: "Create a table and make attributes into fields", C: "Only create tables for relationships and none for entities", D: "Replace entity with a view" }},
-    { id: 93, q: "93. When mapping a relationship, what primary keys should be added?", a: "C", o: { A: "None", B: "Only one entity’s key", C: "Primary keys of all participating entities", D: "Random keys" }},
-    { id: 94, q: "94. What is a weak entity?", a: "B", o: { A: "An entity that stores passwords", B: "An entity that does not have its own primary key", C: "An entity that is not used by any application", D: "A table without any columns" }},
-    { id: 95, q: "95. When mapping a weak entity what must be added?", a: "A", o: { A: "The identifying entity’s primary key as foreign key", B: "NULL values in all columns", C: "A composite view", D: "A schema object" }},
-    { id: 96, q: "96. What is specialization/generalization in ER known as?", a: "B", o: { A: "Polygraphs", B: "Hierarchical entity sets", C: "Check constraints", D: "Synonyms" }},
-    { id: 97, q: "97. Codd introduced 1NF in what year?", a: "B", o: { A: "1985", B: "1970", C: "2020", D: "1961" }},
-    { id: 98, q: "98. Informally, a relational database is considered \"normalized\" if it meets:", a: "C", o: { A: "UNF", B: "1NF only", C: "3NF", D: "6NF" }},
-    { id: 99, q: "99. What is the requirement for First Normal Form?", a: "B", o: { A: "Attributes may contain repeating groups", B: "Attributes must be single-valued only", C: "Composite keys must be removed", D: "Must have a foreign key" }},
-    { id: 100, q: "100. When is Second Normal Form violated?", a: "B", o: { A: "When each attribute depends on the entire composite key", B: "When a non-primary attribute depends only on part of a composite key", C: "When the key contains only one field", D: "When there are no foreign keys" }},
-    { id: 101, q: "101. Third Normal Form requires what?", a: "A", o: { A: "Non-key attributes must depend only on the key and not on other non-key attributes", B: "All tables must have only 1 row", C: "All attributes must be text type", D: "Views must be created" }},
-    { id: 102, q: "102. What does DDL stand for?", a: "B", o: { A: "Data Driven Language", B: "Data Definition Language", C: "Data Debug Language", D: "Data Development Logic" }},
-    { id: 103, q: "103. DDL is used mainly to:", a: "B", o: { A: "modify data values inside rows", B: "define and modify structure of database objects", C: "generate CSV reports", D: "backup and restore data" }},
-    { id: 104, q: "104. Which of the following is NOT a database object managed by DDL?", a: "D", o: { A: "schemas", B: "tables", C: "indexes", D: "PDF files" }},
-    { id: 105, q: "105. The CREATE command is used to:", a: "B", o: { A: "insert data", B: "create schema, tables, index, constraints", C: "delete rows only", D: "grant privileges only" }},
-    { id: 106, q: "106. Which command modifies an existing table structure (add or drop columns)?", a: "B", o: { A: "SELECT", B: "ALTER", C: "INSERT", D: "WITH" }},
-    { id: 107, q: "107. If you want to completely remove a table definition and its data, you use:", a: "C", o: { A: "TRUNCATE", B: "DELETE", C: "DROP", D: "UPDATE" }},
-    { id: 108, q: "108. Which command removes all rows from a table but keeps the structure?", a: "B", o: { A: "DROP", B: "TRUNCATE", C: "INSERT", D: "GRANT" }},
-    { id: 109, q: "109. What does the DATE data type represent?", a: "C", o: { A: "Only time portion", B: "Only numeric digits", C: "Year, month, day", D: "String characters only" }},
-    { id: 110, q: "110. What does the TIME data type represent?", a: "C", o: { A: "Only year and month", B: "Text only", C: "hours, minutes, seconds", D: "file names" }},
-    { id: 111, q: "111. TIMESTAMP represents:", a: "B", o: { A: "only a year value", B: "seven values including date + time to microseconds", C: "only a text description", D: "variable length character column" }},
-    { id: 112, q: "112. CHAR is:", a: "A", o: { A: "fixed length character type", B: "floating point number type", C: "integer type", D: "variable length character type" }},
-    { id: 113, q: "113. VARCHAR is:", a: "B", o: { A: "fixed length character type", B: "variable length character type", C: "numeric constraint", D: "unique key index" }},
-    { id: 114, q: "114. Which statement is used to add a column to an existing table?", a: "B", o: { A: "CREATE TABLE", B: "ALTER TABLE … ADD", C: "DROP TABLE", D: "TRUNCATE TABLE" }},
-    { id: 115, q: "115. After DROP TABLE STUDENT is executed, what happens?", a: "B", o: { A: "only data is erased, structure remains", B: "both object & structure are removed", C: "primary key only is removed", D: "trigger only is removed" }},
-    { id: 116, q: "116. Which DDL command is used to create a database schema?", a: "C", o: { A: "ALTER", B: "DROP", C: "CREATE", D: "TRUNCATE" }},
-    { id: 117, q: "117. Stored procedures are mainly used to:", a: "A", o: { A: "improve performance & reduce database access network traffic", B: "delete tables faster", C: "format backup files", D: "import CSV files only" }},
-    { id: 118, q: "118. A trigger is:", a: "B", o: { A: "an excel macro stored locally", B: "a piece of code automatically executed when data is modified in a table", C: "a GUI form in Windows", D: "a Python script that tests queries" }},
-    { id: 119, q: "119. Triggers are fired in response to:", a: "C", o: { A: "stored procedure execution only", B: "database structure design only", C: "data modification events like INSERT/UPDATE/DELETE/MERGE", D: "only SELECT statements" }},
-    { id: 120, q: "120. Triggers are stored:", a: "B", o: { A: "in the desktop client", B: "in the database", C: "in the network driver", D: "in the DBA’s laptop" }},
-    { id: 121, q: "121. Which of these is NOT a trigger type?", a: "C", o: { A: "BEFORE trigger", B: "AFTER trigger", C: "DURING trigger", D: "none — all are triggers" }},
-    { id: 122, q: "122. BEFORE triggers execute:", a: "A", o: { A: "before any SQL operation", B: "after any SQL operation", C: "only on error raised", D: "only on SELECT statement" }},
-    { id: 123, q: "123. AFTER triggers execute:", a: "B", o: { A: "before any SQL operation", B: "after any SQL operation", C: "only when database shuts down", D: "only when index rebuild happens" }},
-    { id: 124, q: "124. DML stands for:", a: "A", o: { A: "Data Manipulation Language", B: "Data Migration Language", C: "Data Management Layout", D: "Default Mapping List" }},
-    { id: 125, q: "125. DML statements are used to:", a: "C", o: { A: "create schemas", B: "create tables only", C: "store, retrieve, change, delete data", D: "backup full database" }},
-    { id: 126, q: "126. Which of the below is NOT a DML statement?", a: "D", o: { A: "INSERT", B: "UPDATE", C: "DELETE", D: "CREATE" }},
-    { id: 127, q: "127. Which DML statement adds new rows?", a: "C", o: { A: "UPDATE", B: "DELETE", C: "INSERT", D: "TRUNCATE" }},
-    { id: 128, q: "128. Which statement changes existing data values in a table?", a: "B", o: { A: "INSERT", B: "UPDATE", C: "DROP", D: "CREATE" }},
-    { id: 129, q: "129. Which statement removes rows from a table?", a: "B", o: { A: "UPDATE", B: "DELETE", C: "ALTER", D: "CREATE" }},
-    { id: 130, q: "130. The INSERT statement can insert rows into:", a: "C", o: { A: "only base tables", B: "only system tables", C: "tables or updatable views", D: "only temporary tables" }},
-    { id: 131, q: "131. Which DB2 utilities can bulk-load data?", a: "A", o: { A: "LOAD and IMPORT", B: "BACKUP and RESTORE", C: "EXPORT and REORG", D: "RUNSTATS and FENCED" }},
-    { id: 132, q: "132. The basic syntax of INSERT is:", a: "A", o: { A: "INSERT INTO table VALUES (…) ", B: "SELECT FROM table VALUES (…) ", C: "CHANGE table VALUES (…) ", D: "MAKE table VALUES (…) " }},
-    { id: 133, q: "133. The UPDATE statement can set a column to:", a: "D", o: { A: "a literal value", B: "NULL", C: "DEFAULT", D: "all of the above" }},
-    { id: 134, q: "134. UPDATE can be used with a WHERE clause to:", a: "A", o: { A: "decide which rows to modify", B: "rename the table", C: "compress the index", D: "create a table backup" }},
-    { id: 135, q: "135. UPDATE without a WHERE clause:", a: "B", o: { A: "adjusts only one row", B: "changes every row", C: "does nothing", D: "throws a runtime error always" }},
-    { id: 136, q: "136. DELETE is used to:", a: "B", o: { A: "remove single column value only", B: "remove entire rows from a table", C: "rename a table", D: "drop a table definition" }},
-    { id: 137, q: "137. UPDATE cannot remove full rows, only:", a: "B", o: { A: "drop constraints", B: "set columns to NULL", C: "change schema name", D: "remove index pages" }},
-    { id: 138, q: "138. DELETE can delete rows from:", a: "C", o: { A: "only base tables", B: "only system tables", C: "base tables or updatable views", D: "only alias objects" }},
-    { id: 139, q: "139. Basic syntax of DELETE is:", a: "C", o: { A: "DELETE row FROM table", B: "DELETE table FROM db", C: "DELETE FROM table [WHERE condition]", D: "REMOVE table [WHERE condition]" }},
-    { id: 140, q: "140. SELECT is used to:", a: "A", o: { A: "retrieve data", B: "create tables", C: "define columns", D: "control user access" }},
-    { id: 141, q: "141. Result set means:", a: "B", o: { A: "a backup of database", B: "the rows returned by a SELECT query", C: "a temp table that holds metadata", D: "the schema definition" }},
-    { id: 142, q: "142. If no matching data is found, SELECT returns:", a: "C", o: { A: "runtime error", B: "NULL pointer exception", C: "empty result set", D: "drops the table" }},
-    { id: 143, q: "143. SELECT statements can use subqueries:", a: "A", o: { A: "True", B: "False" }},
-    { id: 144, q: "144. SELECT is the only DML command that can be:", a: "A", o: { A: "recursive", B: "transactional", C: "used with WHERE", D: "combined with GRANT" }},
-    { id: 145, q: "145. SELECT * FROM table means:", a: "B", o: { A: "return only primary key columns", B: "return all rows and all columns", C: "return only top 10 rows", D: "return metadata only" }},
-    { id: 146, q: "146. ORDER of execution of SELECT clauses begins with:", a: "D", o: { A: "SELECT", B: "ORDER BY", C: "WHERE", D: "FROM" }},
-    { id: 147, q: "147. The correct logical order of SELECT clauses is:", a: "B", o: { A: "SELECT → WHERE → FROM", B: "FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY", C: "SELECT → ORDER BY → FROM → HAVING", D: "WHERE → FROM → ORDER BY → GROUP BY" }},
-    { id: 148, q: "148. The WHERE clause is used to:", a: "B", o: { A: "specify sort order", B: "filter rows", C: "create new table", D: "create new index" }},
-    { id: 149, q: "149. The ORDER BY clause is used to:", a: "B", o: { A: "drop views", B: "sort the results", C: "compile triggers", D: "define constraints" }},
-    { id: 150, q: "150. GROUP BY is used specifically for:", a: "A", o: { A: "grouping rows for aggregate functions", B: "deleting metadata objects", C: "altering schema names", D: "exporting data" }},
-    { id: 151, q: "151. JOIN is used to:", a: "A", o: { A: "combine rows from 2 or more tables based on related columns", B: "delete rows from a table", C: "compress table space", D: "rename schemas" }},
-    { id: 152, q: "152. INNER JOIN returns rows when:", a: "C", o: { A: "same number of columns exist", B: "datatypes match", C: "both tables have matching values", D: "left table exists" }},
-    { id: 153, q: "153. LEFT JOIN returns:", a: "B", o: { A: "only rows that exist in both tables", B: "all rows from left table even if no match on right", C: "deletes unmatched rows from right", D: "only primary key rows" }},
-    { id: 154, q: "154. RIGHT JOIN returns:", a: "A", o: { A: "all rows from right table even if no match on left", B: "only rows that match values on both sides", C: "aggregated records from left table", D: "rows in alphabetical order" }},
-    { id: 155, q: "155. FULL JOIN returns rows when:", a: "C", o: { A: "only left has data", B: "only right has data", C: "match exists in one or both tables", D: "primary key is same" }},
-    { id: 156, q: "156. UNION combines:", a: "B", o: { A: "table definitions", B: "result sets of 2 or more SELECT statements", C: "indexes", D: "schemas" }},
-    { id: 157, q: "157. In UNION each SELECT must have:", a: "A", o: { A: "same number of columns", B: "identical column names", C: "identical constraints", D: "created on same date" }},
-    { id: 158, q: "158. In UNION columns must have:", a: "B", o: { A: "same PK name", B: "similar data types", C: "same check constraints", D: "same foreign key names" }},
-    { id: 159, q: "159. UNION columns must be:", a: "C", o: { A: "in any order", B: "in reverse order", C: "in same order", D: "sorted by default" }},
-    { id: 160, q: "160. INTERSECT returns rows that are:", a: "C", o: { A: "unique to left table only", B: "unique to right table only", C: "in common between two result sets", D: "duplicates only" }},
-    { id: 161, q: "161. INTERSECT removes duplicates:", a: "A", o: { A: "True", B: "False" }},
-    { id: 162, q: "162. UNION by default removes duplicates:", a: "A", o: { A: "True", B: "False" }},
-    { id: 163, q: "163. If you want duplicates preserved you would use:", a: "A", o: { A: "UNION ALL", B: "INTERSECT ALL", C: "JOIN ALL", D: "MERGE ALL" }},
-    { id: 164, q: "164. Using JOIN vs UNION — JOIN combines based on:", a: "A", o: { A: "matching column values", B: "memory address", C: "OS page number", D: "identical table names" }},
-    { id: 165, q: "165. Using UNION vs JOIN — UNION stacks result sets:", a: "A", o: { A: "vertically (append rows)", B: "horizontally (append columns)", C: "deletes intermediate tables", D: "changes data types" }},
-    { id: 166, q: "166. JDBC stands for:", a: "B", o: { A: "Java Data Connection Base", B: "Java Database Connectivity", C: "Java Data Control Block", D: "Java Driver Communication" }},
-    { id: 167, q: "167. JDBC is used to:", a: "B", o: { A: "print PDF files", B: "connect Java programs to databases", C: "uninstall SQL engines", D: "load HTML files" }},
-    { id: 168, q: "168. JDBC can work with:", a: "C", o: { A: "only Oracle", B: "only MySQL", C: "RDBMS, spreadsheets, text files", D: "only MongoDB" }},
-    { id: 169, q: "169. To work with a specific DB in JDBC you need:", a: "B", o: { A: "JDBC filter", B: "JDBC driver", C: "XML config", D: "JDK extension" }},
-    { id: 170, q: "170. package used for JDBC on client side:", a: "A", o: { A: "java.sql", B: "java.jdbc", C: "java.db", D: "org.sql" }},
-    { id: 171, q: "171. package used for server side JDBC:", a: "B", o: { A: "java.server", B: "javax.sql", C: "javax.server", D: "java.net.sql" }},
-    { id: 172, q: "172. using JDBC you can:", a: "A", o: { A: "call stored procedures", B: "make UIs", C: "compile java", D: "design HTML" }},
-    { id: 173, q: "173. JDBC is part of:", a: "B", o: { A: "JRE only", B: "Java SE SDK", C: "MYSQL client", D: "Apache POI" }},
-    { id: 174, q: "174. JDBC API to JDBC DRIVER communication is handled by:", a: "C", o: { A: "browser", B: "OS kernel", C: "JDBC Driver", D: "Docker" }},
-    { id: 175, q: "175. JDBC API to JDBC Manager communication handled by:", a: "A", o: { A: "JDBC API", B: "DB2 optimizer", C: "MySQL daemon", D: "Redis client" }},
-    { id: 176, q: "176. Before connecting JDBC application loads:", a: "B", o: { A: "schema engine", B: "particular DB driver", C: "JVM plugin", D: "host IP address" }},
-    { id: 177, q: "177. DriverManager:", a: "A", o: { A: "manages all installed drivers", B: "draws UI windows", C: "compiles SQL", D: "encrypts tables" }},
-    { id: 178, q: "178. When connection requested DriverManager:", a: "B", o: { A: "makes a thread", B: "chooses correct driver", C: "starts browser", D: "deletes cache" }},
-    { id: 179, q: "179. JDBC Driver is:", a: "A", o: { A: "class that knows how to talk to a DB", B: "java plugin for keyboard", C: "OS memory manager", D: "GUI renderer" }},
-    { id: 180, q: "180. Example driver class for MySQL is:", a: "A", o: { A: "com.mysql.cj.jdbc.Driver", B: "mysql.driver.class", C: "org.db.mysql", D: "javax.mysql.connect" }},
-    { id: 181, q: "181. Connection object in JDBC represents:", a: "B", o: { A: "table schema", B: "link between java app and DB", C: "ResultSet buffer", D: "filesystem tree" }},
-    { id: 182, q: "182. Which object sends SQL commands?", a: "C", o: { A: "ResultSet", B: "Connection", C: "Statement", D: "DriverManager" }},
-    { id: 183, q: "183. Statement object is created from:", a: "C", o: { A: "Driver class", B: "ResultSet class", C: "Connection object", D: "SQL file" }},
-    { id: 184, q: "184. ResultSet holds:", a: "B", o: { A: "indexes", B: "result of query", C: "stored procedures code", D: "table creation scripts" }},
-    { id: 185, q: "185. ResultSet works like:", a: "B", o: { A: "menu bar", B: "cursor over rows", C: "trigger engine", D: "queue scheduler" }},
-    { id: 186, q: "186. To run SELECT we use:", a: "B", o: { A: "ResultSet.execute()", B: "Statement.executeQuery()", C: "Driver.execute()", D: "Connection.next()" }},
-    { id: 187, q: "187. To run INSERT we use:", a: "B", o: { A: "executeInsert()", B: "Statement.executeUpdate()", C: "Statement.read()", D: "ResultSet.update()" }},
-    { id: 188, q: "188. Connection is obtained via:", a: "B", o: { A: "Driver.getConnection()", B: "DriverManager.getConnection()", C: "ResultSet.getConnection()", D: "JDBC.getConnection()" }},
-    { id: 189, q: "189. JDBC is for:", a: "C", o: { A: "low level socket comms", B: "storage engine tuning", C: "DB access via Java", D: "HTTPS server" }},
-    { id: 190, q: "190. In JDBC metadata means:", a: "A", o: { A: "info about database objects", B: "only logs", C: "only triggers", D: "only drivers" }},
-    { id: 191, q: "191. The primary interface to request drivers is:", a: "A", o: { A: "DriverManager", B: "Connection", C: "DB2 engine", D: "Netbeans" }},
-    { id: 192, q: "192. Which is NOT JDBC object?", a: "D", o: { A: "Statement", B: "ResultSet", C: "Connection", D: "JPanel" }},
-    { id: 193, q: "193. To move cursor to next row in ResultSet:", a: "B", o: { A: "rs.move()", B: "rs.next()", C: "rs.row()", D: "rs.goto()" }},
-    { id: 194, q: "194. Calling stored procedures in JDBC done using:", a: "A", o: { A: "CallableStatement", B: "PanelStatement", C: "TriggerStatement", D: "ConstructorStatement" }},
-    { id: 195, q: "195. JDBC is mainly for:", a: "B", o: { A: "HTML Rendering", B: "Database communication", C: "CSS styling", D: "JVM bytecode optimization" }},
-    { id: 196, q: "196. Database security means protection of:", a: "B", o: { A: "movies and songs", B: "database, data, DBMS & apps that access it", C: "only table schemas", D: "only stored procedures" }},
-    { id: 197, q: "197. Database security protects against:", a: "C", o: { A: "only hackers", B: "only natural disasters", C: "internal + external threats", D: "only cloud outages" }},
-    { id: 198, q: "198. Security for databases is usually planned and maintained by:", a: "B", o: { A: "graphic designers", B: "database administrators / security professionals", C: "SQL beginners", D: "game developers" }},
-    { id: 199, q: "199. Database security also includes protecting data from:", a: "A", o: { A: "misuse by users who ALREADY have access", B: "CSS styling problems", C: "slow networks", D: "java exceptions" }},
-    { id: 200, q: "200. Why is database security important?", a: "A", o: { A: "data is an economic resource that must be handled firmly", B: "to draw UI buttons", C: "to make HTML pages load faster", D: "to reduce RAM usage" }},
+    <section class="controls-row">
+      <div class="tabs" id="moduleTabs" role="tablist" aria-label="Quiz modules"></div>
+      <div class="actions">
+        <button type="button" id="showScoreBtn" class="btn">Show Score</button>
+        <button type="button" id="resetModuleBtn" class="btn">Reset</button>
+      </div>
+    </section>
+
+    <section class="module-header" id="moduleHeader"></section>
+    <section class="questions-list" id="questionsList"></section>
+    <section class="score-card" id="scoreCard"></section>
+  </main>
+
+  <script>
+    const QUIZ_MODULES = [
+  {
+    "id": "module-1",
+    "tabLabel": "Module 1",
+    "pdfModuleHeading": "Module1",
+    "pdfSectionHeading": "I. Multiple choice questions",
+    "topicSummary": "Arrays, Linked Lists, Searching, Bubble Sort & Sparse Matrices",
+    "questions": [
+      {
+        "id": "m1-q1",
+        "question": "1. What is a data structure?",
+        "options": [
+          "A. A programming language",
+          "B. A method of organizing and storing data",
+          "C. A computer network",
+          "D. An operating system"
+        ],
+        "correctIndex": 1,
+        "answerText": "Answer: B. A method of organizing and storing data"
+      },
+      {
+        "id": "m1-q2",
+        "question": "2. Which searching technique requires the array to be sorted?",
+        "options": [
+          "A. Array Traversal",
+          "B. Array Insertion",
+          "C. Binary Search",
+          "D. Linked List Deletion"
+        ],
+        "correctIndex": 2,
+        "answerText": "Answer: C) Binary Search"
+      },
+      {
+        "id": "m1-q3",
+        "question": "3. Which of the following is a linear data structure?",
+        "options": [
+          "A. Array",
+          "B. Sparse Matrix",
+          "C. Binary Search",
+          "D. Bubble Sort"
+        ],
+        "correctIndex": 0,
+        "answerText": "Answer: A. Array"
+      },
+      {
+        "id": "m1-q4",
+        "question": "4. What is a node in a linked list?",
+        "options": [
+          "A. A memory block containing data and a link",
+          "B. An array index",
+          "C. A function",
+          "D. A loop"
+        ],
+        "correctIndex": 0,
+        "answerText": "Answer: A. A memory block containing data and a link"
+      },
+      {
+        "id": "m1-q5",
+        "question": "5. Which pointer is commonly used to store the address of the next node in a linked list?",
+        "options": [
+          "A. Front",
+          "B. Next",
+          "C. Top",
+          "D. Rear"
+        ],
+        "correctIndex": 1,
+        "answerText": "Answer: B. Next"
+      },
+      {
+        "id": "m1-q6",
+        "question": "6. What is the main function of array traversal?",
+        "options": [
+          "A. To delete elements",
+          "B. To visit each element one by one",
+          "C. To sort elements",
+          "D. To insert elements"
+        ],
+        "correctIndex": 1,
+        "answerText": "Answer: B. To visit each element one by one"
+      },
+      {
+        "id": "m1-q7",
+        "question": "7. What is a sparse matrix?",
+        "options": [
+          "A. A matrix with all non-zero elements",
+          "B. A matrix containing mostly zero elements",
+          "C. A matrix with equal rows and columns",
+          "D. A matrix with one row"
+        ],
+        "correctIndex": 1,
+        "answerText": "Answer: B. A matrix containing mostly zero elements"
+      },
+      {
+        "id": "m1-q8",
+        "question": "8. Which data structure stores elements in non-contiguous memory locations?",
+        "options": [
+          "A. Array",
+          "B. Linked List",
+          "C. Stack",
+          "D. Queue"
+        ],
+        "correctIndex": 1,
+        "answerText": "Answer: B) Linked List"
+      },
+      {
+        "id": "m1-q9",
+        "question": "9. Which of the following is a prerequisite for performing Binary Search?",
+        "options": [
+          "A. Peek",
+          "B. Sorting",
+          "C. Deletion",
+          "D. Insertion"
+        ],
+        "correctIndex": 1,
+        "answerText": "Answer: B. Sorting"
+      },
+      {
+        "id": "m1-q10",
+        "question": "10. What is a linked list?",
+        "options": [
+          "A. A fixed-size data structure",
+          "B. A dynamic data structure made up of linked nodes",
+          "C. A two-dimensional array",
+          "D. A sorting algorithm"
+        ],
+        "correctIndex": 1,
+        "answerText": "Answer: B. A dynamic data structure made up of linked nodes"
+      },
+      {
+        "id": "m1-q11",
+        "question": "11. Find the output of the following C++ code:",
+        "code": "int arr[4] = {10, 20, 30, 40};\n\ncout << arr[2];",
+        "options": [
+          "A. 50",
+          "B. 60",
+          "C. 30",
+          "D. 41"
+        ],
+        "correctIndex": 2,
+        "answerText": "Answer: C. 30"
+      },
+      {
+        "id": "m1-q12",
+        "question": "12. What would be the result after comparing and swapping the first two elements while applying Bubble Sort to the list 30, 10, 20, 40, 15?",
+        "options": [
+          "A. 10, 30, 20, 40, 15",
+          "B. 30, 20, 10, 40, 15",
+          "C. 20, 10, 30, 40, 15",
+          "D. 10, 20, 30, 40, 159"
+        ],
+        "correctIndex": 0,
+        "answerText": "Answer: A. 10, 30, 20, 40, 15"
+      },
+      {
+        "id": "m1-q13",
+        "question": "13. What would you do to insert 15 at position 1 in the array 10, 20, 30 while maintaining the existing elements?",
+        "options": [
+          "A. Shift elements to the right and insert 15",
+          "B. Delete 20 and insert 15",
+          "C. Replace 10 with 15",
+          "D. Apply Bubble Sort"
+        ],
+        "correctIndex": 0,
+        "answerText": "Answer: A. Shift elements to the right and insert 15"
+      },
+      {
+        "id": "m1-q14",
+        "question": "14. What is the resulting linked list after the following list is reversed?",
+        "diagram": "m1_q14_linked_list",
+        "options": [
+          "A. 10 → 20 → 30 → NULL",
+          "B. 30 → 20 → 10 → NULL",
+          "C. 20 → 10 → 30 → NULL",
+          "D. 30 → 10 → 20 → NULL"
+        ],
+        "correctIndex": 1,
+        "answerText": "Answer: B. 30 → 20 → 10 → NULL"
+      },
+      {
+        "id": "m1-q15",
+        "question": "15. Identify the output when the following linked list is searched for the value 30.",
+        "diagram": "m1_q15_linked_list",
+        "options": [
+          "A. Element Not Found",
+          "B. Element Found",
+          "C. NULL",
+          "D. 408"
+        ],
+        "correctIndex": 1,
+        "answerText": "Answer: B. Element Found"
+      },
+      {
+        "id": "m1-q16",
+        "question": "16. Find the output of the following code:",
+        "code": "int marks[2][2] = {{10,20},{30,40}};\n\ncout << marks[0][1];",
+        "options": [
+          "A. 10",
+          "B. 20",
+          "C. 30",
+          "D. 40"
+        ],
+        "correctIndex": 1,
+        "answerText": "Answer: B. 20"
+      },
+      {
+        "id": "m1-q17",
+        "question": "17. What would you do if an application needs to move both forward and backward through a list of elements?",
+        "options": [
+          "A. Use a doubly linked list",
+          "B. Perform Binary Search",
+          "C. Apply Bubble Sort",
+          "D. Use a Sparse Matrix"
+        ],
+        "correctIndex": 0,
+        "answerText": "Answer: A. Use a doubly linked list"
+      },
+      {
+        "id": "m1-q18",
+        "question": "18. Identify the arrangement after the first comparison in Bubble Sort.",
+        "diagram": "m1_q18_array",
+        "options": [
+          "A. 30 20 10",
+          "B. 10 30 20",
+          "C. 20 10 30",
+          "D. 10 20 30"
+        ],
+        "correctIndex": 1,
+        "answerText": "Answer: B. 10 30 20"
+      },
+      {
+        "id": "m1-q19",
+        "question": "19. Find the output after inserting 25 at position 2 in the array.",
+        "diagram": "m1_q19_array",
+        "options": [
+          "A. 25 10 20 30",
+          "B. 10 25 20 30",
+          "C. 10 20 25 30",
+          "D. 10 20 30 25"
+        ],
+        "correctIndex": 2,
+        "answerText": "Answer: C. 10 20 25 30"
+      },
+      {
+        "id": "m1-q20",
+        "question": "20. Identify the row, column, and value stored for the non-zero element 5 in the following matrix.",
+        "diagram": "m1_q20_matrix",
+        "options": [
+          "A. Row 0, Column 2, Value 5",
+          "B. Row 2, Column 0, Value 5",
+          "C. Row 0, Column 0, Value 5",
+          "D. Row 2, Column 2, Value 5"
+        ],
+        "correctIndex": 0,
+        "answerText": "Answer: A. Row 0, Column 2, Value 5"
+      }
+    ]
+  },
+  {
+    "id": "module-2",
+    "tabLabel": "Module 2",
+    "pdfModuleHeading": "Module 2",
+    "pdfSectionHeading": "I. Multiple Choice Questions:",
+    "topicSummary": "Stacks, LIFO Operations, Recursion & Expression Notation",
+    "questions": [
+      {
+        "id": "m2-q1",
+        "question": "1. What is a stack?",
+        "options": [
+          "a) Queue data structure",
+          "b) Linear data structure",
+          "c) Tree structure",
+          "d) Graph structure"
+        ],
+        "correctIndex": 1,
+        "answerText": "Answer: b) Linear data structure"
+      },
+      {
+        "id": "m2-q2",
+        "question": "2. Which stack operation returns the top element without removing it?",
+        "options": [
+          "A. Inorder",
+          "B. Preorder",
+          "C. Peek",
+          "D. Delete"
+        ],
+        "correctIndex": 2,
+        "answerText": "Answer: C. Peek"
+      },
+      {
+        "id": "m2-q3",
+        "question": "3. Which operation is used to insert an element into a stack?",
+        "options": [
+          "A. Delete",
+          "B. Push",
+          "C. Pop",
+          "D. Peek"
+        ],
+        "correctIndex": 1,
+        "answerText": "Answer: B. Push"
+      },
+      {
+        "id": "m2-q4",
+        "question": "4. What is an infix expression?",
+        "options": [
+          "A. Operator in between operands",
+          "B. Operator before operands",
+          "C. Operator after operands",
+          "D. Operands without operators"
+        ],
+        "correctIndex": 0,
+        "answerText": "Answer: A Operator in between operands"
+      },
+      {
+        "id": "m2-q5",
+        "question": "5.What is the initial value of the top variable in an array-based stack?",
+        "options": [
+          "a) 10",
+          "b) 11",
+          "c) -1",
+          "d) MAX"
+        ],
+        "correctIndex": 2,
+        "answerText": "Answer: c) -1"
+      },
+      {
+        "id": "m2-q6",
+        "question": "6. What does LIFO stand for?",
+        "options": [
+          "a) Last In, First Out",
+          "b) Last In, Final Output",
+          "c) First In, First Out",
+          "d) First In, Final Output"
+        ],
+        "correctIndex": 0,
+        "answerText": "Answer: a) Last In, First Out"
+      },
+      {
+        "id": "m2-q7",
+        "question": "7. Which of the following conditions occurs when a PUSH operation is performed on a full stack?",
+        "options": [
+          "A. Underflow",
+          "B. Overflow",
+          "C. Traversal",
+          "D. Searching"
+        ],
+        "correctIndex": 1,
+        "answerText": "Answer: B. Overflow"
+      },
+      {
+        "id": "m2-q8",
+        "question": "8. Which technique allows a function to repeatedly invoke itself?",
+        "options": [
+          "a) Iteration",
+          "b) Recursion",
+          "c) Backtracking",
+          "d) Looping"
+        ],
+        "correctIndex": 1,
+        "answerText": "Answer: b) Recursion"
+      },
+      {
+        "id": "m2-q9",
+        "question": "9. What is a prefix expression?",
+        "options": [
+          "a) Operator between operands",
+          "b) Operator after operands",
+          "c) Operator before operands",
+          "d) Operator randomly placed"
+        ],
+        "correctIndex": 2,
+        "answerText": "Answer: c) Operator before operands"
+      },
+      {
+        "id": "m2-q10",
+        "question": "10. Which end of a stack allows insertion and deletion?",
+        "options": [
+          "a) Bottom",
+          "b) Middle",
+          "c) Top",
+          "d) Both ends"
+        ],
+        "correctIndex": 2,
+        "answerText": "Answer: c) Top"
+      },
+      {
+        "id": "m2-q11",
+        "question": "11. What is the main purpose of the PUSH operation in a stack?",
+        "options": [
+          "A. To insert an element at the top",
+          "B. To remove the top element",
+          "C. To arrange elements",
+          "D. To search for an element"
+        ],
+        "correctIndex": 0,
+        "answerText": "Answer: A. To insert an element at the top"
+      },
+      {
+        "id": "m2-q12",
+        "question": "12. What is the main purpose of the POP operation in a stack?",
+        "options": [
+          "A. To remove the top element",
+          "B. To insert an element at the top",
+          "C. To arrange elements",
+          "D. To search for an element"
+        ],
+        "correctIndex": 0,
+        "answerText": "Answer: A. To remove the top element"
+      },
+      {
+        "id": "m2-q13",
+        "question": "13. What is the main idea of the LIFO principle in a stack?",
+        "options": [
+          "A. The last inserted element is removed first",
+          "B. The first inserted element is removed first",
+          "C. Elements are removed from the middle",
+          "D. Elements are removed randomly"
+        ],
+        "correctIndex": 0,
+        "answerText": "Answer: A. The last inserted element is removed first"
+      },
+      {
+        "id": "m2-q14",
+        "question": "14. What is meant by underflow in a stack?",
+        "options": [
+          "A. Attempting to insert into a full stack",
+          "B. Attempting to remove from an empty stack",
+          "C. Viewing the top element",
+          "D. Arranging stack elements"
+        ],
+        "correctIndex": 1,
+        "answerText": "Answer: B. Attempting to remove from an empty stack"
+      },
+      {
+        "id": "m2-q15",
+        "question": "15. What is the purpose of the top variable in an array-based stack?",
+        "options": [
+          "A. To determine the size of the array",
+          "B. To store the elements of the stack",
+          "C. To check whether the stack is empty",
+          "D. To identify the current top position"
+        ],
+        "correctIndex": 3,
+        "answerText": "Answer: D. To identify the current top position"
+      },
+      {
+        "id": "m2-q16",
+        "question": "16. What is the main reason for checking whether a stack is full before PUSH?",
+        "options": [
+          "A. To avoid overflow",
+          "B. To avoid underflow",
+          "C. To find the top element",
+          "D. To perform POP"
+        ],
+        "correctIndex": 0,
+        "answerText": "Answer: A. To avoid overflow"
+      },
+      {
+        "id": "m2-q17",
+        "question": "17. What does the linear nature of a stack indicate?",
+        "options": [
+          "A. Elements are arranged sequentially",
+          "B. Elements are arranged hierarchically",
+          "C. Elements are connected through parent-child relationships",
+          "D. Elements are accessed based on priority"
+        ],
+        "correctIndex": 0,
+        "answerText": "Answer: A. Elements are arranged sequentially"
+      },
+      {
+        "id": "m2-q18",
+        "question": "18. How does PEEK differ from POP?",
+        "options": [
+          "A. PEEK removes the element, while POP displays it",
+          "B. PEEK displays the top element, while POP removes it",
+          "C. Both operations remove the top element",
+          "D. Both operations insert an element"
+        ],
+        "correctIndex": 1,
+        "answerText": "Answer: B. PEEK displays the top element, while POP removes it"
+      },
+      {
+        "id": "m2-q19",
+        "question": "19. How does a linked-list stack differ from an array-based stack?",
+        "options": [
+          "A. It can grow dynamically",
+          "B. It cannot perform POP",
+          "C. It cannot perform PUSH",
+          "D. It always has a fixed size"
+        ],
+        "correctIndex": 0,
+        "answerText": "Answer: A. It can grow dynamically"
+      },
+      {
+        "id": "m2-q20",
+        "question": "20. What is the main idea of implementing a stack using a linked list?",
+        "options": [
+          "A. To perform binary searching",
+          "B. To allow dynamic memory allocation",
+          "C. To represent hierarchical data",
+          "D. To delete elements"
+        ],
+        "correctIndex": 1,
+        "answerText": "Answer: B. To allow dynamic memory allocation"
+      }
+    ]
+  },
+  {
+    "id": "module-3",
+    "tabLabel": "Module 3",
+    "pdfModuleHeading": "Module 3",
+    "pdfSectionHeading": "I. Multiple Choice Questions: -",
+    "topicSummary": "Queues, FIFO, Circular Queue, Dequeue, Binary Trees & BST",
+    "questions": [
+      {
+        "id": "m3-q1",
+        "question": "1.Which of the following is an example of the FIFO principle of a queue?",
+        "options": [
+          "A) Removing the most recently added book from a stack",
+          "B) Serving customers in the order they join a line",
+          "C) Accessing an element using an index",
+          "D) Deleting the last node of a linked list"
+        ],
+        "correctIndex": 1,
+        "answerText": "Answer: B) Serving customers in the order they join a line"
+      },
+      {
+        "id": "m3-q2",
+        "question": "2. How does a queue maintain the order in which elements are processed?",
+        "options": [
+          "A) By processing the first inserted element first",
+          "B) By arranging elements in alphabetical order",
+          "C) By organizing elements into parent-child relationships",
+          "D) By comparing elements based on their memory addresses"
+        ],
+        "correctIndex": 0,
+        "answerText": "Answer: A) By processing the first inserted element first"
+      },
+      {
+        "id": "m3-q3",
+        "question": "3.Which queue type helps avoid memory wastage by reusing empty positions?",
+        "options": [
+          "A) Linear Queue",
+          "B) Priority Queue",
+          "C) Circular Queue",
+          "D) Dequeue"
+        ],
+        "correctIndex": 2,
+        "answerText": "Answer: C) Circular Queue"
+      },
+      {
+        "id": "m3-q4",
+        "question": "4.In which situation is a Dequeue more useful than a normal queue?",
+        "options": [
+          "A. When elements are processed in a fixed sequence",
+          "B. When insertion and deletion are needed at both ends",
+          "C. When elements are stored in sorted order",
+          "D. When elements are stored in fixed-size arrays"
+        ],
+        "correctIndex": 1,
+        "answerText": "Answer: B. When insertion and deletion are needed at both ends"
+      },
+      {
+        "id": "m3-q5",
+        "question": "5.How do parent-child relationships make trees suitable for hierarchical data?",
+        "options": [
+          "A) They organize data into different levels.",
+          "B) They reduce memory usage.",
+          "C) They store elements sequentially.",
+          "D) They eliminate duplicate nodes."
+        ],
+        "correctIndex": 0,
+        "answerText": "Answer: A) They organize data into different levels."
+      },
+      {
+        "id": "m3-q6",
+        "question": "6.How does the search operation support node deletion in a Binary Search Tree?",
+        "options": [
+          "A. It finds the node to be deleted",
+          "B. It adds a new node",
+          "C. It visits every node in order",
+          "D. It creates a new tree"
+        ],
+        "correctIndex": 0,
+        "answerText": "Answer: A. It finds the node to be deleted"
+      },
+      {
+        "id": "m3-q7",
+        "question": "7.How does the root node help organize a tree structure?",
+        "options": [
+          "A) It is always a leaf node.",
+          "B) It stores the largest value.",
+          "C) It always has two children.",
+          "D) It acts as the starting point for all nodes."
+        ],
+        "correctIndex": 3,
+        "answerText": "Answer: D It acts as the starting point for all nodes."
+      },
+      {
+        "id": "m3-q8",
+        "question": "8.How does the isEmpty() operation help before deleting an element from a queue?",
+        "options": [
+          "A) It inserts a new element.",
+          "B) It determines the size of the queue.",
+          "C) It checks whether the queue contains any elements.",
+          "D) It displays all queue elements."
+        ],
+        "correctIndex": 2,
+        "answerText": "Answer: C) It checks whether the queue contains any elements."
+      },
+      {
+        "id": "m3-q9",
+        "question": "9. How does maintaining the Binary Search Tree (BST) property improve the search process?",
+        "options": [
+          "A. It helps choose the left or right subtree",
+          "B. It displays the tree elements",
+          "C. It counts the number of nodes",
+          "D. It calculates the tree height"
+        ],
+        "correctIndex": 0,
+        "answerText": "Answer: A. It helps choose the left or right subtree"
+      },
+      {
+        "id": "m3-q10",
+        "question": "10. Which characteristic makes a Binary Tree easier to manage than a General Tree?",
+        "options": [
+          "A. It stores data in an array",
+          "B. Each node can have at most two children",
+          "C. It uses a stack for searching",
+          "D. It stores data sequentially"
+        ],
+        "correctIndex": 1,
+        "answerText": "Answer: B. Each node can have at most two children"
+      },
+      {
+        "id": "m3-q11",
+        "question": "11. What will be the rear element after inserting 48 into a queue containing 12, 24, and 36, where 36 is currently at the rear?",
+        "options": [
+          "A. 12",
+          "B. 24",
+          "C. 36",
+          "D. 48"
+        ],
+        "correctIndex": 3,
+        "answerText": "Answer: D. 48"
+      },
+      {
+        "id": "m3-q12",
+        "question": "12.What will be the output after inserting 40 into the following array-based queue, where MAX = 4 and rear = 3?",
+        "subLines": [
+          "Queue: 10 | 20 | 30 | 35"
+        ],
+        "options": [
+          "A. 10 | 20 | 30 | 40",
+          "B. 10 | 20 | 40 | 35",
+          "C. Insertion is not possible",
+          "D. 40 | 10 | 20 | 30"
+        ],
+        "correctIndex": 2,
+        "answerText": "Answer: C. Insertion is not possible"
+      },
+      {
+        "id": "m3-q13",
+        "question": "13. What will be the output when an element is inserted into an array-based queue whose rear is already at MAX - 1?",
+        "options": [
+          "A. The element is inserted at the front",
+          "B. The element is inserted at the rear",
+          "C. The queue is full and insertion cannot be performed",
+          "D. The front element is deleted"
+        ],
+        "correctIndex": 2,
+        "answerText": "Answer: C. The queue is full and insertion cannot be performed"
+      },
+      {
+        "id": "m3-q14",
+        "question": "14.How would you determine the number of elements in a queue when front = 2 and rear = 6?",
+        "options": [
+          "A.4",
+          "B. 5",
+          "C. 6",
+          "D. 8"
+        ],
+        "correctIndex": 1,
+        "answerText": "Answer: B. 5"
+      },
+      {
+        "id": "m3-q15",
+        "question": "15.How would you access the front element of an array-based queue before performing a deletion?",
+        "options": [
+          "A. item = queue[rear];",
+          "B. item = queue[front];",
+          "C. item = queue[top];",
+          "D. item = queue[front + 1];"
+        ],
+        "correctIndex": 1,
+        "answerText": "Answer: B. item = queue[front];"
+      },
+      {
+        "id": "m3-q16",
+        "question": "16.What approach would you use to display the elements of a Binary Search Tree in sorted order?",
+        "options": [
+          "A. Apply Inorder traversal",
+          "B. Apply Stack traversal",
+          "C. Apply Queue operation",
+          "D. Apply Linked-list traversal"
+        ],
+        "correctIndex": 0,
+        "answerText": "Answer: A. Apply Inorder traversal"
+      },
+      {
+        "id": "m3-q17",
+        "question": "17.What approach would you use to search for an element x in a BST?",
+        "options": [
+          "A. insert(root, x);",
+          "B. delete(root, x);",
+          "C. search(root, x);",
+          "D. inorder(root);"
+        ],
+        "correctIndex": 2,
+        "answerText": "Answer: C. search(root, x);"
+      },
+      {
+        "id": "m3-q18",
+        "question": "18. How would you add the element 25 to the rear of the queue?",
+        "options": [
+          "A. queue[front] = 25;",
+          "B. queue[rear] = 25;",
+          "C. queue[top] = 25;",
+          "D. queue[rear - 1] = 25;"
+        ],
+        "correctIndex": 1,
+        "answerText": "Answer: B. queue[rear] = 25;"
+      },
+      {
+        "id": "m3-q19",
+        "question": "19.How would you update the rear position when an Enqueue operation is performed and the current rear is 2?",
+        "options": [
+          "A. Decrease rear to 1",
+          "B. Keep rear at 2",
+          "C. Increase rear to 3",
+          "D. Increase rear to 4"
+        ],
+        "correctIndex": 2,
+        "answerText": "Answer: C. Increase rear to 3"
+      },
+      {
+        "id": "m3-q20",
+        "question": "20.How would you access the front element of a queue named q without removing it?",
+        "options": [
+          "A. q.pop();",
+          "B. q.push();",
+          "C. q.front();",
+          "D. q.back();"
+        ],
+        "correctIndex": 2,
+        "answerText": "Answer: C. q.front();"
+      }
+    ]
+  },
+  {
+    "id": "module-4",
+    "tabLabel": "Module 4",
+    "pdfModuleHeading": "Module 4:",
+    "pdfSectionHeading": "I. Objective Type of Questions (MCQ)",
+    "topicSummary": "AVL Trees, Expression Trees, Heaps, Graphs, BFS/DFS, Shortest Path & Hashing",
+    "questions": [
+      {
+        "id": "m4-q1",
+        "question": "1. How would you balance an AVL tree after inserting 10, 20, and 30, which creates an imbalance at node 10?",
+        "options": [
+          "A. Apply a Right Rotation at node 10",
+          "B. Apply a Left Rotation at node 10",
+          "C. Perform Inorder Traversal",
+          "D. Delete node 20"
+        ],
+        "correctIndex": 1,
+        "answerText": "Answer: B. Apply a Left Rotation at node 10"
+      },
+      {
+        "id": "m4-q2",
+        "question": "2. What will be the output when the following expression tree is evaluated?",
+        "diagram": "m4_q2_expr_tree",
+        "options": [
+          "A. 35",
+          "B. 100",
+          "C. 150",
+          "D. 200"
+        ],
+        "correctIndex": 2,
+        "answerText": "Answer: C. 150"
+      },
+      {
+        "id": "m4-q3",
+        "question": "3. Find the root element of a Min Heap formed using 10, 20, 30, 40 and 50.",
+        "options": [
+          "A. 10",
+          "B. 20",
+          "C. 40",
+          "D. 50"
+        ],
+        "correctIndex": 0,
+        "answerText": "Answer: A. 10"
+      },
+      {
+        "id": "m4-q4",
+        "question": "4. Find the root element of the Max Heap after removing 80 from the heap containing 80, 60, 70, 40, and 50.",
+        "options": [
+          "A. 40",
+          "B. 50",
+          "C. 60",
+          "D. 70"
+        ],
+        "correctIndex": 3,
+        "answerText": "Answer: D. 70"
+      },
+      {
+        "id": "m4-q5",
+        "question": "5. Identify which value will be stored at position (B, C) if vertices B and C are not directly connected.",
+        "diagram": "m4_q5_graph",
+        "options": [
+          "A. 0",
+          "B. 1",
+          "C. 2",
+          "D. -1"
+        ],
+        "correctIndex": 0,
+        "answerText": "Answer: A. 0"
+      },
+      {
+        "id": "m4-q6",
+        "question": "6. How would you represent the connections of vertex A using an adjacency list for the following graph?",
+        "diagram": "m4_q6_edges",
+        "options": [
+          "A. A → D",
+          "B. A → B, C",
+          "C. A → B, D",
+          "D. A → C, D"
+        ],
+        "correctIndex": 1,
+        "answerText": "Answer: B. A → B, C"
+      },
+      {
+        "id": "m4-q7",
+        "question": "7. Apply BFS starting from vertex A and select the correct order of visited vertices.",
+        "diagram": "m4_q7_bfs_graph",
+        "options": [
+          "A. A, B, D, E, C",
+          "B. A, B, C, D, E",
+          "C. A, C, E, D, B",
+          "D. A, D, B, C, E"
+        ],
+        "correctIndex": 1,
+        "answerText": "Answer: B. A, B, C, D, E"
+      },
+      {
+        "id": "m4-q8",
+        "question": "8.Identify the shortest path in the given weighted graph to minimize the total travel distance from A to D?",
+        "diagram": "m4_q8_weighted_graph",
+        "options": [
+          "A. A → B → D",
+          "B. A → C → D",
+          "C. A → B → C → D",
+          "D. A → D → C"
+        ],
+        "correctIndex": 1,
+        "answerText": "Answer: B. A → C → D"
+      },
+      {
+        "id": "m4-q9",
+        "question": "9. Identify how many cables will be selected in a Minimum Spanning Tree to connect 4 buildings without forming a cycle.3.",
+        "options": [
+          "A. 2",
+          "B. 3",
+          "C. 4",
+          "D. 5"
+        ],
+        "correctIndex": 1,
+        "answerText": "Answer: B. 3"
+      },
+      {
+        "id": "m4-q10",
+        "question": "10. Identify which element would be removed first from a Min Heap containing 20, 40, 30, 60, and 50 when the smallest value is treated as the highest-priority value.",
+        "options": [
+          "A. 20",
+          "B. 30",
+          "C. 40",
+          "D. 50"
+        ],
+        "correctIndex": 0,
+        "answerText": "Answer: A. 20"
+      },
+      {
+        "id": "m4-q11",
+        "question": "11. Find the index where the value will be stored when a collision occurs at index 3 and index 4 is available.",
+        "options": [
+          "A. Index 2",
+          "B. Index 3",
+          "C. Index 4",
+          "D. Index 5"
+        ],
+        "correctIndex": 2,
+        "answerText": "Answer: C. Index 4"
+      },
+      {
+        "id": "m4-q12",
+        "question": "12.Identify which route would a shortest-path algorithm select to travel from A to D based on the given distances?",
+        "subLines": [
+          "•A → B → D = 8",
+          "•A → C → D = 5"
+        ],
+        "options": [
+          "A. A → B → D",
+          "B. A → C → D",
+          "C. Both routes",
+          "D. Neither route"
+        ],
+        "correctIndex": 1,
+        "answerText": "Answer: B. A → C → D"
+      },
+      {
+        "id": "m4-q13",
+        "question": "13. How would you solve a collision in a hash table when the values 25 and 35 produce the same hash index and chaining is used?",
+        "options": [
+          "A. Replace 25 with 35",
+          "B. Store 25 and 35 in the same chain",
+          "C. Store 35 at the next empty index",
+          "D. Delete 25 from the hash table"
+        ],
+        "correctIndex": 1,
+        "answerText": "Answer: B. Store 25 and 35 in the same chain"
+      },
+      {
+        "id": "m4-q14",
+        "question": "14.How would you solve a graph traversal problem that requires visiting vertices level by level from a starting vertex?",
+        "options": [
+          "A. Use DFS",
+          "B. Use BFS",
+          "C. Use Heap Sort",
+          "D. Use Inorder Traversal"
+        ],
+        "correctIndex": 1,
+        "answerText": "Answer: B. Use BFS"
+      },
+      {
+        "id": "m4-q15",
+        "question": "15. Find the new root after removing 80 from the Max Heap containing 80, 60, 70, 40 and 50 and readjusting the heap.",
+        "options": [
+          "A. 40",
+          "B. 50",
+          "C. 60",
+          "D. 70"
+        ],
+        "correctIndex": 3,
+        "answerText": "Answer: D. 70"
+      },
+      {
+        "id": "m4-q16",
+        "question": "16.What approach would you use to find the shortest path in a weighted graph when the edge weights are non-negative?",
+        "options": [
+          "A. AVL Rotation",
+          "B. Dijkstra's algorithm",
+          "C. Heap Sort",
+          "D. Inorder Traversal"
+        ],
+        "correctIndex": 1,
+        "answerText": "Answer: B. Dijkstra's algorithm"
+      },
+      {
+        "id": "m4-q17",
+        "question": "17. What approach would you use to obtain a prefix expression from an expression tree?",
+        "options": [
+          "A. Inorder traversal",
+          "B. Preorder traversal",
+          "C. Postorder traversal",
+          "D. BFS only"
+        ],
+        "correctIndex": 1,
+        "answerText": "Answer: B. Preorder traversal"
+      },
+      {
+        "id": "m4-q18",
+        "question": "18..Find the output of the following expression tree.",
+        "diagram": "m4_q18_expr_tree",
+        "options": [
+          "A. 10",
+          "B. 20",
+          "C. 30",
+          "D. 200"
+        ],
+        "correctIndex": 2,
+        "answerText": "Answer: C. 30"
+      },
+      {
+        "id": "m4-q19",
+        "question": "19. What approach would you use if a graph needs to be explored by going deep along one path before returning?",
+        "options": [
+          "A. BFS",
+          "B. DFS",
+          "C. Heap Sort",
+          "D. Hashing"
+        ],
+        "correctIndex": 1,
+        "answerText": "Answer: B. DFS"
+      },
+      {
+        "id": "m4-q20",
+        "question": "20 How would you represent a graph when you want to store the neighboring vertices of each vertex?",
+        "options": [
+          "A. Use an array index only",
+          "B. Use an adjacency list",
+          "C. Use a stack",
+          "D. Use a heap"
+        ],
+        "correctIndex": 1,
+        "answerText": "Answer: B. Use an adjacency list"
+      }
+    ]
+  },
+  {
+    "id": "module-5",
+    "tabLabel": "Module 5",
+    "pdfModuleHeading": "Module 5",
+    "pdfSectionHeading": "I. Multiple Choice Questions: -",
+    "topicSummary": "Microsoft Azure Blob Storage, Queue Storage, Functions, Table Storage & Cosmos DB",
+    "questions": [
+      {
+        "id": "m5-q1",
+        "question": "1) How would you use Azure Blob Storage to preserve an array of student marks for later use?",
+        "options": [
+          "A. Convert the array into JSON and store it as a blob",
+          "B. Perform an inorder traversal of the array",
+          "C. Apply a rotation to the array",
+          "D. Find the shortest path in a graph"
+        ],
+        "correctIndex": 0,
+        "answerText": "Answer: A) Convert the array into JSON and store it as a blob"
+      },
+      {
+        "id": "m5-q2",
+        "question": "2) How would you handle a task that must run automatically when a new message is added to Azure Queue Storage?",
+        "options": [
+          "A. Use Binary Search",
+          "B. Use Stack",
+          "C. Use Azure Functions",
+          "D. Use Binary Tree"
+        ],
+        "correctIndex": 2,
+        "answerText": "Answer: C. Use Azure Functions"
+      },
+      {
+        "id": "m5-q3",
+        "question": "3) Identify which request would normally be processed first from Azure Queue Storage when R1, R2, and R3 are added in that order.",
+        "options": [
+          "A. R3",
+          "B. R2",
+          "C. R1",
+          "D. Any random request"
+        ],
+        "correctIndex": 2,
+        "answerText": "Answer: C. R1"
+      },
+      {
+        "id": "m5-q4",
+        "question": "4) What would you do using Azure Queue Storage to handle online orders in the order they are received?",
+        "options": [
+          "A. Add each order as a message to the Queue",
+          "B. Calculate the total value of all orders",
+          "C. Generate a daily sales report",
+          "D. Display order details on the screen"
+        ],
+        "correctIndex": 0,
+        "answerText": "Answer: A. Add each order as a message to the Queue"
+      },
+      {
+        "id": "m5-q5",
+        "question": "5) What approach would you use when a task-processing system receives more tasks than it can process immediately?",
+        "options": [
+          "A. Perform an AVL tree rotation",
+          "B. Calculate the shortest path in a graph",
+          "C. Sort the tasks using Heap Sort",
+          "D. Store the pending tasks in Azure Queue Storage"
+        ],
+        "correctIndex": 3,
+        "answerText": "Answer: D. Store the pending tasks in Azure Queue Storage"
+      },
+      {
+        "id": "m5-q6",
+        "question": "6) Which Azure service would you use when a C++ application needs to store a large JSON file generated after serializing an object?",
+        "options": [
+          "A. Azure Queue Storage",
+          "B. Azure Table Storage",
+          "C. Azure Blob Storage",
+          "D. Azure Virtual Network"
+        ],
+        "correctIndex": 2,
+        "answerText": "Answer: C. Azure Blob Storage"
+      },
+      {
+        "id": "m5-q7",
+        "question": "7) How would you apply the FIFO principle to a cloud-based task-processing system?",
+        "options": [
+          "A. Process the newest task first",
+          "B. Store tasks in Azure Queue Storage and process them in arrival order",
+          "C. Arrange the tasks using an AVL tree",
+          "D. Search for the shortest path between tasks"
+        ],
+        "correctIndex": 1,
+        "answerText": "Answer: B. Store tasks in Azure Queue Storage and process them in arrival order"
+      },
+      {
+        "id": "m5-q8",
+        "question": "8) What approach would you use to store a large tree when the application needs to query relationships between its nodes?",
+        "options": [
+          "A) Use Azure Cosmos DB",
+          "B) Sort the tree nodes",
+          "C) Count the tree nodes",
+          "D) Display the tree"
+        ],
+        "correctIndex": 0,
+        "answerText": "Answer: A) Use Azure Cosmos DB"
+      },
+      {
+        "id": "m5-q9",
+        "question": "9) What approach would you use to convert JSON data received from a cloud application back into a C++ object?",
+        "options": [
+          "A. Serialization",
+          "B. Deserialization",
+          "C. Enqueue",
+          "D. Hashing"
+        ],
+        "correctIndex": 1,
+        "answerText": "Answer: B. Deserialization"
+      },
+      {
+        "id": "m5-q10",
+        "question": "10) What approach would you use when a C++ application needs to upload files to the cloud without making the user wait for each upload to finish?",
+        "options": [
+          "A. Asynchronous processing",
+          "B. Linear searching",
+          "C. Sequential processing",
+          "D. Static allocation"
+        ],
+        "correctIndex": 0,
+        "answerText": "Answer: A. Asynchronous processing"
+      },
+      {
+        "id": "m5-q11",
+        "question": "11) How would you prepare an array before storing it as a file in Azure Blob Storage?",
+        "options": [
+          "A. Serialize the array",
+          "B. Perform BFS on the array",
+          "C. Apply AVL rotation",
+          "D. Create a graph from the array"
+        ],
+        "correctIndex": 0,
+        "answerText": "Answer: A. Serialize the array"
+      },
+      {
+        "id": "m5-q12",
+        "question": "12) What approach would you use to run a C++ array-processing application in the cloud without changing the array operations performed by the program?",
+        "options": [
+          "A. Deploy the C++ application on an Azure Virtual Machine",
+          "B. Convert every array element into a queue message",
+          "C. Store every array index as a table key",
+          "D. Replace the array with a graph"
+        ],
+        "correctIndex": 0,
+        "answerText": "Answer: A. Deploy the C++ application on an Azure Virtual Machine"
+      },
+      {
+        "id": "m5-q13",
+        "question": "13) What approach would you use to retrieve a previously stored report file without recreating it?",
+        "options": [
+          "A. Retrieve the file from Azure Blob Storage",
+          "B. Rebuild the file using BFS",
+          "C. Reinsert the file into a queue",
+          "D. Reconstruct it from an AVL tree"
+        ],
+        "correctIndex": 0,
+        "answerText": "Answer: A. Retrieve the file from Azure Blob Storage"
+      },
+      {
+        "id": "m5-q14",
+        "question": "14) What approach would you use when tasks T1, T2, and T3 are received together and must be processed one by one in the order received?",
+        "options": [
+          "A. Azure Blob Storage",
+          "B. Azure Table Storage",
+          "C. Azure Queue Storage",
+          "D. Azure Functions"
+        ],
+        "correctIndex": 2,
+        "answerText": "Answer: C. Azure Queue Storage"
+      },
+      {
+        "id": "m5-q15",
+        "question": "15) What approach would you use to store student records using a roll number as the key?",
+        "options": [
+          "A. Azure Blob Storage",
+          "B. Azure Queue Storage",
+          "C. Azure Table Storage",
+          "D. Azure Virtual Network"
+        ],
+        "correctIndex": 2,
+        "answerText": "Answer: C. Azure Table Storage"
+      },
+      {
+        "id": "m5-q16",
+        "question": "16) What approach would you use to run a data-processing program only when a cloud event occurs?",
+        "options": [
+          "A. Azure Functions",
+          "B. Azure Blob Storage",
+          "C. Azure Table Storage",
+          "D. Azure Queue Storage"
+        ],
+        "correctIndex": 0,
+        "answerText": "Answer: A. Azure Functions"
+      },
+      {
+        "id": "m5-q17",
+        "question": "17) What approach would you apply when a cloud application needs to process the most recently added task first?",
+        "options": [
+          "A. FIFO",
+          "B. LIFO",
+          "C. Inorder traversal",
+          "D. Binary search"
+        ],
+        "correctIndex": 1,
+        "answerText": "Answer: B. LIFO"
+      },
+      {
+        "id": "m5-q18",
+        "question": "18) What would you do to retrieve the student record with RollNo = 25 from the following data?",
+        "subLines": [
+          "RollNo = 25, Name = Ravi, Course = BCA"
+        ],
+        "options": [
+          "A. Search using the RollNo as the key",
+          "B. Search using the student name only",
+          "C. Sort the record using Heap Sort",
+          "D. Perform BFS on the record"
+        ],
+        "correctIndex": 0,
+        "answerText": "Answer: A. Search using the RollNo as the key"
+      },
+      {
+        "id": "m5-q19",
+        "question": "19) What would you do before choosing an appropriate Azure storage method for application data that needs to be preserved and accessed later from the cloud?",
+        "options": [
+          "A. Delete the generated data",
+          "B. Prepare the data in a suitable storable format",
+          "C. Perform DFS on the data",
+          "D. Apply an AVL rotation"
+        ],
+        "correctIndex": 1,
+        "answerText": "Answer: B. Prepare the data in a suitable storable format"
+      },
+      {
+        "id": "m5-q20",
+        "question": "20) What approach would you use to store entities along with their relationships in a social-network application?",
+        "options": [
+          "A. Azure Cosmos DB",
+          "B. Azure Blob Storage",
+          "C. Azure Queue Storage",
+          "D. Azure Table Storage"
+        ],
+        "correctIndex": 0,
+        "answerText": "Answer: A. Azure Cosmos DB"
+      }
+    ]
+  }
 ];
 
-function loadSet(setNum) {
-    const container = document.getElementById('quiz-container');
-    container.innerHTML = '';
-    
-    // Update Tab UI
-    document.querySelectorAll('.tab-btn').forEach((btn, idx) => {
-        btn.classList.toggle('active', (idx + 1) === setNum);
-    });
+    const state = {
+      activeModuleId: QUIZ_MODULES[0].id,
+      selections: {},
+      showAllScores: false,
+      dark: true
+    };
 
-    const startIdx = (setNum - 1) * 35;
-    const endIdx = setNum === 6 ? 200 : setNum * 35;
-    
-    const questionsSlice = allQuestions.slice(startIdx, endIdx);
+    const savedTheme = localStorage.getItem('single-quiz-theme');
+    if (savedTheme === 'light') state.dark = false;
 
-    questionsSlice.forEach(item => {
-        const card = document.createElement('div');
-        card.className = 'q-card';
-        card.id = `qcard-${item.id}`;
-        
-        let optsHtml = '';
-        for (const [key, value] of Object.entries(item.o)) {
-            optsHtml += `
-                <div class="opt" onclick="check(${item.id}, '${key}', '${item.a}')">
-                    <span class="opt-letter">${key}</span>
-                    <span>${value}</span>
-                </div>`;
+    function applyTheme() {
+      const root = document.documentElement;
+      const btn = document.getElementById('themeToggle');
+      if (state.dark) {
+        root.classList.add('dark');
+        btn.textContent = 'Light Mode';
+        localStorage.setItem('single-quiz-theme', 'dark');
+      } else {
+        root.classList.remove('dark');
+        btn.textContent = 'Dark Mode';
+        localStorage.setItem('single-quiz-theme', 'light');
+      }
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function renderDiagram(type) {
+      switch (type) {
+        case 'm1_q14_linked_list':
+          return '<div class="q-diagram"><svg viewBox="0 0 360 76" width="340" style="color:var(--text)"><text x="14" y="14" font-size="10" font-weight="600" fill="currentColor" font-family="monospace">HEAD</text><line x1="27" y1="18" x2="27" y2="34" stroke="currentColor" stroke-width="1.4"/><polygon points="27,36 24,30 30,30" fill="currentColor"/><rect x="8" y="38" width="54" height="24" fill="none" stroke="currentColor" stroke-width="1.4"/><line x1="38" y1="38" x2="38" y2="62" stroke="currentColor" stroke-width="1.2"/><text x="23" y="54" text-anchor="middle" font-size="11" fill="currentColor" font-family="monospace">10</text><circle cx="50" cy="50" r="2.5" fill="currentColor"/><line x1="53" y1="50" x2="90" y2="50" stroke="currentColor" stroke-width="1.4"/><polygon points="92,50 86,47 86,53" fill="currentColor"/><rect x="94" y="38" width="54" height="24" fill="none" stroke="currentColor" stroke-width="1.4"/><line x1="124" y1="38" x2="124" y2="62" stroke="currentColor" stroke-width="1.2"/><text x="109" y="54" text-anchor="middle" font-size="11" fill="currentColor" font-family="monospace">20</text><circle cx="136" cy="50" r="2.5" fill="currentColor"/><line x1="139" y1="50" x2="176" y2="50" stroke="currentColor" stroke-width="1.4"/><polygon points="178,50 172,47 172,53" fill="currentColor"/><rect x="180" y="38" width="84" height="24" fill="none" stroke="currentColor" stroke-width="1.4"/><line x1="214" y1="38" x2="214" y2="62" stroke="currentColor" stroke-width="1.2"/><text x="197" y="54" text-anchor="middle" font-size="11" fill="currentColor" font-family="monospace">30</text><text x="239" y="54" text-anchor="middle" font-size="10" fill="currentColor" font-family="monospace">NULL</text></svg></div>';
+        case 'm1_q15_linked_list':
+          return '<div class="q-diagram"><svg viewBox="0 0 430 76" width="400" style="color:var(--text)"><text x="14" y="14" font-size="10" font-weight="600" fill="currentColor" font-family="monospace">HEAD</text><line x1="27" y1="18" x2="27" y2="34" stroke="currentColor" stroke-width="1.4"/><polygon points="27,36 24,30 30,30" fill="currentColor"/><rect x="8" y="38" width="52" height="24" fill="none" stroke="currentColor" stroke-width="1.4"/><line x1="38" y1="38" x2="38" y2="62" stroke="currentColor" stroke-width="1.2"/><text x="23" y="54" text-anchor="middle" font-size="11" fill="currentColor" font-family="monospace">10</text><circle cx="49" cy="50" r="2.5" fill="currentColor"/><line x1="52" y1="50" x2="88" y2="50" stroke="currentColor" stroke-width="1.4"/><polygon points="90,50 84,47 84,53" fill="currentColor"/><rect x="92" y="38" width="52" height="24" fill="none" stroke="currentColor" stroke-width="1.4"/><line x1="122" y1="38" x2="122" y2="62" stroke="currentColor" stroke-width="1.2"/><text x="107" y="54" text-anchor="middle" font-size="11" fill="currentColor" font-family="monospace">20</text><circle cx="133" cy="50" r="2.5" fill="currentColor"/><line x1="136" y1="50" x2="172" y2="50" stroke="currentColor" stroke-width="1.4"/><polygon points="174,50 168,47 168,53" fill="currentColor"/><rect x="176" y="38" width="52" height="24" fill="none" stroke="currentColor" stroke-width="1.4"/><line x1="206" y1="38" x2="206" y2="62" stroke="currentColor" stroke-width="1.2"/><text x="191" y="54" text-anchor="middle" font-size="11" fill="currentColor" font-family="monospace">30</text><circle cx="217" cy="50" r="2.5" fill="currentColor"/><line x1="220" y1="50" x2="256" y2="50" stroke="currentColor" stroke-width="1.4"/><polygon points="258,50 252,47 252,53" fill="currentColor"/><rect x="260" y="38" width="84" height="24" fill="none" stroke="currentColor" stroke-width="1.4"/><line x1="294" y1="38" x2="294" y2="62" stroke="currentColor" stroke-width="1.2"/><text x="277" y="54" text-anchor="middle" font-size="11" fill="currentColor" font-family="monospace">40</text><text x="319" y="54" text-anchor="middle" font-size="10" fill="currentColor" font-family="monospace">NULL</text></svg></div>';
+        case 'm1_q18_array':
+          return '<div class="q-diagram"><div class="arr-box"><div class="arr-cell">30</div><div class="arr-cell">10</div><div class="arr-cell">20</div></div></div>';
+        case 'm1_q19_array':
+          return '<div class="q-diagram"><div class="arr-box"><div class="arr-cell">10</div><div class="arr-cell">20</div><div class="arr-cell">30</div></div></div>';
+        case 'm1_q20_matrix':
+          return '<div class="q-diagram"><div class="matrix-wrap"><div class="matrix-bracket-l"></div><div class="matrix-grid"><span>0</span><span>0</span><span>5</span><span>0</span><span>0</span><span>0</span><span>8</span><span>0</span><span>0</span></div><div class="matrix-bracket-r"></div></div></div>';
+        case 'm4_q2_expr_tree':
+          return '<div class="q-diagram"><svg viewBox="0 0 210 155" width="200" style="color:var(--text)"><line x1="112" y1="34" x2="78" y2="62" stroke="currentColor" stroke-width="1.4"/><line x1="138" y1="34" x2="165" y2="62" stroke="currentColor" stroke-width="1.4"/><line x1="56" y1="88" x2="36" y2="115" stroke="currentColor" stroke-width="1.4"/><line x1="76" y1="88" x2="96" y2="115" stroke="currentColor" stroke-width="1.4"/><circle cx="125" cy="24" r="15" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/><text x="125" y="29" text-anchor="middle" font-size="15" font-weight="700" fill="currentColor">*</text><circle cx="66" cy="76" r="15" fill="var(--green-bg)" stroke="var(--green-border)" stroke-width="1.5"/><text x="66" y="81" text-anchor="middle" font-size="14" font-weight="700" fill="currentColor">+</text><circle cx="174" cy="76" r="15" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.5"/><text x="174" y="80" text-anchor="middle" font-size="12" font-weight="600" fill="currentColor">5</text><circle cx="30" cy="130" r="15" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.5"/><text x="30" y="134" text-anchor="middle" font-size="12" font-weight="600" fill="currentColor">10</text><circle cx="102" cy="130" r="15" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.5"/><text x="102" y="134" text-anchor="middle" font-size="12" font-weight="600" fill="currentColor">20</text></svg></div>';
+        case 'm4_q5_graph':
+          return '<div class="q-diagram"><svg viewBox="0 0 220 110" width="210" style="color:var(--text)"><line x1="42" y1="24" x2="172" y2="24" stroke="currentColor" stroke-width="1.8"/><line x1="36" y1="36" x2="96" y2="80" stroke="currentColor" stroke-width="1.8"/><circle cx="28" cy="24" r="15" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/><text x="28" y="28" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">A</text><circle cx="186" cy="24" r="15" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/><text x="186" y="28" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">B</text><circle cx="106" cy="88" r="15" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/><text x="106" y="92" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">C</text></svg></div>';
+        case 'm4_q6_edges':
+          return '<div class="q-diagram mono" style="flex-direction:column;font-size:13px"><strong>Edges:</strong><span>&#8226; A &mdash; B</span><span>&#8226; A &mdash; C</span><span>&#8226; B &mdash; D</span></div>';
+        case 'm4_q7_bfs_graph':
+          return '<div class="q-diagram" style="gap:14px;align-items:center;flex-wrap:wrap"><div class="mono" style="font-size:12px;padding:8px 10px;border:1px solid var(--border);border-radius:6px;background:var(--surface)"><div>A &rarr; B, C</div><div>B &rarr; D, E</div></div><svg viewBox="0 0 180 135" width="170" style="color:var(--text)"><line x1="90" y1="24" x2="54" y2="62" stroke="currentColor" stroke-width="1.5"/><line x1="90" y1="24" x2="128" y2="62" stroke="currentColor" stroke-width="1.5"/><line x1="54" y1="62" x2="30" y2="108" stroke="currentColor" stroke-width="1.5"/><line x1="54" y1="62" x2="82" y2="108" stroke="currentColor" stroke-width="1.5"/><circle cx="90" cy="24" r="14" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.5"/><text x="90" y="28" text-anchor="middle" font-size="12" font-weight="700" fill="currentColor">A</text><circle cx="54" cy="62" r="14" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.5"/><text x="54" y="66" text-anchor="middle" font-size="12" font-weight="700" fill="currentColor">B</text><circle cx="128" cy="62" r="14" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.5"/><text x="128" y="66" text-anchor="middle" font-size="12" font-weight="700" fill="currentColor">C</text><circle cx="30" cy="108" r="14" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.5"/><text x="30" y="112" text-anchor="middle" font-size="12" font-weight="700" fill="currentColor">D</text><circle cx="82" cy="108" r="14" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.5"/><text x="82" y="112" text-anchor="middle" font-size="12" font-weight="700" fill="currentColor">E</text></svg></div>';
+        case 'm4_q8_weighted_graph':
+          return '<div class="q-diagram"><svg viewBox="0 0 180 140" width="175" style="color:var(--text)"><line x1="36" y1="30" x2="144" y2="30" stroke="currentColor" stroke-width="1.6"/><line x1="144" y1="30" x2="144" y2="110" stroke="currentColor" stroke-width="1.6"/><line x1="36" y1="30" x2="36" y2="110" stroke="currentColor" stroke-width="1.6"/><line x1="36" y1="110" x2="144" y2="110" stroke="currentColor" stroke-width="1.6"/><text x="90" y="21" text-anchor="middle" font-size="11" font-weight="600" fill="currentColor">4</text><text x="157" y="74" text-anchor="middle" font-size="11" font-weight="600" fill="currentColor">3</text><text x="22" y="74" text-anchor="middle" font-size="11" font-weight="600" fill="currentColor">2</text><text x="90" y="128" text-anchor="middle" font-size="11" font-weight="600" fill="currentColor">1</text><circle cx="36" cy="30" r="14" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.5"/><text x="36" y="34" text-anchor="middle" font-size="12" font-weight="700" fill="currentColor">A</text><circle cx="144" cy="30" r="14" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.5"/><text x="144" y="34" text-anchor="middle" font-size="12" font-weight="700" fill="currentColor">B</text><circle cx="36" cy="110" r="14" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.5"/><text x="36" y="114" text-anchor="middle" font-size="12" font-weight="700" fill="currentColor">C</text><circle cx="144" cy="110" r="14" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.5"/><text x="144" y="114" text-anchor="middle" font-size="12" font-weight="700" fill="currentColor">D</text></svg></div>';
+        case 'm4_q18_expr_tree':
+          return '<div class="q-diagram"><svg viewBox="0 0 180 115" width="175" style="color:var(--text)"><line x1="78" y1="32" x2="48" y2="70" stroke="currentColor" stroke-width="1.4"/><line x1="102" y1="32" x2="132" y2="70" stroke="currentColor" stroke-width="1.4"/><circle cx="90" cy="22" r="15" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/><text x="90" y="27" text-anchor="middle" font-size="14" font-weight="700" fill="currentColor">+</text><circle cx="40" cy="86" r="15" fill="var(--green-bg)" stroke="var(--green-border)" stroke-width="1.5"/><text x="40" y="90" text-anchor="middle" font-size="11" font-weight="600" fill="currentColor">10</text><circle cx="140" cy="86" r="15" fill="var(--green-bg)" stroke="var(--green-border)" stroke-width="1.5"/><text x="140" y="90" text-anchor="middle" font-size="11" font-weight="600" fill="currentColor">20</text></svg></div>';
+        default:
+          return '';
+      }
+    }
+
+    function getStats(mod) {
+      let answered = 0, correct = 0;
+      mod.questions.forEach(q => {
+        const picked = state.selections[q.id];
+        if (picked !== undefined) {
+          answered++;
+          if (picked === q.correctIndex) correct++;
+        }
+      });
+      return { answered, correct, total: mod.questions.length };
+    }
+
+    function render() {
+      const activeMod = QUIZ_MODULES.find(m => m.id === state.activeModuleId) || QUIZ_MODULES[0];
+      const activeStats = getStats(activeMod);
+
+      // Tabs
+      const tabsEl = document.getElementById('moduleTabs');
+      tabsEl.innerHTML = QUIZ_MODULES.map(mod => {
+        const s = getStats(mod);
+        const isActive = mod.id === activeMod.id;
+        return '<button type="button" role="tab" aria-selected="' + isActive + '" class="tab-btn ' + (isActive ? 'active' : '') + '" data-mod="' + mod.id + '">' +
+          '<span>' + escapeHtml(mod.tabLabel) + '</span>' +
+          '<span class="tab-count">' + s.answered + '/' + s.total + '</span>' +
+          '</button>';
+      }).join('');
+
+      tabsEl.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          state.activeModuleId = btn.getAttribute('data-mod');
+          render();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      });
+
+      document.getElementById('resetModuleBtn').disabled = activeStats.answered === 0;
+
+      // Header
+      document.getElementById('moduleHeader').innerHTML =
+        '<div>' +
+          '<h2 class="module-title">' + escapeHtml(activeMod.pdfModuleHeading) + ' &mdash; ' + escapeHtml(activeMod.pdfSectionHeading) + '</h2>' +
+          '<p class="module-topic">' + escapeHtml(activeMod.topicSummary) + '</p>' +
+        '</div>' +
+        '<div class="module-stats">Answered: <strong>' + activeStats.answered + '</strong> / ' + activeStats.total + ' &middot; Correct: <strong style="color:var(--green-border)">' + activeStats.correct + '</strong></div>';
+
+      // Questions
+      const listEl = document.getElementById('questionsList');
+      listEl.innerHTML = activeMod.questions.map(q => {
+        const picked = state.selections[q.id];
+        const isAnswered = picked !== undefined;
+        const isCorrect = isAnswered && picked === q.correctIndex;
+
+        let extraHtml = '';
+        if (q.subLines && q.subLines.length) {
+          extraHtml += '<div class="q-sublines">' + q.subLines.map(escapeHtml).join('\\n') + '</div>';
+        }
+        if (q.code) {
+          extraHtml += '<pre class="q-code"><code>' + escapeHtml(q.code) + '</code></pre>';
+        }
+        if (q.diagram) {
+          extraHtml += renderDiagram(q.diagram);
         }
 
-        card.innerHTML = `
-            <div class="q-text">${item.q}</div>
-            <div class="options">${optsHtml}</div>
-            <div class="feedback" id="feed-${item.id}">Correct Answer: ${item.a}</div>
-        `;
-        container.appendChild(card);
+        const optionsHtml = q.options.map((opt, idx) => {
+          let cls = 'opt-btn';
+          let badge = '';
+          if (isAnswered) {
+            if (idx === q.correctIndex) {
+              cls += ' correct';
+              badge = '<span class="opt-badge">' + (picked === idx ? '&#10003; Correct' : '&#10003; Correct Answer') + '</span>';
+            } else if (picked === idx) {
+              cls += ' wrong';
+              badge = '<span class="opt-badge">&#10007; Wrong</span>';
+            } else {
+              cls += ' muted';
+            }
+          }
+          return '<button type="button" class="' + cls + '" ' + (isAnswered ? 'disabled' : '') + ' data-qid="' + q.id + '" data-idx="' + idx + '">' +
+            '<span>' + escapeHtml(opt) + '</span>' + badge +
+            '</button>';
+        }).join('');
+
+        const feedbackHtml = isAnswered
+          ? '<div class="feedback-bar ' + (isCorrect ? 'correct' : 'wrong') + '" role="status">' +
+              '<strong>' + (isCorrect ? 'Correct! ' : 'Wrong answer. ') + '</strong>' + escapeHtml(q.answerText) +
+            '</div>'
+          : '';
+
+        return '<article class="q-card">' +
+          '<h3 class="q-text">' + escapeHtml(q.question) + '</h3>' +
+          extraHtml +
+          '<div class="options">' + optionsHtml + '</div>' +
+          feedbackHtml +
+        '</article>';
+      }).join('');
+
+      listEl.querySelectorAll('.opt-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const qid = btn.getAttribute('data-qid');
+          const idx = Number(btn.getAttribute('data-idx'));
+          if (state.selections[qid] === undefined) {
+            state.selections[qid] = idx;
+            render();
+          }
+        });
+      });
+
+      // Score Card
+      const pct = activeStats.total ? Math.round((activeStats.correct / activeStats.total) * 100) : 0;
+      let totalCorrect = 0, totalAnswered = 0, totalQuestions = 0;
+      const miniHtml = QUIZ_MODULES.map(m => {
+        const s = getStats(m);
+        totalCorrect += s.correct;
+        totalAnswered += s.answered;
+        totalQuestions += s.total;
+        const mPct = s.total ? Math.round((s.correct / s.total) * 100) : 0;
+        return '<button type="button" class="score-mini ' + (m.id === activeMod.id ? 'active' : '') + '" data-jump="' + m.id + '">' +
+          '<div style="font-size:12px;font-weight:700">' + escapeHtml(m.tabLabel) + '</div>' +
+          '<div class="mono" style="font-size:15px;font-weight:700;color:var(--green-border);margin-top:4px">' + s.correct + '/' + s.total + '</div>' +
+          '<div style="font-size:12px;color:var(--text-muted);margin-top:2px">' + s.answered + ' answered &middot; ' + mPct + '%</div>' +
+          '</button>';
+      }).join('');
+
+      const scoreEl = document.getElementById('scoreCard');
+      scoreEl.innerHTML =
+        '<div class="score-top">' +
+          '<div>' +
+            '<h2 style="margin:0;font-size:18px;font-weight:700">' + escapeHtml(activeMod.tabLabel) + ' Score Summary</h2>' +
+            '<p style="margin:4px 0 0;font-size:14px;color:var(--text-muted)">You scored <strong>' + activeStats.correct + ' / ' + activeStats.total + '</strong> (' + pct + '%) &middot; ' + activeStats.answered + ' of ' + activeStats.total + ' answered</p>' +
+          '</div>' +
+          '<div class="actions">' +
+            '<button type="button" id="toggleAllScoresBtn" class="btn btn-primary">' + (state.showAllScores ? 'Hide All Modules Score' : 'Show All Modules Score') + '</button>' +
+            '<button type="button" id="topBtn" class="btn">Top</button>' +
+          '</div>' +
+        '</div>' +
+        (state.showAllScores
+          ? '<div style="margin-top:16px;font-size:13px;font-weight:600">All Modules Overall: <span class="mono" style="color:var(--accent)">' + totalCorrect + ' / ' + totalQuestions + ' correct (' + totalAnswered + ' answered)</span></div><div class="score-grid">' + miniHtml + '</div>'
+          : '');
+
+      document.getElementById('toggleAllScoresBtn').addEventListener('click', () => {
+        state.showAllScores = !state.showAllScores;
+        render();
+      });
+      document.getElementById('topBtn').addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+      scoreEl.querySelectorAll('.score-mini').forEach(btn => {
+        btn.addEventListener('click', () => {
+          state.activeModuleId = btn.getAttribute('data-jump');
+          render();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      });
+    }
+
+    document.getElementById('themeToggle').addEventListener('click', () => {
+      state.dark = !state.dark;
+      applyTheme();
     });
-    container.scrollTop = 0;
-}
 
-function check(qid, choice, correct) {
-    const card = document.getElementById(`qcard-${qid}`);
-    if (card.classList.contains('answered')) return;
-
-    card.classList.add('answered');
-    const opts = card.querySelectorAll('.opt');
-    const feed = document.getElementById(`feed-${qid}`);
-
-    opts.forEach(o => {
-        const letter = o.querySelector('.opt-letter').innerText;
-        if(letter === correct) o.classList.add('correct');
-        if(letter === choice && choice !== correct) {
-            o.classList.add('wrong');
-            feed.style.display = 'block';
-        }
+    document.getElementById('showScoreBtn').addEventListener('click', () => {
+      state.showAllScores = true;
+      render();
+      document.getElementById('scoreCard').scrollIntoView({ behavior: 'smooth', block: 'center' });
     });
-}
 
-// Start
-loadSet(1);
-</script>
+    document.getElementById('resetModuleBtn').addEventListener('click', () => {
+      const activeMod = QUIZ_MODULES.find(m => m.id === state.activeModuleId) || QUIZ_MODULES[0];
+      activeMod.questions.forEach(q => { delete state.selections[q.id]; });
+      render();
+    });
+
+    applyTheme();
+    render();
+  </script>
 </body>
 </html>
