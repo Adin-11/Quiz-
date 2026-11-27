@@ -1,1945 +1,512 @@
-<!doctype html>
-<html lang="en" class="dark">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DS Using C++ & Microsoft Azure — Interactive MCQ Quiz</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <title>Web Technologies with Microsoft Azure – Interactive Quiz</title>
   <style>
     :root {
-      --bg: #f8fafc;
-      --surface: #ffffff;
-      --surface-subtle: #f1f5f9;
-      --border: #e2e8f0;
-      --border-strong: #cbd5e1;
-      --text: #0f172a;
-      --text-muted: #475569;
-      --accent: #0284c7;
-      --accent-hover: #0369a1;
-      --accent-soft: #e0f2fe;
-      --green-bg: #ecfdf5;
+      --bg: #0d0f13;
+      --surface: #14161b;
+      --surface-opt: #191c22;
+      --surface-opt-hover: #21252e;
+      --border: #262a34;
+      --border-opt: #2d323e;
+      --text: #f4f4f5;
+      --text-muted: #a1a1aa;
+      --blue: #2563eb;
+      --blue-hover: #1d4ed8;
+      --green-bg: rgba(6, 78, 59, 0.55);
       --green-border: #10b981;
-      --green-text: #065f46;
-      --red-bg: #fff1f2;
+      --green-text: #d1fae5;
+      --green-label: #6ee7b7;
+      --red-bg: rgba(127, 29, 29, 0.55);
       --red-border: #f43f5e;
-      --red-text: #9f1239;
-      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      --red-text: #ffe4e6;
+      --red-label: #fda4af;
     }
-    html.dark {
-      --bg: #0b1120;
-      --surface: #111827;
-      --surface-subtle: #0f172a;
-      --border: #1e293b;
-      --border-strong: #334155;
-      --text: #f1f5f9;
-      --text-muted: #94a3b8;
-      --accent: #0284c7;
-      --accent-hover: #0369a1;
-      --accent-soft: rgba(2, 132, 199, 0.16);
-      --green-bg: rgba(6, 78, 59, 0.35);
-      --green-border: #10b981;
-      --green-text: #a7f3d0;
-      --red-bg: rgba(136, 19, 55, 0.35);
-      --red-border: #f43f5e;
-      --red-text: #fecdd3;
+
+    * {
+      box-sizing: border-box;
     }
-    * { box-sizing: border-box; }
-    body {
+
+    html, body {
       margin: 0;
-      font-family: var(--font-sans);
+      padding: 0;
       background: var(--bg);
       color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       line-height: 1.5;
       -webkit-font-smoothing: antialiased;
-      transition: background-color 0.2s ease, color 0.2s ease;
     }
-    header {
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-    }
-    .header-inner {
-      max-width: 1024px;
+
+    .container {
+      max-width: 960px;
       margin: 0 auto;
-      padding: 14px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
+      padding: 20px 16px 56px;
     }
-    .brand {
-      font-size: 16px;
-      font-weight: 700;
-      letter-spacing: -0.01em;
-      white-space: nowrap;
-    }
-    .course-meta {
-      display: none;
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--text-muted);
-      gap: 8px;
-      align-items: center;
-    }
-    @media (min-width: 768px) {
-      .course-meta { display: flex; }
-      .header-inner { padding: 14px 24px; }
-    }
-    .mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      min-height: 42px;
-      padding: 8px 14px;
-      border-radius: 8px;
-      border: 1px solid var(--border-strong);
-      background: var(--surface);
-      color: var(--text);
-      font-family: inherit;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: background-color 0.15s ease, border-color 0.15s ease;
-    }
-    .btn:hover:not(:disabled) { background: var(--surface-subtle); }
-    .btn:disabled { opacity: 0.45; cursor: not-allowed; }
-    .btn-primary {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #ffffff;
-    }
-    .btn-primary:hover:not(:disabled) { background: var(--accent-hover); }
-    main {
-      max-width: 1024px;
-      margin: 0 auto;
-      padding: 24px 16px 48px;
-    }
+
     @media (min-width: 640px) {
-      main { padding: 32px 24px 56px; }
-    }
-    h1 {
-      margin: 0;
-      font-size: clamp(1.5rem, 3vw, 1.875rem);
-      font-weight: 700;
-      letter-spacing: -0.02em;
-    }
-    .subtitle {
-      margin: 6px 0 0;
-      font-size: 14px;
-      color: var(--text-muted);
-    }
-    .controls-row {
-      margin-top: 22px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    @media (min-width: 640px) {
-      .controls-row {
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
+      .container {
+        padding: 32px 24px 72px;
       }
     }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #ffffff;
+    }
+
+    .subtitle {
+      margin: 0 0 8px;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .meta-line {
+      margin: 0 0 20px;
+      color: #71717a;
+      font-size: 0.85rem;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
     .tabs {
       display: flex;
       align-items: center;
       gap: 8px;
       overflow-x: auto;
+      max-width: 100%;
       padding-bottom: 4px;
+      -ms-overflow-style: none;
       scrollbar-width: none;
     }
-    .tabs::-webkit-scrollbar { display: none; }
+
+    .tabs::-webkit-scrollbar {
+      display: none;
+    }
+
     .tab-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      min-height: 44px;
-      padding: 8px 16px;
-      border-radius: 8px;
+      appearance: none;
       border: 1px solid var(--border);
-      background: var(--surface);
-      color: var(--text);
-      font-family: inherit;
-      font-size: 14px;
+      background: #181b22;
+      color: #d4d4d8;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 0.9rem;
       font-weight: 600;
       cursor: pointer;
       white-space: nowrap;
       flex-shrink: 0;
-      transition: background-color 0.15s ease, border-color 0.15s ease;
+      min-height: 42px;
+      transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
     }
-    .tab-btn.active {
-      background: var(--accent);
-      border-color: var(--accent);
+
+    .tab-btn:hover {
+      background: #222630;
       color: #ffffff;
     }
-    .tab-count {
-      font-family: var(--font-mono);
-      font-size: 12px;
-      opacity: 0.8;
+
+    .tab-btn.active {
+      background: var(--blue);
+      border-color: var(--blue);
+      color: #ffffff;
     }
-    .actions {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-shrink: 0;
+
+    .tab-btn:focus-visible,
+    .opt-btn:focus-visible,
+    .action-btn:focus-visible {
+      outline: 2px solid #60a5fa;
+      outline-offset: 2px;
     }
-    .module-header {
-      margin-top: 20px;
-      padding-bottom: 14px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
+
+    .progress-text {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
     }
-    @media (min-width: 640px) {
-      .module-header {
-        flex-direction: row;
-        align-items: baseline;
-        justify-content: space-between;
-      }
-    }
-    .module-title { margin: 0; font-size: 18px; font-weight: 700; }
-    .module-topic { margin: 2px 0 0; font-size: 13px; color: var(--text-muted); }
-    .module-stats { font-size: 13px; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+
     .questions-list {
-      margin-top: 20px;
       display: flex;
       flex-direction: column;
-      gap: 18px;
+      gap: 16px;
     }
+
     .q-card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 18px;
+      padding: 18px 16px;
     }
+
     @media (min-width: 640px) {
-      .q-card { padding: 24px; }
+      .q-card {
+        padding: 22px 24px;
+      }
     }
-    .q-text {
-      margin: 0;
-      font-size: 16px;
+
+    .q-title {
+      margin: 0 0 14px;
+      font-size: 1rem;
       font-weight: 600;
-      line-height: 1.55;
+      color: #f4f4f5;
+      line-height: 1.5;
     }
-    .q-code, .q-sublines {
-      margin-top: 12px;
-      padding: 12px 14px;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      background: var(--surface-subtle);
-      font-family: var(--font-mono);
-      font-size: 13px;
-      overflow-x: auto;
-      white-space: pre;
+
+    @media (min-width: 640px) {
+      .q-title {
+        font-size: 1.05rem;
+      }
     }
-    .q-diagram {
-      margin-top: 12px;
-      padding: 12px;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      background: var(--surface-subtle);
-      display: inline-flex;
-      max-width: 100%;
-      overflow-x: auto;
-    }
-    .arr-box {
-      display: inline-flex;
-      border: 1px solid var(--border-strong);
-      font-family: var(--font-mono);
-      font-size: 14px;
-      font-weight: 600;
-    }
-    .arr-cell {
-      padding: 8px 16px;
-      border-right: 1px solid var(--border-strong);
-    }
-    .arr-cell:last-child { border-right: none; }
-    .matrix-wrap {
-      display: inline-flex;
-      align-items: stretch;
-      font-family: var(--font-mono);
-      font-size: 14px;
-      font-weight: 600;
-    }
-    .matrix-bracket-l {
-      width: 8px;
-      border-top: 2px solid var(--text-muted);
-      border-bottom: 2px solid var(--text-muted);
-      border-left: 2px solid var(--text-muted);
-      border-radius: 4px 0 0 4px;
-    }
-    .matrix-bracket-r {
-      width: 8px;
-      border-top: 2px solid var(--text-muted);
-      border-bottom: 2px solid var(--text-muted);
-      border-right: 2px solid var(--text-muted);
-      border-radius: 0 4px 4px 0;
-    }
-    .matrix-grid {
-      display: grid;
-      grid-template-columns: repeat(3, auto);
-      gap: 6px 20px;
-      padding: 6px 14px;
-      text-align: center;
-    }
+
     .options {
-      margin-top: 16px;
       display: flex;
       flex-direction: column;
       gap: 10px;
     }
+
     .opt-btn {
+      appearance: none;
       width: 100%;
       min-height: 46px;
-      padding: 12px 16px;
-      border-radius: 8px;
-      border: 1px solid var(--border-strong);
-      background: var(--surface-subtle);
-      color: var(--text);
-      font-family: inherit;
-      font-size: 14px;
-      font-weight: 500;
       text-align: left;
+      background: var(--surface-opt);
+      border: 1px solid var(--border-opt);
+      border-radius: 8px;
+      padding: 12px 14px;
+      color: #e4e4e7;
+      font-size: 0.94rem;
+      line-height: 1.45;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      transition: background-color 0.15s ease, border-color 0.15s ease;
+      transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
     }
+
     .opt-btn:hover:not(:disabled) {
-      border-color: var(--accent);
-      background: var(--accent-soft);
+      background: var(--surface-opt-hover);
+      border-color: #3f4656;
     }
-    .opt-btn:disabled { cursor: default; }
-    .opt-btn.correct {
+
+    .opt-btn:disabled {
+      cursor: default;
+    }
+
+    .opt-btn.is-correct {
       background: var(--green-bg);
       border-color: var(--green-border);
       color: var(--green-text);
-      font-weight: 600;
     }
-    .opt-btn.wrong {
+
+    .opt-btn.is-wrong {
       background: var(--red-bg);
       border-color: var(--red-border);
       color: var(--red-text);
-      font-weight: 600;
     }
-    .opt-btn.muted { opacity: 0.72; }
+
+    .opt-btn.is-dimmed {
+      background: #13151a;
+      border-color: #20232c;
+      color: #71717a;
+    }
+
     .opt-badge {
-      font-size: 12px;
-      font-weight: 700;
+      font-size: 0.78rem;
+      font-weight: 600;
       white-space: nowrap;
       flex-shrink: 0;
     }
-    .feedback-bar {
-      margin-top: 14px;
-      padding: 10px 14px;
-      border-radius: 8px;
-      font-size: 13px;
+
+    .opt-badge.correct {
+      color: var(--green-label);
+    }
+
+    .opt-badge.wrong {
+      color: var(--red-label);
+    }
+
+    .answer-callout {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+      font-size: 0.9rem;
+      color: var(--green-label);
       font-weight: 500;
-      border: 1px solid;
     }
-    .feedback-bar.correct {
-      background: var(--green-bg);
-      border-color: var(--green-border);
-      color: var(--green-text);
+
+    .footer-actions {
+      margin-top: 24px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
     }
-    .feedback-bar.wrong {
-      background: var(--red-bg);
-      border-color: var(--red-border);
-      color: var(--red-text);
+
+    .action-btn {
+      appearance: none;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      padding: 11px 20px;
+      min-height: 44px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.15s ease, border-color 0.15s ease;
     }
-    .score-card {
-      margin-top: 28px;
+
+    .action-primary {
+      background: var(--blue);
+      color: #ffffff;
+    }
+
+    .action-primary:hover {
+      background: var(--blue-hover);
+    }
+
+    .action-secondary {
+      background: #1c1f27;
+      border-color: var(--border);
+      color: #e4e4e7;
+    }
+
+    .action-secondary:hover {
+      background: #252934;
+    }
+
+    .score-box {
+      margin-top: 20px;
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 20px;
+      padding: 20px 24px;
+      display: none;
     }
-    .score-top {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
+
+    .score-box.visible {
+      display: block;
     }
-    @media (min-width: 640px) {
-      .score-top {
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-      }
+
+    .score-heading {
+      margin: 0 0 6px;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #ffffff;
+      font-variant-numeric: tabular-nums;
     }
-    .score-grid {
-      margin-top: 16px;
-      padding-top: 16px;
-      border-top: 1px solid var(--border);
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-      gap: 10px;
-    }
-    .score-mini {
-      padding: 12px;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      background: var(--surface-subtle);
-      text-align: left;
-      cursor: pointer;
-      color: var(--text);
-      font-family: inherit;
-    }
-    .score-mini.active {
-      border-color: var(--accent);
-      background: var(--accent-soft);
+
+    .score-meta {
+      margin: 0;
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      font-variant-numeric: tabular-nums;
     }
   </style>
 </head>
 <body>
-  <header>
-    <div class="header-inner">
-      <span class="brand">DS Using C++ &amp; Azure</span>
-      <div class="course-meta">
-        <span>BCA III Semester</span>
-        <span>&middot;</span>
-        <span class="mono">25BCACZ31</span>
-        <span>&middot;</span>
-        <span class="mono">100 MCQs</span>
-      </div>
-      <button type="button" id="themeToggle" class="btn" aria-label="Toggle dark mode">Light Mode</button>
+  <main class="container">
+    <h1>All Modules – Interactive Quiz</h1>
+    <p class="subtitle">Click a module tab, select answers, get instant feedback, then show your score.</p>
+    <p class="meta-line">Web Technologies with Microsoft Azure · B.C.A – III Semester · 5 Modules · 100 MCQs</p>
+
+    <div class="toolbar">
+      <div class="tabs" id="module-tabs" role="tablist" aria-label="Quiz Modules"></div>
+      <div class="progress-text" id="module-progress">0 / 20 answered</div>
     </div>
-  </header>
 
-  <main>
-    <section>
-      <h1>All Modules &ndash; Interactive Quiz</h1>
-      <p class="subtitle">Click a module tab, select answers, get instant feedback, then show your score.</p>
+    <div class="questions-list" id="questions-list"></div>
+
+    <div class="footer-actions">
+      <button type="button" class="action-btn action-primary" id="show-score-btn">Show Score</button>
+      <button type="button" class="action-btn action-secondary" id="reset-module-btn">Reset Module</button>
+    </div>
+
+    <section class="score-box" id="score-box" aria-live="polite">
+      <h2 class="score-heading" id="score-heading"></h2>
+      <p class="score-meta" id="score-meta"></p>
     </section>
-
-    <section class="controls-row">
-      <div class="tabs" id="moduleTabs" role="tablist" aria-label="Quiz modules"></div>
-      <div class="actions">
-        <button type="button" id="showScoreBtn" class="btn">Show Score</button>
-        <button type="button" id="resetModuleBtn" class="btn">Reset</button>
-      </div>
-    </section>
-
-    <section class="module-header" id="moduleHeader"></section>
-    <section class="questions-list" id="questionsList"></section>
-    <section class="score-card" id="scoreCard"></section>
   </main>
 
   <script>
-    const QUIZ_MODULES = [
-  {
-    "id": "module-1",
-    "tabLabel": "Module 1",
-    "pdfModuleHeading": "Module1",
-    "pdfSectionHeading": "I. Multiple choice questions",
-    "topicSummary": "Arrays, Linked Lists, Searching, Bubble Sort & Sparse Matrices",
-    "questions": [
-      {
-        "id": "m1-q1",
-        "question": "1. What is a data structure?",
-        "options": [
-          "A. A programming language",
-          "B. A method of organizing and storing data",
-          "C. A computer network",
-          "D. An operating system"
-        ],
-        "correctIndex": 1,
-        "answerText": "Answer: B. A method of organizing and storing data"
-      },
-      {
-        "id": "m1-q2",
-        "question": "2. Which searching technique requires the array to be sorted?",
-        "options": [
-          "A. Array Traversal",
-          "B. Array Insertion",
-          "C. Binary Search",
-          "D. Linked List Deletion"
-        ],
-        "correctIndex": 2,
-        "answerText": "Answer: C) Binary Search"
-      },
-      {
-        "id": "m1-q3",
-        "question": "3. Which of the following is a linear data structure?",
-        "options": [
-          "A. Array",
-          "B. Sparse Matrix",
-          "C. Binary Search",
-          "D. Bubble Sort"
-        ],
-        "correctIndex": 0,
-        "answerText": "Answer: A. Array"
-      },
-      {
-        "id": "m1-q4",
-        "question": "4. What is a node in a linked list?",
-        "options": [
-          "A. A memory block containing data and a link",
-          "B. An array index",
-          "C. A function",
-          "D. A loop"
-        ],
-        "correctIndex": 0,
-        "answerText": "Answer: A. A memory block containing data and a link"
-      },
-      {
-        "id": "m1-q5",
-        "question": "5. Which pointer is commonly used to store the address of the next node in a linked list?",
-        "options": [
-          "A. Front",
-          "B. Next",
-          "C. Top",
-          "D. Rear"
-        ],
-        "correctIndex": 1,
-        "answerText": "Answer: B. Next"
-      },
-      {
-        "id": "m1-q6",
-        "question": "6. What is the main function of array traversal?",
-        "options": [
-          "A. To delete elements",
-          "B. To visit each element one by one",
-          "C. To sort elements",
-          "D. To insert elements"
-        ],
-        "correctIndex": 1,
-        "answerText": "Answer: B. To visit each element one by one"
-      },
-      {
-        "id": "m1-q7",
-        "question": "7. What is a sparse matrix?",
-        "options": [
-          "A. A matrix with all non-zero elements",
-          "B. A matrix containing mostly zero elements",
-          "C. A matrix with equal rows and columns",
-          "D. A matrix with one row"
-        ],
-        "correctIndex": 1,
-        "answerText": "Answer: B. A matrix containing mostly zero elements"
-      },
-      {
-        "id": "m1-q8",
-        "question": "8. Which data structure stores elements in non-contiguous memory locations?",
-        "options": [
-          "A. Array",
-          "B. Linked List",
-          "C. Stack",
-          "D. Queue"
-        ],
-        "correctIndex": 1,
-        "answerText": "Answer: B) Linked List"
-      },
-      {
-        "id": "m1-q9",
-        "question": "9. Which of the following is a prerequisite for performing Binary Search?",
-        "options": [
-          "A. Peek",
-          "B. Sorting",
-          "C. Deletion",
-          "D. Insertion"
-        ],
-        "correctIndex": 1,
-        "answerText": "Answer: B. Sorting"
-      },
-      {
-        "id": "m1-q10",
-        "question": "10. What is a linked list?",
-        "options": [
-          "A. A fixed-size data structure",
-          "B. A dynamic data structure made up of linked nodes",
-          "C. A two-dimensional array",
-          "D. A sorting algorithm"
-        ],
-        "correctIndex": 1,
-        "answerText": "Answer: B. A dynamic data structure made up of linked nodes"
-      },
-      {
-        "id": "m1-q11",
-        "question": "11. Find the output of the following C++ code:",
-        "code": "int arr[4] = {10, 20, 30, 40};\n\ncout << arr[2];",
-        "options": [
-          "A. 50",
-          "B. 60",
-          "C. 30",
-          "D. 41"
-        ],
-        "correctIndex": 2,
-        "answerText": "Answer: C. 30"
-      },
-      {
-        "id": "m1-q12",
-        "question": "12. What would be the result after comparing and swapping the first two elements while applying Bubble Sort to the list 30, 10, 20, 40, 15?",
-        "options": [
-          "A. 10, 30, 20, 40, 15",
-          "B. 30, 20, 10, 40, 15",
-          "C. 20, 10, 30, 40, 15",
-          "D. 10, 20, 30, 40, 159"
-        ],
-        "correctIndex": 0,
-        "answerText": "Answer: A. 10, 30, 20, 40, 15"
-      },
-      {
-        "id": "m1-q13",
-        "question": "13. What would you do to insert 15 at position 1 in the array 10, 20, 30 while maintaining the existing elements?",
-        "options": [
-          "A. Shift elements to the right and insert 15",
-          "B. Delete 20 and insert 15",
-          "C. Replace 10 with 15",
-          "D. Apply Bubble Sort"
-        ],
-        "correctIndex": 0,
-        "answerText": "Answer: A. Shift elements to the right and insert 15"
-      },
-      {
-        "id": "m1-q14",
-        "question": "14. What is the resulting linked list after the following list is reversed?",
-        "diagram": "m1_q14_linked_list",
-        "options": [
-          "A. 10 → 20 → 30 → NULL",
-          "B. 30 → 20 → 10 → NULL",
-          "C. 20 → 10 → 30 → NULL",
-          "D. 30 → 10 → 20 → NULL"
-        ],
-        "correctIndex": 1,
-        "answerText": "Answer: B. 30 → 20 → 10 → NULL"
-      },
-      {
-        "id": "m1-q15",
-        "question": "15. Identify the output when the following linked list is searched for the value 30.",
-        "diagram": "m1_q15_linked_list",
-        "options": [
-          "A. Element Not Found",
-          "B. Element Found",
-          "C. NULL",
-          "D. 408"
-        ],
-        "correctIndex": 1,
-        "answerText": "Answer: B. Element Found"
-      },
-      {
-        "id": "m1-q16",
-        "question": "16. Find the output of the following code:",
-        "code": "int marks[2][2] = {{10,20},{30,40}};\n\ncout << marks[0][1];",
-        "options": [
-          "A. 10",
-          "B. 20",
-          "C. 30",
-          "D. 40"
-        ],
-        "correctIndex": 1,
-        "answerText": "Answer: B. 20"
-      },
-      {
-        "id": "m1-q17",
-        "question": "17. What would you do if an application needs to move both forward and backward through a list of elements?",
-        "options": [
-          "A. Use a doubly linked list",
-          "B. Perform Binary Search",
-          "C. Apply Bubble Sort",
-          "D. Use a Sparse Matrix"
-        ],
-        "correctIndex": 0,
-        "answerText": "Answer: A. Use a doubly linked list"
-      },
-      {
-        "id": "m1-q18",
-        "question": "18. Identify the arrangement after the first comparison in Bubble Sort.",
-        "diagram": "m1_q18_array",
-        "options": [
-          "A. 30 20 10",
-          "B. 10 30 20",
-          "C. 20 10 30",
-          "D. 10 20 30"
-        ],
-        "correctIndex": 1,
-        "answerText": "Answer: B. 10 30 20"
-      },
-      {
-        "id": "m1-q19",
-        "question": "19. Find the output after inserting 25 at position 2 in the array.",
-        "diagram": "m1_q19_array",
-        "options": [
-          "A. 25 10 20 30",
-          "B. 10 25 20 30",
-          "C. 10 20 25 30",
-          "D. 10 20 30 25"
-        ],
-        "correctIndex": 2,
-        "answerText": "Answer: C. 10 20 25 30"
-      },
-      {
-        "id": "m1-q20",
-        "question": "20. Identify the row, column, and value stored for the non-zero element 5 in the following matrix.",
-        "diagram": "m1_q20_matrix",
-        "options": [
-          "A. Row 0, Column 2, Value 5",
-          "B. Row 2, Column 0, Value 5",
-          "C. Row 0, Column 0, Value 5",
-          "D. Row 2, Column 2, Value 5"
-        ],
-        "correctIndex": 0,
-        "answerText": "Answer: A. Row 0, Column 2, Value 5"
-      }
-    ]
-  },
-  {
-    "id": "module-2",
-    "tabLabel": "Module 2",
-    "pdfModuleHeading": "Module 2",
-    "pdfSectionHeading": "I. Multiple Choice Questions:",
-    "topicSummary": "Stacks, LIFO Operations, Recursion & Expression Notation",
-    "questions": [
-      {
-        "id": "m2-q1",
-        "question": "1. What is a stack?",
-        "options": [
-          "a) Queue data structure",
-          "b) Linear data structure",
-          "c) Tree structure",
-          "d) Graph structure"
-        ],
-        "correctIndex": 1,
-        "answerText": "Answer: b) Linear data structure"
-      },
-      {
-        "id": "m2-q2",
-        "question": "2. Which stack operation returns the top element without removing it?",
-        "options": [
-          "A. Inorder",
-          "B. Preorder",
-          "C. Peek",
-          "D. Delete"
-        ],
-        "correctIndex": 2,
-        "answerText": "Answer: C. Peek"
-      },
-      {
-        "id": "m2-q3",
-        "question": "3. Which operation is used to insert an element into a stack?",
-        "options": [
-          "A. Delete",
-          "B. Push",
-          "C. Pop",
-          "D. Peek"
-        ],
-        "correctIndex": 1,
-        "answerText": "Answer: B. Push"
-      },
-      {
-        "id": "m2-q4",
-        "question": "4. What is an infix expression?",
-        "options": [
-          "A. Operator in between operands",
-          "B. Operator before operands",
-          "C. Operator after operands",
-          "D. Operands without operators"
-        ],
-        "correctIndex": 0,
-        "answerText": "Answer: A Operator in between operands"
-      },
-      {
-        "id": "m2-q5",
-        "question": "5.What is the initial value of the top variable in an array-based stack?",
-        "options": [
-          "a) 10",
-          "b) 11",
-          "c) -1",
-          "d) MAX"
-        ],
-        "correctIndex": 2,
-        "answerText": "Answer: c) -1"
-      },
-      {
-        "id": "m2-q6",
-        "question": "6. What does LIFO stand for?",
-        "options": [
-          "a) Last In, First Out",
-          "b) Last In, Final Output",
-          "c) First In, First Out",
-          "d) First In, Final Output"
-        ],
-        "correctIndex": 0,
-        "answerText": "Answer: a) Last In, First Out"
-      },
-      {
-        "id": "m2-q7",
-        "question": "7. Which of the following conditions occurs when a PUSH operation is performed on a full stack?",
-        "options": [
-          "A. Underflow",
-          "B. Overflow",
-          "C. Traversal",
-          "D. Searching"
-        ],
-        "correctIndex": 1,
-        "answerText": "Answer: B. Overflow"
-      },
-      {
-        "id": "m2-q8",
-        "question": "8. Which technique allows a function to repeatedly invoke itself?",
-        "options": [
-          "a) Iteration",
-          "b) Recursion",
-          "c) Backtracking",
-          "d) Looping"
-        ],
-        "correctIndex": 1,
-        "answerText": "Answer: b) Recursion"
-      },
-      {
-        "id": "m2-q9",
-        "question": "9. What is a prefix expression?",
-        "options": [
-          "a) Operator between operands",
-          "b) Operator after operands",
-          "c) Operator before operands",
-          "d) Operator randomly placed"
-        ],
-        "correctIndex": 2,
-        "answerText": "Answer: c) Operator before operands"
-      },
-      {
-        "id": "m2-q10",
-        "question": "10. Which end of a stack allows insertion and deletion?",
-        "options": [
-          "a) Bottom",
-          "b) Middle",
-          "c) Top",
-          "d) Both ends"
-        ],
-        "correctIndex": 2,
-        "answerText": "Answer: c) Top"
-      },
-      {
-        "id": "m2-q11",
-        "question": "11. What is the main purpose of the PUSH operation in a stack?",
-        "options": [
-          "A. To insert an element at the top",
-          "B. To remove the top element",
-          "C. To arrange elements",
-          "D. To search for an element"
-        ],
-        "correctIndex": 0,
-        "answerText": "Answer: A. To insert an element at the top"
-      },
-      {
-        "id": "m2-q12",
-        "question": "12. What is the main purpose of the POP operation in a stack?",
-        "options": [
-          "A. To remove the top element",
-          "B. To insert an element at the top",
-          "C. To arrange elements",
-          "D. To search for an element"
-        ],
-        "correctIndex": 0,
-        "answerText": "Answer: A. To remove the top element"
-      },
-      {
-        "id": "m2-q13",
-        "question": "13. What is the main idea of the LIFO principle in a stack?",
-        "options": [
-          "A. The last inserted element is removed first",
-          "B. The first inserted element is removed first",
-          "C. Elements are removed from the middle",
-          "D. Elements are removed randomly"
-        ],
-        "correctIndex": 0,
-        "answerText": "Answer: A. The last inserted element is removed first"
-      },
-      {
-        "id": "m2-q14",
-        "question": "14. What is meant by underflow in a stack?",
-        "options": [
-          "A. Attempting to insert into a full stack",
-          "B. Attempting to remove from an empty stack",
-          "C. Viewing the top element",
-          "D. Arranging stack elements"
-        ],
-        "correctIndex": 1,
-        "answerText": "Answer: B. Attempting to remove from an empty stack"
-      },
-      {
-        "id": "m2-q15",
-        "question": "15. What is the purpose of the top variable in an array-based stack?",
-        "options": [
-          "A. To determine the size of the array",
-          "B. To store the elements of the stack",
-          "C. To check whether the stack is empty",
-          "D. To identify the current top position"
-        ],
-        "correctIndex": 3,
-        "answerText": "Answer: D. To identify the current top position"
-      },
-      {
-        "id": "m2-q16",
-        "question": "16. What is the main reason for checking whether a stack is full before PUSH?",
-        "options": [
-          "A. To avoid overflow",
-          "B. To avoid underflow",
-          "C. To find the top element",
-          "D. To perform POP"
-        ],
-        "correctIndex": 0,
-        "answerText": "Answer: A. To avoid overflow"
-      },
-      {
-        "id": "m2-q17",
-        "question": "17. What does the linear nature of a stack indicate?",
-        "options": [
-          "A. Elements are arranged sequentially",
-          "B. Elements are arranged hierarchically",
-          "C. Elements are connected through parent-child relationships",
-          "D. Elements are accessed based on priority"
-        ],
-        "correctIndex": 0,
-        "answerText": "Answer: A. Elements are arranged sequentially"
-      },
-      {
-        "id": "m2-q18",
-        "question": "18. How does PEEK differ from POP?",
-        "options": [
-          "A. PEEK removes the element, while POP displays it",
-          "B. PEEK displays the top element, while POP removes it",
-          "C. Both operations remove the top element",
-          "D. Both operations insert an element"
-        ],
-        "correctIndex": 1,
-        "answerText": "Answer: B. PEEK displays the top element, while POP removes it"
-      },
-      {
-        "id": "m2-q19",
-        "question": "19. How does a linked-list stack differ from an array-based stack?",
-        "options": [
-          "A. It can grow dynamically",
-          "B. It cannot perform POP",
-          "C. It cannot perform PUSH",
-          "D. It always has a fixed size"
-        ],
-        "correctIndex": 0,
-        "answerText": "Answer: A. It can grow dynamically"
-      },
-      {
-        "id": "m2-q20",
-        "question": "20. What is the main idea of implementing a stack using a linked list?",
-        "options": [
-          "A. To perform binary searching",
-          "B. To allow dynamic memory allocation",
-          "C. To represent hierarchical data",
-          "D. To delete elements"
-        ],
-        "correctIndex": 1,
-        "answerText": "Answer: B. To allow dynamic memory allocation"
-      }
-    ]
-  },
-  {
-    "id": "module-3",
-    "tabLabel": "Module 3",
-    "pdfModuleHeading": "Module 3",
-    "pdfSectionHeading": "I. Multiple Choice Questions: -",
-    "topicSummary": "Queues, FIFO, Circular Queue, Dequeue, Binary Trees & BST",
-    "questions": [
-      {
-        "id": "m3-q1",
-        "question": "1.Which of the following is an example of the FIFO principle of a queue?",
-        "options": [
-          "A) Removing the most recently added book from a stack",
-          "B) Serving customers in the order they join a line",
-          "C) Accessing an element using an index",
-          "D) Deleting the last node of a linked list"
-        ],
-        "correctIndex": 1,
-        "answerText": "Answer: B) Serving customers in the order they join a line"
-      },
-      {
-        "id": "m3-q2",
-        "question": "2. How does a queue maintain the order in which elements are processed?",
-        "options": [
-          "A) By processing the first inserted element first",
-          "B) By arranging elements in alphabetical order",
-          "C) By organizing elements into parent-child relationships",
-          "D) By comparing elements based on their memory addresses"
-        ],
-        "correctIndex": 0,
-        "answerText": "Answer: A) By processing the first inserted element first"
-      },
-      {
-        "id": "m3-q3",
-        "question": "3.Which queue type helps avoid memory wastage by reusing empty positions?",
-        "options": [
-          "A) Linear Queue",
-          "B) Priority Queue",
-          "C) Circular Queue",
-          "D) Dequeue"
-        ],
-        "correctIndex": 2,
-        "answerText": "Answer: C) Circular Queue"
-      },
-      {
-        "id": "m3-q4",
-        "question": "4.In which situation is a Dequeue more useful than a normal queue?",
-        "options": [
-          "A. When elements are processed in a fixed sequence",
-          "B. When insertion and deletion are needed at both ends",
-          "C. When elements are stored in sorted order",
-          "D. When elements are stored in fixed-size arrays"
-        ],
-        "correctIndex": 1,
-        "answerText": "Answer: B. When insertion and deletion are needed at both ends"
-      },
-      {
-        "id": "m3-q5",
-        "question": "5.How do parent-child relationships make trees suitable for hierarchical data?",
-        "options": [
-          "A) They organize data into different levels.",
-          "B) They reduce memory usage.",
-          "C) They store elements sequentially.",
-          "D) They eliminate duplicate nodes."
-        ],
-        "correctIndex": 0,
-        "answerText": "Answer: A) They organize data into different levels."
-      },
-      {
-        "id": "m3-q6",
-        "question": "6.How does the search operation support node deletion in a Binary Search Tree?",
-        "options": [
-          "A. It finds the node to be deleted",
-          "B. It adds a new node",
-          "C. It visits every node in order",
-          "D. It creates a new tree"
-        ],
-        "correctIndex": 0,
-        "answerText": "Answer: A. It finds the node to be deleted"
-      },
-      {
-        "id": "m3-q7",
-        "question": "7.How does the root node help organize a tree structure?",
-        "options": [
-          "A) It is always a leaf node.",
-          "B) It stores the largest value.",
-          "C) It always has two children.",
-          "D) It acts as the starting point for all nodes."
-        ],
-        "correctIndex": 3,
-        "answerText": "Answer: D It acts as the starting point for all nodes."
-      },
-      {
-        "id": "m3-q8",
-        "question": "8.How does the isEmpty() operation help before deleting an element from a queue?",
-        "options": [
-          "A) It inserts a new element.",
-          "B) It determines the size of the queue.",
-          "C) It checks whether the queue contains any elements.",
-          "D) It displays all queue elements."
-        ],
-        "correctIndex": 2,
-        "answerText": "Answer: C) It checks whether the queue contains any elements."
-      },
-      {
-        "id": "m3-q9",
-        "question": "9. How does maintaining the Binary Search Tree (BST) property improve the search process?",
-        "options": [
-          "A. It helps choose the left or right subtree",
-          "B. It displays the tree elements",
-          "C. It counts the number of nodes",
-          "D. It calculates the tree height"
-        ],
-        "correctIndex": 0,
-        "answerText": "Answer: A. It helps choose the left or right subtree"
-      },
-      {
-        "id": "m3-q10",
-        "question": "10. Which characteristic makes a Binary Tree easier to manage than a General Tree?",
-        "options": [
-          "A. It stores data in an array",
-          "B. Each node can have at most two children",
-          "C. It uses a stack for searching",
-          "D. It stores data sequentially"
-        ],
-        "correctIndex": 1,
-        "answerText": "Answer: B. Each node can have at most two children"
-      },
-      {
-        "id": "m3-q11",
-        "question": "11. What will be the rear element after inserting 48 into a queue containing 12, 24, and 36, where 36 is currently at the rear?",
-        "options": [
-          "A. 12",
-          "B. 24",
-          "C. 36",
-          "D. 48"
-        ],
-        "correctIndex": 3,
-        "answerText": "Answer: D. 48"
-      },
-      {
-        "id": "m3-q12",
-        "question": "12.What will be the output after inserting 40 into the following array-based queue, where MAX = 4 and rear = 3?",
-        "subLines": [
-          "Queue: 10 | 20 | 30 | 35"
-        ],
-        "options": [
-          "A. 10 | 20 | 30 | 40",
-          "B. 10 | 20 | 40 | 35",
-          "C. Insertion is not possible",
-          "D. 40 | 10 | 20 | 30"
-        ],
-        "correctIndex": 2,
-        "answerText": "Answer: C. Insertion is not possible"
-      },
-      {
-        "id": "m3-q13",
-        "question": "13. What will be the output when an element is inserted into an array-based queue whose rear is already at MAX - 1?",
-        "options": [
-          "A. The element is inserted at the front",
-          "B. The element is inserted at the rear",
-          "C. The queue is full and insertion cannot be performed",
-          "D. The front element is deleted"
-        ],
-        "correctIndex": 2,
-        "answerText": "Answer: C. The queue is full and insertion cannot be performed"
-      },
-      {
-        "id": "m3-q14",
-        "question": "14.How would you determine the number of elements in a queue when front = 2 and rear = 6?",
-        "options": [
-          "A.4",
-          "B. 5",
-          "C. 6",
-          "D. 8"
-        ],
-        "correctIndex": 1,
-        "answerText": "Answer: B. 5"
-      },
-      {
-        "id": "m3-q15",
-        "question": "15.How would you access the front element of an array-based queue before performing a deletion?",
-        "options": [
-          "A. item = queue[rear];",
-          "B. item = queue[front];",
-          "C. item = queue[top];",
-          "D. item = queue[front + 1];"
-        ],
-        "correctIndex": 1,
-        "answerText": "Answer: B. item = queue[front];"
-      },
-      {
-        "id": "m3-q16",
-        "question": "16.What approach would you use to display the elements of a Binary Search Tree in sorted order?",
-        "options": [
-          "A. Apply Inorder traversal",
-          "B. Apply Stack traversal",
-          "C. Apply Queue operation",
-          "D. Apply Linked-list traversal"
-        ],
-        "correctIndex": 0,
-        "answerText": "Answer: A. Apply Inorder traversal"
-      },
-      {
-        "id": "m3-q17",
-        "question": "17.What approach would you use to search for an element x in a BST?",
-        "options": [
-          "A. insert(root, x);",
-          "B. delete(root, x);",
-          "C. search(root, x);",
-          "D. inorder(root);"
-        ],
-        "correctIndex": 2,
-        "answerText": "Answer: C. search(root, x);"
-      },
-      {
-        "id": "m3-q18",
-        "question": "18. How would you add the element 25 to the rear of the queue?",
-        "options": [
-          "A. queue[front] = 25;",
-          "B. queue[rear] = 25;",
-          "C. queue[top] = 25;",
-          "D. queue[rear - 1] = 25;"
-        ],
-        "correctIndex": 1,
-        "answerText": "Answer: B. queue[rear] = 25;"
-      },
-      {
-        "id": "m3-q19",
-        "question": "19.How would you update the rear position when an Enqueue operation is performed and the current rear is 2?",
-        "options": [
-          "A. Decrease rear to 1",
-          "B. Keep rear at 2",
-          "C. Increase rear to 3",
-          "D. Increase rear to 4"
-        ],
-        "correctIndex": 2,
-        "answerText": "Answer: C. Increase rear to 3"
-      },
-      {
-        "id": "m3-q20",
-        "question": "20.How would you access the front element of a queue named q without removing it?",
-        "options": [
-          "A. q.pop();",
-          "B. q.push();",
-          "C. q.front();",
-          "D. q.back();"
-        ],
-        "correctIndex": 2,
-        "answerText": "Answer: C. q.front();"
-      }
-    ]
-  },
-  {
-    "id": "module-4",
-    "tabLabel": "Module 4",
-    "pdfModuleHeading": "Module 4:",
-    "pdfSectionHeading": "I. Objective Type of Questions (MCQ)",
-    "topicSummary": "AVL Trees, Expression Trees, Heaps, Graphs, BFS/DFS, Shortest Path & Hashing",
-    "questions": [
-      {
-        "id": "m4-q1",
-        "question": "1. How would you balance an AVL tree after inserting 10, 20, and 30, which creates an imbalance at node 10?",
-        "options": [
-          "A. Apply a Right Rotation at node 10",
-          "B. Apply a Left Rotation at node 10",
-          "C. Perform Inorder Traversal",
-          "D. Delete node 20"
-        ],
-        "correctIndex": 1,
-        "answerText": "Answer: B. Apply a Left Rotation at node 10"
-      },
-      {
-        "id": "m4-q2",
-        "question": "2. What will be the output when the following expression tree is evaluated?",
-        "diagram": "m4_q2_expr_tree",
-        "options": [
-          "A. 35",
-          "B. 100",
-          "C. 150",
-          "D. 200"
-        ],
-        "correctIndex": 2,
-        "answerText": "Answer: C. 150"
-      },
-      {
-        "id": "m4-q3",
-        "question": "3. Find the root element of a Min Heap formed using 10, 20, 30, 40 and 50.",
-        "options": [
-          "A. 10",
-          "B. 20",
-          "C. 40",
-          "D. 50"
-        ],
-        "correctIndex": 0,
-        "answerText": "Answer: A. 10"
-      },
-      {
-        "id": "m4-q4",
-        "question": "4. Find the root element of the Max Heap after removing 80 from the heap containing 80, 60, 70, 40, and 50.",
-        "options": [
-          "A. 40",
-          "B. 50",
-          "C. 60",
-          "D. 70"
-        ],
-        "correctIndex": 3,
-        "answerText": "Answer: D. 70"
-      },
-      {
-        "id": "m4-q5",
-        "question": "5. Identify which value will be stored at position (B, C) if vertices B and C are not directly connected.",
-        "diagram": "m4_q5_graph",
-        "options": [
-          "A. 0",
-          "B. 1",
-          "C. 2",
-          "D. -1"
-        ],
-        "correctIndex": 0,
-        "answerText": "Answer: A. 0"
-      },
-      {
-        "id": "m4-q6",
-        "question": "6. How would you represent the connections of vertex A using an adjacency list for the following graph?",
-        "diagram": "m4_q6_edges",
-        "options": [
-          "A. A → D",
-          "B. A → B, C",
-          "C. A → B, D",
-          "D. A → C, D"
-        ],
-        "correctIndex": 1,
-        "answerText": "Answer: B. A → B, C"
-      },
-      {
-        "id": "m4-q7",
-        "question": "7. Apply BFS starting from vertex A and select the correct order of visited vertices.",
-        "diagram": "m4_q7_bfs_graph",
-        "options": [
-          "A. A, B, D, E, C",
-          "B. A, B, C, D, E",
-          "C. A, C, E, D, B",
-          "D. A, D, B, C, E"
-        ],
-        "correctIndex": 1,
-        "answerText": "Answer: B. A, B, C, D, E"
-      },
-      {
-        "id": "m4-q8",
-        "question": "8.Identify the shortest path in the given weighted graph to minimize the total travel distance from A to D?",
-        "diagram": "m4_q8_weighted_graph",
-        "options": [
-          "A. A → B → D",
-          "B. A → C → D",
-          "C. A → B → C → D",
-          "D. A → D → C"
-        ],
-        "correctIndex": 1,
-        "answerText": "Answer: B. A → C → D"
-      },
-      {
-        "id": "m4-q9",
-        "question": "9. Identify how many cables will be selected in a Minimum Spanning Tree to connect 4 buildings without forming a cycle.3.",
-        "options": [
-          "A. 2",
-          "B. 3",
-          "C. 4",
-          "D. 5"
-        ],
-        "correctIndex": 1,
-        "answerText": "Answer: B. 3"
-      },
-      {
-        "id": "m4-q10",
-        "question": "10. Identify which element would be removed first from a Min Heap containing 20, 40, 30, 60, and 50 when the smallest value is treated as the highest-priority value.",
-        "options": [
-          "A. 20",
-          "B. 30",
-          "C. 40",
-          "D. 50"
-        ],
-        "correctIndex": 0,
-        "answerText": "Answer: A. 20"
-      },
-      {
-        "id": "m4-q11",
-        "question": "11. Find the index where the value will be stored when a collision occurs at index 3 and index 4 is available.",
-        "options": [
-          "A. Index 2",
-          "B. Index 3",
-          "C. Index 4",
-          "D. Index 5"
-        ],
-        "correctIndex": 2,
-        "answerText": "Answer: C. Index 4"
-      },
-      {
-        "id": "m4-q12",
-        "question": "12.Identify which route would a shortest-path algorithm select to travel from A to D based on the given distances?",
-        "subLines": [
-          "•A → B → D = 8",
-          "•A → C → D = 5"
-        ],
-        "options": [
-          "A. A → B → D",
-          "B. A → C → D",
-          "C. Both routes",
-          "D. Neither route"
-        ],
-        "correctIndex": 1,
-        "answerText": "Answer: B. A → C → D"
-      },
-      {
-        "id": "m4-q13",
-        "question": "13. How would you solve a collision in a hash table when the values 25 and 35 produce the same hash index and chaining is used?",
-        "options": [
-          "A. Replace 25 with 35",
-          "B. Store 25 and 35 in the same chain",
-          "C. Store 35 at the next empty index",
-          "D. Delete 25 from the hash table"
-        ],
-        "correctIndex": 1,
-        "answerText": "Answer: B. Store 25 and 35 in the same chain"
-      },
-      {
-        "id": "m4-q14",
-        "question": "14.How would you solve a graph traversal problem that requires visiting vertices level by level from a starting vertex?",
-        "options": [
-          "A. Use DFS",
-          "B. Use BFS",
-          "C. Use Heap Sort",
-          "D. Use Inorder Traversal"
-        ],
-        "correctIndex": 1,
-        "answerText": "Answer: B. Use BFS"
-      },
-      {
-        "id": "m4-q15",
-        "question": "15. Find the new root after removing 80 from the Max Heap containing 80, 60, 70, 40 and 50 and readjusting the heap.",
-        "options": [
-          "A. 40",
-          "B. 50",
-          "C. 60",
-          "D. 70"
-        ],
-        "correctIndex": 3,
-        "answerText": "Answer: D. 70"
-      },
-      {
-        "id": "m4-q16",
-        "question": "16.What approach would you use to find the shortest path in a weighted graph when the edge weights are non-negative?",
-        "options": [
-          "A. AVL Rotation",
-          "B. Dijkstra's algorithm",
-          "C. Heap Sort",
-          "D. Inorder Traversal"
-        ],
-        "correctIndex": 1,
-        "answerText": "Answer: B. Dijkstra's algorithm"
-      },
-      {
-        "id": "m4-q17",
-        "question": "17. What approach would you use to obtain a prefix expression from an expression tree?",
-        "options": [
-          "A. Inorder traversal",
-          "B. Preorder traversal",
-          "C. Postorder traversal",
-          "D. BFS only"
-        ],
-        "correctIndex": 1,
-        "answerText": "Answer: B. Preorder traversal"
-      },
-      {
-        "id": "m4-q18",
-        "question": "18..Find the output of the following expression tree.",
-        "diagram": "m4_q18_expr_tree",
-        "options": [
-          "A. 10",
-          "B. 20",
-          "C. 30",
-          "D. 200"
-        ],
-        "correctIndex": 2,
-        "answerText": "Answer: C. 30"
-      },
-      {
-        "id": "m4-q19",
-        "question": "19. What approach would you use if a graph needs to be explored by going deep along one path before returning?",
-        "options": [
-          "A. BFS",
-          "B. DFS",
-          "C. Heap Sort",
-          "D. Hashing"
-        ],
-        "correctIndex": 1,
-        "answerText": "Answer: B. DFS"
-      },
-      {
-        "id": "m4-q20",
-        "question": "20 How would you represent a graph when you want to store the neighboring vertices of each vertex?",
-        "options": [
-          "A. Use an array index only",
-          "B. Use an adjacency list",
-          "C. Use a stack",
-          "D. Use a heap"
-        ],
-        "correctIndex": 1,
-        "answerText": "Answer: B. Use an adjacency list"
-      }
-    ]
-  },
-  {
-    "id": "module-5",
-    "tabLabel": "Module 5",
-    "pdfModuleHeading": "Module 5",
-    "pdfSectionHeading": "I. Multiple Choice Questions: -",
-    "topicSummary": "Microsoft Azure Blob Storage, Queue Storage, Functions, Table Storage & Cosmos DB",
-    "questions": [
-      {
-        "id": "m5-q1",
-        "question": "1) How would you use Azure Blob Storage to preserve an array of student marks for later use?",
-        "options": [
-          "A. Convert the array into JSON and store it as a blob",
-          "B. Perform an inorder traversal of the array",
-          "C. Apply a rotation to the array",
-          "D. Find the shortest path in a graph"
-        ],
-        "correctIndex": 0,
-        "answerText": "Answer: A) Convert the array into JSON and store it as a blob"
-      },
-      {
-        "id": "m5-q2",
-        "question": "2) How would you handle a task that must run automatically when a new message is added to Azure Queue Storage?",
-        "options": [
-          "A. Use Binary Search",
-          "B. Use Stack",
-          "C. Use Azure Functions",
-          "D. Use Binary Tree"
-        ],
-        "correctIndex": 2,
-        "answerText": "Answer: C. Use Azure Functions"
-      },
-      {
-        "id": "m5-q3",
-        "question": "3) Identify which request would normally be processed first from Azure Queue Storage when R1, R2, and R3 are added in that order.",
-        "options": [
-          "A. R3",
-          "B. R2",
-          "C. R1",
-          "D. Any random request"
-        ],
-        "correctIndex": 2,
-        "answerText": "Answer: C. R1"
-      },
-      {
-        "id": "m5-q4",
-        "question": "4) What would you do using Azure Queue Storage to handle online orders in the order they are received?",
-        "options": [
-          "A. Add each order as a message to the Queue",
-          "B. Calculate the total value of all orders",
-          "C. Generate a daily sales report",
-          "D. Display order details on the screen"
-        ],
-        "correctIndex": 0,
-        "answerText": "Answer: A. Add each order as a message to the Queue"
-      },
-      {
-        "id": "m5-q5",
-        "question": "5) What approach would you use when a task-processing system receives more tasks than it can process immediately?",
-        "options": [
-          "A. Perform an AVL tree rotation",
-          "B. Calculate the shortest path in a graph",
-          "C. Sort the tasks using Heap Sort",
-          "D. Store the pending tasks in Azure Queue Storage"
-        ],
-        "correctIndex": 3,
-        "answerText": "Answer: D. Store the pending tasks in Azure Queue Storage"
-      },
-      {
-        "id": "m5-q6",
-        "question": "6) Which Azure service would you use when a C++ application needs to store a large JSON file generated after serializing an object?",
-        "options": [
-          "A. Azure Queue Storage",
-          "B. Azure Table Storage",
-          "C. Azure Blob Storage",
-          "D. Azure Virtual Network"
-        ],
-        "correctIndex": 2,
-        "answerText": "Answer: C. Azure Blob Storage"
-      },
-      {
-        "id": "m5-q7",
-        "question": "7) How would you apply the FIFO principle to a cloud-based task-processing system?",
-        "options": [
-          "A. Process the newest task first",
-          "B. Store tasks in Azure Queue Storage and process them in arrival order",
-          "C. Arrange the tasks using an AVL tree",
-          "D. Search for the shortest path between tasks"
-        ],
-        "correctIndex": 1,
-        "answerText": "Answer: B. Store tasks in Azure Queue Storage and process them in arrival order"
-      },
-      {
-        "id": "m5-q8",
-        "question": "8) What approach would you use to store a large tree when the application needs to query relationships between its nodes?",
-        "options": [
-          "A) Use Azure Cosmos DB",
-          "B) Sort the tree nodes",
-          "C) Count the tree nodes",
-          "D) Display the tree"
-        ],
-        "correctIndex": 0,
-        "answerText": "Answer: A) Use Azure Cosmos DB"
-      },
-      {
-        "id": "m5-q9",
-        "question": "9) What approach would you use to convert JSON data received from a cloud application back into a C++ object?",
-        "options": [
-          "A. Serialization",
-          "B. Deserialization",
-          "C. Enqueue",
-          "D. Hashing"
-        ],
-        "correctIndex": 1,
-        "answerText": "Answer: B. Deserialization"
-      },
-      {
-        "id": "m5-q10",
-        "question": "10) What approach would you use when a C++ application needs to upload files to the cloud without making the user wait for each upload to finish?",
-        "options": [
-          "A. Asynchronous processing",
-          "B. Linear searching",
-          "C. Sequential processing",
-          "D. Static allocation"
-        ],
-        "correctIndex": 0,
-        "answerText": "Answer: A. Asynchronous processing"
-      },
-      {
-        "id": "m5-q11",
-        "question": "11) How would you prepare an array before storing it as a file in Azure Blob Storage?",
-        "options": [
-          "A. Serialize the array",
-          "B. Perform BFS on the array",
-          "C. Apply AVL rotation",
-          "D. Create a graph from the array"
-        ],
-        "correctIndex": 0,
-        "answerText": "Answer: A. Serialize the array"
-      },
-      {
-        "id": "m5-q12",
-        "question": "12) What approach would you use to run a C++ array-processing application in the cloud without changing the array operations performed by the program?",
-        "options": [
-          "A. Deploy the C++ application on an Azure Virtual Machine",
-          "B. Convert every array element into a queue message",
-          "C. Store every array index as a table key",
-          "D. Replace the array with a graph"
-        ],
-        "correctIndex": 0,
-        "answerText": "Answer: A. Deploy the C++ application on an Azure Virtual Machine"
-      },
-      {
-        "id": "m5-q13",
-        "question": "13) What approach would you use to retrieve a previously stored report file without recreating it?",
-        "options": [
-          "A. Retrieve the file from Azure Blob Storage",
-          "B. Rebuild the file using BFS",
-          "C. Reinsert the file into a queue",
-          "D. Reconstruct it from an AVL tree"
-        ],
-        "correctIndex": 0,
-        "answerText": "Answer: A. Retrieve the file from Azure Blob Storage"
-      },
-      {
-        "id": "m5-q14",
-        "question": "14) What approach would you use when tasks T1, T2, and T3 are received together and must be processed one by one in the order received?",
-        "options": [
-          "A. Azure Blob Storage",
-          "B. Azure Table Storage",
-          "C. Azure Queue Storage",
-          "D. Azure Functions"
-        ],
-        "correctIndex": 2,
-        "answerText": "Answer: C. Azure Queue Storage"
-      },
-      {
-        "id": "m5-q15",
-        "question": "15) What approach would you use to store student records using a roll number as the key?",
-        "options": [
-          "A. Azure Blob Storage",
-          "B. Azure Queue Storage",
-          "C. Azure Table Storage",
-          "D. Azure Virtual Network"
-        ],
-        "correctIndex": 2,
-        "answerText": "Answer: C. Azure Table Storage"
-      },
-      {
-        "id": "m5-q16",
-        "question": "16) What approach would you use to run a data-processing program only when a cloud event occurs?",
-        "options": [
-          "A. Azure Functions",
-          "B. Azure Blob Storage",
-          "C. Azure Table Storage",
-          "D. Azure Queue Storage"
-        ],
-        "correctIndex": 0,
-        "answerText": "Answer: A. Azure Functions"
-      },
-      {
-        "id": "m5-q17",
-        "question": "17) What approach would you apply when a cloud application needs to process the most recently added task first?",
-        "options": [
-          "A. FIFO",
-          "B. LIFO",
-          "C. Inorder traversal",
-          "D. Binary search"
-        ],
-        "correctIndex": 1,
-        "answerText": "Answer: B. LIFO"
-      },
-      {
-        "id": "m5-q18",
-        "question": "18) What would you do to retrieve the student record with RollNo = 25 from the following data?",
-        "subLines": [
-          "RollNo = 25, Name = Ravi, Course = BCA"
-        ],
-        "options": [
-          "A. Search using the RollNo as the key",
-          "B. Search using the student name only",
-          "C. Sort the record using Heap Sort",
-          "D. Perform BFS on the record"
-        ],
-        "correctIndex": 0,
-        "answerText": "Answer: A. Search using the RollNo as the key"
-      },
-      {
-        "id": "m5-q19",
-        "question": "19) What would you do before choosing an appropriate Azure storage method for application data that needs to be preserved and accessed later from the cloud?",
-        "options": [
-          "A. Delete the generated data",
-          "B. Prepare the data in a suitable storable format",
-          "C. Perform DFS on the data",
-          "D. Apply an AVL rotation"
-        ],
-        "correctIndex": 1,
-        "answerText": "Answer: B. Prepare the data in a suitable storable format"
-      },
-      {
-        "id": "m5-q20",
-        "question": "20) What approach would you use to store entities along with their relationships in a social-network application?",
-        "options": [
-          "A. Azure Cosmos DB",
-          "B. Azure Blob Storage",
-          "C. Azure Queue Storage",
-          "D. Azure Table Storage"
-        ],
-        "correctIndex": 0,
-        "answerText": "Answer: A. Azure Cosmos DB"
-      }
-    ]
-  }
-];
+    (function () {
+      const MODULES = [{"id":"module-1","label":"Module 1","title":"MODULE 1","questions":[{"number":1,"question":"1. What is an IP address?","options":[{"key":"A","text":"A. A name given to a website"},{"key":"B","text":"B. A unique numerical label assigned to each device on a network"},{"key":"C","text":"C. A type of web browser"},{"key":"D","text":"D. A protocol for sending emails"}],"correctKey":"B","answerText":"Answer: B. A unique numerical label assigned to each device on a network"},{"number":2,"question":"2. What does DNS stand for?","options":[{"key":"A","text":"A. Data Network System"},{"key":"B","text":"B. Domain Name Server"},{"key":"C","text":"C. Domain Name System"},{"key":"D","text":"D. Digital Network Service"}],"correctKey":"C","answerText":"Answer: C. Domain Name System"},{"number":3,"question":"3. Which of the following is a void (empty) HTML element?","options":[{"key":"A","text":"A. <p>"},{"key":"B","text":"B. <div>"},{"key":"C","text":"C. <img>"},{"key":"D","text":"D. <span>"}],"correctKey":"C","answerText":"Answer: C. <img>"},{"number":4,"question":"4. Which HTML tag is used to create hyperlink?","options":[{"key":"A","text":"A. <a>"},{"key":"B","text":"B. <link>"},{"key":"C","text":"C. <href>"},{"key":"D","text":"D. <url>"}],"correctKey":"A","answerText":"Answer: A. <a>"},{"number":5,"question":"5. What is a Web Browser?","options":[{"key":"A","text":"A. A software used to design websites"},{"key":"B","text":"B. A server that stores web pages"},{"key":"C","text":"C. A software application used to access and view websites"},{"key":"D","text":"D. A type of internet service provider"}],"correctKey":"C","answerText":"Answer: C. A software application used to access and view websites"},{"number":6,"question":"6. What is the function of a Web Server?","options":[{"key":"A","text":"A. It sends requests to the client"},{"key":"B","text":"B. It provides internet connectivity to users"},{"key":"C","text":"C. It translates domain names to IP addresses"},{"key":"D","text":"D. It stores and serves web pages to clients upon request"}],"correctKey":"D","answerText":"Answer: D. It stores and serves web pages to clients upon request"},{"number":7,"question":"7. What does the HTTP status code 404 indicate?","options":[{"key":"A","text":"A. Request was successful"},{"key":"B","text":"B. Internal server error"},{"key":"C","text":"C. The request has been redirected"},{"key":"D","text":"D. The requested resource was not found"}],"correctKey":"D","answerText":"Answer: D. The requested resource was not found"},{"number":8,"question":"8. What is Azure Static Web Apps primarily used for?","options":[{"key":"A","text":"A. To manage database servers"},{"key":"B","text":"B. To host and deploy static websites"},{"key":"C","text":"C. To create virtual machines on the cloud"},{"key":"D","text":"D. To monitor network traffic"}],"correctKey":"B","answerText":"Answer: B. To host and deploy static websites"},{"number":9,"question":"9. What is the correct structure of a URL?","options":[{"key":"A","text":"A. protocol://path/domain"},{"key":"B","text":"B. protocol://domain/path"},{"key":"C","text":"C. domain://protocol/path"},{"key":"D","text":"D. path://domain/protocol"}],"correctKey":"B","answerText":"Answer: B. protocol://domain/path"},{"number":10,"question":"10. Which element is used to create a table heading in HTML?","options":[{"key":"A","text":"A. <tr>"},{"key":"B","text":"B. <td>"},{"key":"C","text":"C. <thead>"},{"key":"D","text":"D. <th>"}],"correctKey":"D","answerText":"Answer: D. <th>"},{"number":11,"question":"11. How would you use an IP address and DNS together to access a website?","options":[{"key":"A","text":"A. Use DNS to translate the domain names into an IP address to reach the server"},{"key":"B","text":"B. Use the IP address to create a new domain name for the website"},{"key":"C","text":"C. Use the IP address to resolve the DNS server address"},{"key":"D","text":"D. Use DNS to host the website files and IP address to display them"}],"correctKey":"A","answerText":"Answer: A. Use DNS to translate the domain names into an IP address to reach the server"},{"number":12,"question":"12. How would you use Microsoft Azure to host a website?","options":[{"key":"A","text":"A. Store the website files in Azure Active Directory"},{"key":"B","text":"B. Configure a virtual network manually"},{"key":"C","text":"C. Deploy files to Azure Static Web Apps"},{"key":"D","text":"D. Upload files to an Azure DevOps repository only"}],"correctKey":"C","answerText":"Answer: C. Deploy files to Azure Static Web Apps"},{"number":13,"question":"13. What approach would you use to create both ordered and unordered lists in HTML?","options":[{"key":"A","text":"A. Use <list>and <items> tags"},{"key":"B","text":"B. Use <ul>for ordered lists and <ol>for unordered lists"},{"key":"C","text":"C. Use <ol> for ordered lists and <ul> for unordered lists"},{"key":"D","text":"D. Use a single <list> tag with a type attribute"}],"correctKey":"C","answerText":"Answer: C. Use <ol> for ordered lists and <ul> for unordered lists"},{"number":14,"question":"14. What approach would you use to link one webpage to another in HTML?","options":[{"key":"A","text":"A. Use <link> tag with src attribute"},{"key":"B","text":"B. Use <a> tag with href attribute"},{"key":"C","text":"C. Use <nav> tag with url attribute"},{"key":"D","text":"D. Use <div> tag with hrefattribute"}],"correctKey":"B","answerText":"Answer: B. Use <a> tag with href attribute"},{"number":15,"question":"15. How would you use the <table> element to organize data on a webpage?","options":[{"key":"A","text":"A. By using <table> with <row> and <col> tags"},{"key":"B","text":"B. By using <table> with <thead> and <tdata> tags only"},{"key":"C","text":"C. By using <table> with <p> and <div> tags"},{"key":"D","text":"D. By using <table> with <tr>, <td>, and <th> tags"}],"correctKey":"D","answerText":"Answer: D. By using <table> with <tr>, <td>, and <th> tags"},{"number":16,"question":"16. What would happen if the DNS sever is unavailable while browsing?","options":[{"key":"A","text":"A. The website will not load"},{"key":"B","text":"B. The website loads normally through a local backup"},{"key":"C","text":"C. The webpage loads slowly with images missing"},{"key":"D","text":"D. The web server directly connects without needing any address"}],"correctKey":"A","answerText":"Answer: A. The website will not load"},{"number":17,"question":"17. How would you display an image on a webpage using HTML?","options":[{"key":"A","text":"A. Use <image> tag with the link attribute"},{"key":"B","text":"B. Use <img> tag with src attribute"},{"key":"C","text":"C. Use <media> tag with href attribute"},{"key":"D","text":"D. Use <picture> tag with url attribute"}],"correctKey":"B","answerText":"Answer: B. Use <img> tag with src attribute"},{"number":18,"question":"18. What approach would you use to structure a user registration form in HTML?","options":[{"key":"A","text":"A. Use <form>with appropriate <input> fields and submit buttons"},{"key":"B","text":"B. Use <div>with <label> tags for text, email, and password fields"},{"key":"C","text":"C. Use <section>with plain text and an anchor link"},{"key":"D","text":"D. Use <table> with <td> cells without a form container"}],"correctKey":"A","answerText":"Answer: A. Use <form>with appropriate <input> fields and submit button"},{"number":19,"question":"19. What approach would you use to access Microsoft Azure services?","options":[{"key":"A","text":"A. By downloading the Azure desktop application and logging in with any email account"},{"key":"B","text":"B. By signing in through the Azure Portal using a Microsoft account"},{"key":"C","text":"C. By accessing Azure services through the GitHub repository settings"},{"key":"D","text":"D. By using the Azure CLI only without any browser based portal"}],"correctKey":"B","answerText":"Answer: B. By signing in through the Azure Portal using a Microsoft account"},{"number":20,"question":"20. What would happen if you deploy an updated HTML file to a repository connected to Azure Static Web Apps?","options":[{"key":"A","text":"A. The updated website is automatically built and redeployed through the connected workflow"},{"key":"B","text":"B. The existing website is permanently deleted without deploying the update"},{"key":"C","text":"C. The HTML file is converted into an Azure database table"},{"key":"D","text":"D. The website can be updated only by manually creating a new Azure resource"}],"correctKey":"A","answerText":"Answer: A. The updated website is automatically built and redeployed through the connected workflow"}]},{"id":"module-2","label":"Module 2","title":"MODULE 2","questions":[{"number":1,"question":"1. What is a semantic HTML element?","options":[{"key":"A","text":"A. An element that adds color to the webpage"},{"key":"B","text":"B. An element whose tag name describes the meaning and role of its content"},{"key":"C","text":"C. An element that only works in HTML5"},{"key":"D","text":"D. An element used only for navigation"}],"correctKey":"B","answerText":"Answer: B. An element whose tag name describes the meaning and role of its content"},{"number":2,"question":"2. What is the purpose of the <header> tag in HTML?","options":[{"key":"A","text":"A. To define the font size of the page"},{"key":"B","text":"B. To represent the introductory content of a page or section"},{"key":"C","text":"C. To create a navigation menu"},{"key":"D","text":"D. To display footer information"}],"correctKey":"B","answerText":"Answer: B. To represent the introductory content of a page or section"},{"number":3,"question":"3. What is the purpose of the ‘required’ attribute in an HTML form?","options":[{"key":"A","text":"A. To set a default value for the input field"},{"key":"B","text":"B. To style the input field"},{"key":"C","text":"C. To prevent form submission if the field is left empty"},{"key":"D","text":"D. To restrict the file type in a file upload"}],"correctKey":"C","answerText":"Answer: C. To prevent form submission if the field is left empty"},{"number":4,"question":"4. What semantic HTML element represents content that is related to, but not part of, the main content of a webpage?","options":[{"key":"A","text":"A. <section>"},{"key":"B","text":"B. <header>"},{"key":"C","text":"C. <article>"},{"key":"D","text":"D. <aside>"}],"correctKey":"D","answerText":"Answer: D. <aside>"},{"number":5,"question":"5. Which Microsoft Azure service is used to host static HTML, CSS and JavaScript websites?","options":[{"key":"A","text":"A. Azure Static Web Apps"},{"key":"B","text":"B. Azure Virtual Machine"},{"key":"C","text":"C. Azure SQL Database"},{"key":"D","text":"D. Azure Functions"}],"correctKey":"A","answerText":"Answer: A. Azure Static Web Apps"},{"number":6,"question":"6. What is the role of colspan in an HTML table?","options":[{"key":"A","text":"A. To merge rows vertically"},{"key":"B","text":"B. To add color to a column"},{"key":"C","text":"C. To make a single cell span across multiple columns horizontally"},{"key":"D","text":"D. To group columns together for styling"}],"correctKey":"C","answerText":"Answer: C. To make a single cell span across multiple columns horizontally"},{"number":7,"question":"7. What is the purpose of enctype=\"multipart/form-data\" in an HTML form?","options":[{"key":"A","text":"A. To encrypt the form data before sending"},{"key":"B","text":"B. To restrict the form to text input only"},{"key":"C","text":"C. To validate email format on submission"},{"key":"D","text":"D. To allow uploading and sending files along with form data"}],"correctKey":"D","answerText":"Answer: D. To allow uploading and sending files along with form data"},{"number":8,"question":"8. Which HTML attribute is used to validate user input against a specified regular expression?","options":[{"key":"A","text":"A. required"},{"key":"B","text":"B. pattern"},{"key":"C","text":"C. placeholder"},{"key":"D","text":"D. maxlength"}],"correctKey":"B","answerText":"Answer: B. pattern"},{"number":9,"question":"9. What is the primary purpose of the <article> tag in HTML?","options":[{"key":"A","text":"A. To group related sections together"},{"key":"B","text":"B. To represent standalone, self-contained element"},{"key":"C","text":"C. To link external stylesheets to a page"},{"key":"D","text":"D. To define the navigation menu of a webpage"}],"correctKey":"B","answerText":"Answer: B. To represent standalone, self-contained element"},{"number":10,"question":"10. Which Azure service can be used to store multimedia files such as images, audio, and videos?","options":[{"key":"A","text":"A. Azure SQL Database"},{"key":"B","text":"B. Azure Functions"},{"key":"C","text":"C. Azure Blob Storage"},{"key":"D","text":"D. Azure DevOps"}],"correctKey":"C","answerText":"Answer: C. Azure Blob Storage"},{"number":11,"question":"11. How does the <nav> tag relate to improving accessibility on a webpage?","options":[{"key":"A","text":"A. It automatically changes the navigation menu into a dropdown"},{"key":"B","text":"B. It prevents users from accessing links outside the navigation section"},{"key":"C","text":"C. It automatically adds styling to the navigation links"},{"key":"D","text":"D. It helps screen readers identify the navigation section of the webpage"}],"correctKey":"D","answerText":"Answer: D. It helps screen readers identify the navigation section of the webpage"},{"number":12,"question":"12. How does the accept attribute relate to restricting file selection in an HTML file input field?","options":[{"key":"A","text":"A. It automatically uploads the selected file to the server"},{"key":"B","text":"B. It restricts the selectable files to the specified file types"},{"key":"C","text":"C. It increases the maximum size of the selected file"},{"key":"D","text":"D. It encrypts the selected file before uploading"}],"correctKey":"B","answerText":"Answer: B. It restricts the selectable files to the specified file types"},{"number":13,"question":"13. How do validation layers relate to improving form validation in HTML?","options":[{"key":"A","text":"A. They add error colors to input fields"},{"key":"B","text":"B. They automatically fix incorrect input values"},{"key":"C","text":"C. They check input at multiple stages to prevent errors"},{"key":"D","text":"D. They restrict form fields to numeric values only"}],"correctKey":"C","answerText":"Answer: C. They check input at multiple stages to prevent errors"},{"number":14,"question":"14. What is meant by the <caption> element in an HTML table?","options":[{"key":"A","text":"A. It defines the first row of the table as a header row"},{"key":"B","text":"B. It merges the first column of the table with the header"},{"key":"C","text":"C. It adds a border around the entire table"},{"key":"D","text":"D. It provides a title or description for the table"}],"correctKey":"D","answerText":"Answer: D. It provides a title or description for the table"},{"number":15,"question":"15. How does the <header> tag differ from a <div> tag?","options":[{"key":"A","text":"A. <header> is semantic, while <div> is non-semantic"},{"key":"B","text":"B. <header> is inline, while <div> is block"},{"key":"C","text":"C. <header> only holds text, while <div> holds media"},{"key":"D","text":"D. <header> requires CSS, while <div> does not"}],"correctKey":"A","answerText":"Answer: A. <header> is semantic, while <div> is non-semantic"},{"number":16,"question":"16. What is the main idea behind using <thead>, <tbody>, and <tfoot> instead of using only <tr> elements?","options":[{"key":"A","text":"A. They automatically add colours and borders to different table rows"},{"key":"B","text":"B. They divide a table into meaningful sections for better organization"},{"key":"C","text":"C. They reduce the number of cells required in a table"},{"key":"D","text":"D. They convert a table into an interactive form"}],"correctKey":"B","answerText":"Answer: B. They divide a table into meaningful sections for better organization"},{"number":17,"question":"17. How does the placeholder attribute relate to helping users in an HTML form?","options":[{"key":"A","text":"A. It automatically fills the input field with permanent data"},{"key":"B","text":"B. It prevents the user from modifying the input field"},{"key":"C","text":"C. It validates the input against a specified pattern"},{"key":"D","text":"D. It displays a hint inside an input field until the user enters data"}],"correctKey":"D","answerText":"Answer: D. It displays a hint inside an input field until the user enters data"},{"number":18,"question":"18. How does type=\"date\"relate to improving the user experience compared to a plain text input?","options":[{"key":"A","text":"A. It allows users to enter only numbers without selecting a date"},{"key":"B","text":"B. It automatically submits the form after a date is selected"},{"key":"C","text":"C. It provides a date-selection interface and helps users enter a valid date"},{"key":"D","text":"D. It stores the selected date permanently in the browser"}],"correctKey":"C","answerText":"Answer: C. It provides a date-selection interface and helps users enter a valid date"},{"number":19,"question":"19. How does the controls attribute relate to the usability of <audio> and<video> elements?","options":[{"key":"A","text":"A. It provides built-in controls such as play, pause, and volume"},{"key":"B","text":"B. It automatically downloads the media file to the user's device"},{"key":"C","text":"C. It converts the media file into a different format"},{"key":"D","text":"D. It prevents the media from being played more than once"}],"correctKey":"A","answerText":"Answer: A. It provides built-in controls such as play, pause, and volume"},{"number":20,"question":"20. How does the <video> tag differ from the <iframe> tag for embedding media?","options":[{"key":"A","text":"A. <video> embeds external links, while <iframe> plays local files"},{"key":"B","text":"B. <video> plays local files, while <iframe> embeds external content"},{"key":"C","text":"C. Both tags function identically in all browsers"},{"key":"D","text":"D. <video> requires JavaScript, while <iframe> does not"}],"correctKey":"B","answerText":"Answer: B. <video> plays local files, while <iframe> embeds external content"}]},{"id":"module-3","label":"Module 3","title":"MODULE 3","questions":[{"number":1,"question":"1. What is meant by the box model in CSS?","options":[{"key":"A","text":"A. A method of arranging elements only in rows"},{"key":"B","text":"B. A model that describes an element in terms of content, padding, border, and margin"},{"key":"C","text":"C. A method of applying animations to elements"},{"key":"D","text":"D. A technique for creating tables"}],"correctKey":"B","answerText":"Answer: B. A model that describes an element in terms of content, padding, border and margin"},{"number":2,"question":"2. How does the display property relate to the layout behaviour of an HTML element?","options":[{"key":"A","text":"A. It changes the content of the element"},{"key":"B","text":"B. It controls how an element is displayed and participates in the layout"},{"key":"C","text":"C. It changes the URL of the webpage"},{"key":"D","text":"D. It adds multimedia content to the element"}],"correctKey":"B","answerText":"Answer: B. It controls how an element is displayed and participates in the layout"},{"number":3,"question":"3. What is the main idea of using CSS selectors?","options":[{"key":"A","text":"A. To select HTML elements to which CSS rules should be applied"},{"key":"B","text":"B. To create HTML documents"},{"key":"C","text":"C. To connect a webpage to a web server"},{"key":"D","text":"D. To store webpage data"}],"correctKey":"A","answerText":"Answer: A. To select HTML elements to which CSS rules should be applied"},{"number":4,"question":"4. What is the main idea of using CSS transitions on web elements?","options":[{"key":"A","text":"A. Smooth property change"},{"key":"B","text":"B. HTML validation"},{"key":"C","text":"C. Image storage"},{"key":"D","text":"D. Page linking"}],"correctKey":"A","answerText":"Answer: A. Smooth property change"},{"number":5,"question":"5. How does CSS Grid compare to Flexbox in layout dimensions?","options":[{"key":"A","text":"A. Grid is two-dimensional, while flexbox is one-dimensional"},{"key":"B","text":"B. Grid is used for text, while Flexbox is used for images"},{"key":"C","text":"C. Grid requires JavaScript, while Flexbox does not"},{"key":"D","text":"D. There is no difference"}],"correctKey":"A","answerText":"Answer: A. Grid is two-dimensional, while flexbox is one-dimensional"},{"number":6,"question":"6. What is the main idea of applying a hover effect to an element?","options":[{"key":"A","text":"A. The element is deleted"},{"key":"B","text":"B. The webpage is reloaded"},{"key":"C","text":"C. Its appearance can change when the pointer moves over it"},{"key":"D","text":"D. The browser closes"}],"correctKey":"C","answerText":"Answer: C. Its appearance can change when the pointer moves over it"},{"number":7,"question":"7. How does the padding property relate to element spacing in the CSS box model?","options":[{"key":"A","text":"A. It creates space outside the element’s border"},{"key":"B","text":"B. It adds space inside the element between the content and the border"},{"key":"C","text":"C. It defines the gap between two flex items"},{"key":"D","text":"D. It changes the size of the font inside an element"}],"correctKey":"B","answerText":"Answer: B. It adds space inside the element between the content and the border"},{"number":8,"question":"8. How do CSS transitions improve user interaction on a webpage?","options":[{"key":"A","text":"A. By animating property changes smoothly over time"},{"key":"B","text":"B. By creating dynamic HTML elements on click"},{"key":"C","text":"C. By fetching interactive data from a database"},{"key":"D","text":"D. By speeding up stylesheet download times"}],"correctKey":"A","answerText":"Answer: A. By animating property changes smoothly over time"},{"number":9,"question":"9. What is the main idea of using the # symbol in a CSS selector rule?","options":[{"key":"A","text":"A. To select all elements of a specific class"},{"key":"B","text":"B. To target a single element with a specific unique ID"},{"key":"C","text":"C. To select all elements across the entire document"},{"key":"D","text":"D. To define a media query"}],"correctKey":"B","answerText":"Answer: B. To target a single element with a specific unique ID"},{"number":10,"question":"10. What is the main idea of using a CSS media query in web design?","options":[{"key":"A","text":"A. To embed audio and video in a webpage"},{"key":"B","text":"B. To link an external CSS file to an HTML document"},{"key":"C","text":"C. To define animations for HTML element"},{"key":"D","text":"D. To apply different styles based on the screen size or device type"}],"correctKey":"D","answerText":"Answer: D. To apply different styles based on the screen size or device type"},{"number":11,"question":"11. How would you apply the same CSS style to all paragraphs on a webpage?","options":[{"key":"A","text":"A. Use the p selector"},{"key":"B","text":"B. Use the paragraph property"},{"key":"C","text":"C. Use the <style> attribute"},{"key":"D","text":"D. Use the text selector"}],"correctKey":"A","answerText":"Answer: A. Use the p selector"},{"number":12,"question":"12. What approach would you use to make a webpage look good on both mobile and desktop screens?","options":[{"key":"A","text":"A. Create two separate HTML files, one for mobile and one for desktop"},{"key":"B","text":"B. Use the <meta> tag to switch between mobile and desktop views"},{"key":"C","text":"C. Use @media queries in CSS to apply different styles based on screen width"},{"key":"D","text":"D. Use display:none to hide the elements on smaller screens"}],"correctKey":"C","answerText":"Answer: C. Use @media queries in CSS to apply different styles based on screen width"},{"number":13,"question":"13. What approach would you use to arrange a set of navigation links horizontally using CSS?","options":[{"key":"A","text":"A. Set display:block on the container element"},{"key":"B","text":"B. Set display:flex on the container element"},{"key":"C","text":"C. Set display:inline on the container element"},{"key":"D","text":"D. Set display:grid on each individual link"}],"correctKey":"B","answerText":"Answer: B. Set display:flex on the container element"},{"number":14,"question":"14. How would you change the text color of a heading to blue using CSS?","options":[{"key":"A","text":"A. Set background-color: blue; for the heading"},{"key":"B","text":"B. Set color: blue; for the heading"},{"key":"C","text":"C. Set text-style: blue; for the heading"},{"key":"D","text":"D. Set font-color: blue; for the heading"}],"correctKey":"B","answerText":"Answer: B. Set color: blue; for the heading"},{"number":15,"question":"15. How would you create a thin solid border around a <div> element?","options":[{"key":"A","text":"A. Use border: 1px solid;"},{"key":"B","text":"B. Use outline: 1px solid;"},{"key":"C","text":"C. Use box: 1px solid;"},{"key":"D","text":"D. Use edge: 1px solid;"}],"correctKey":"A","answerText":"Answer: A. Use border: 1px solid;"},{"number":16,"question":"16. What approach would you use to link an external CSS file named style.css to an HTML document?","options":[{"key":"A","text":"A. <style src=\"style.css\">"},{"key":"B","text":"B. <csshref=\"style.css\">"},{"key":"C","text":"C. <link rel=\"stylesheet\" href=\"style.css\">"},{"key":"D","text":"D. <script src=\"style.css\"><\/script>"}],"correctKey":"C","answerText":"Answer: C. <link rel=\"stylesheet\" href=\"style.css\">"},{"number":17,"question":"17. How would you create three equal-width columns using CSS Grid?","options":[{"key":"A","text":"A. Set flex-direction: column;"},{"key":"B","text":"B. Set grid-template-rows: repeat(3, 1fr);"},{"key":"C","text":"C. Set justify-content: space-betweeen;"},{"key":"D","text":"D. Set grid-template-columns: repeat(3, 1fr);"}],"correctKey":"D","answerText":"Answer: D. Set grid-template-columns: repeat(3, 1fr);"},{"number":18,"question":"18. What approach would you use to keep a navigation bar fixed at the top while scrolling?","options":[{"key":"A","text":"A. Apply position: static; to the navigation bar"},{"key":"B","text":"B. Apply position: fixed; to the navigation bar"},{"key":"C","text":"C. Apply display: inline; to the navigation bar"},{"key":"D","text":"D. Apply position: relative; without any additional positioning"}],"correctKey":"B","answerText":"Answer: B. Apply position: fixed; to the navigation bar"},{"number":19,"question":"19. What approach would you use to apply reusable styles across an entire website?","options":[{"key":"A","text":"A. Embed internal <style> tags in every HTML file"},{"key":"B","text":"B. Write inline style attributes on individual elements"},{"key":"C","text":"C. Link an external CSS file using the <link> tag"},{"key":"D","text":"D. Copy identical CSS blocks into each page <body>"}],"correctKey":"C","answerText":"Answer: C. Link an external CSS file using the <link> tag"},{"number":20,"question":"20. How would you use box-shadow and border-radius to style a card component?","options":[{"key":"A","text":"A. Use border-radius for shadows and box-shadow for corners"},{"key":"B","text":"B. Use border-radius to round corners and box-shadow for depth"},{"key":"C","text":"C. Use box-shadow for width and border-radius for height"},{"key":"D","text":"D. Both properties perform the identical styling function"}],"correctKey":"B","answerText":"Answer: B. Use border-radius to round corners and box-shadow for depth"}]},{"id":"module-4","label":"Module 4","title":"MODULE 4","questions":[{"number":1,"question":"1. How would you store a student's age in JavaScript?","options":[{"key":"A","text":"A. let age = “20”;"},{"key":"B","text":"B. let age = 20;"},{"key":"C","text":"C. let student = age;"},{"key":"D","text":"D. age = true;"}],"correctKey":"B","answerText":"Answer: B. let age = 20;"},{"number":2,"question":"2. What approach would you use to store the names of 5 students together in JavaScript?","options":[{"key":"A","text":"A. Store them in an array"},{"key":"B","text":"B. Store them in five separate operators"},{"key":"C","text":"C. Store them in a single Boolean value"},{"key":"D","text":"D. Store them inside an event"}],"correctKey":"A","answerText":"Answer: A. Store them in an array"},{"number":3,"question":"3. What approach would you use to display \"Pass\" only when a student's mark is 40 or above?","options":[{"key":"A","text":"A. Use an if statement with a suitable condition"},{"key":"B","text":"B. Use an array to store the result"},{"key":"C","text":"C. Use an object to compare the marks"},{"key":"D","text":"D. Use a function without any condition"}],"correctKey":"A","answerText":"Answer: A. Use an if statement with a suitable condition"},{"number":4,"question":"4. How would you run JavaScript code automatically after a webpage loads?","options":[{"key":"A","text":"A. Use the onclick event"},{"key":"B","text":"B. Use the onchange event"},{"key":"C","text":"C. Use the onsubmit event"},{"key":"D","text":"D. Use the onload event"}],"correctKey":"D","answerText":"Answer: D. Use the onload event"},{"number":5,"question":"5. How would you access the first element of an array named students in JavaScript?","options":[{"key":"A","text":"A. students(1)"},{"key":"B","text":"B. students.first"},{"key":"C","text":"C. students[0]"},{"key":"D","text":"D. students{0}"}],"correctKey":"C","answerText":"Answer: C. students[0]"},{"number":6,"question":"6. How would you use a JavaScript operator to calculate the total of two numbers?","options":[{"key":"A","text":"A. Use the - operator"},{"key":"B","text":"B. Use the + operator"},{"key":"C","text":"C. Use the * operator"},{"key":"D","text":"D. Use the / operator"}],"correctKey":"B","answerText":"Answer: B. Use the + operator"},{"number":7,"question":"7. How would you verify in JavaScript that a required input field is not empty?","options":[{"key":"A","text":"A. Rely solely on HTML required validation"},{"key":"B","text":"B. Check if the input value === \"\" before submission"},{"key":"C","text":"C. Check if the element has CSS error classes applied"},{"key":"D","text":"D. Iterate through all form child nodes using a for loop"}],"correctKey":"B","answerText":"Answer: B. Check if the input value === \"\" before submission"},{"number":8,"question":"8. How would you store a user's name in JavaScript for later use?","options":[{"key":"A","text":"A. By using a <input> tag in HTML"},{"key":"B","text":"B. By writing the name directly inside a <script> tag without any variable"},{"key":"C","text":"C. By declaring a variable using let or var and assigning the name to it"},{"key":"D","text":"D. By using a CSS property to store the value"}],"correctKey":"C","answerText":"Answer: C. By declaring a variable using let or var and assigning the name to it"},{"number":9,"question":"9. How would you use a JavaScript function to prevent code repetition?","options":[{"key":"A","text":"A. Place reusable logic inside a <style> block"},{"key":"B","text":"B. Run an infinite for loop across the script"},{"key":"C","text":"C. Duplicate the statement block across handlers"},{"key":"D","text":"D. Declare a function and invoke it whenever needed"}],"correctKey":"D","answerText":"Answer: D. Declare a function and invoke it whenever needed"},{"number":10,"question":"10. What approach would you use to access an HTML element by its id using JavaScript?","options":[{"key":"A","text":"A. document.getElement(\"id\")"},{"key":"B","text":"B. document.querySelector(\"elementName\")"},{"key":"C","text":"C. document.getElementById(\"id\")"},{"key":"D","text":"D. document.findElement(\"id\")"}],"correctKey":"C","answerText":"Answer: C. document.getElementById(\"id\")"},{"number":11,"question":"11. How would you use a JavaScript object to store a student's name, age, and department as related information?","options":[{"key":"A","text":"A. Create a separate function for each character of the student's name"},{"key":"B","text":"B. Create an object with name, age, and department as properties"},{"key":"C","text":"C. Store all information in a single arithmetic expression"},{"key":"D","text":"D. Store the information as CSS selector values"}],"correctKey":"B","answerText":"Answer: B. Create an object with name, age, and department as properties"},{"number":12,"question":"12. How would you use AJAX to fetch server data asynchronously?","options":[{"key":"A","text":"A. Submit a <form> using method=”get”"},{"key":"B","text":"B. Send background requests using fetch() or XMLHttpRequest"},{"key":"C","text":"C. Refresh the document using a <meta> refresh tag"},{"key":"D","text":"D. Embed raw JSON data directly inside the HTML markup"}],"correctKey":"B","answerText":"Answer: B. Send background requests using fetch() or XMLHttpRequest"},{"number":13,"question":"13. What approach would you use to read a property from a JSON string in JavaScript?","options":[{"key":"A","text":"A. Parse the string using JSON.parse() and access properties via dot notation"},{"key":"B","text":"B. Convert the payload into an array using JSON.stringify()"},{"key":"C","text":"C. Retrieve the string value using document.getElementById()"},{"key":"D","text":"D. Traverse the raw string directly using a while loop"}],"correctKey":"A","answerText":"Answer: A. Parse the string using JSON.parse() and access properties via dot notation"},{"number":14,"question":"14. What approach would you use to protect a webpage from Cross Site Scripting (XSS)?","options":[{"key":"A","text":"A. Apply strict CSS styling on all input fields"},{"key":"B","text":"B. Sanitize and escape all user input before rendering"},{"key":"C","text":"C. Increase the number of hidden form input tags"},{"key":"D","text":"D. Disable client-side JavaScript across the browser"}],"correctKey":"B","answerText":"Answer: B. Sanitize and escape all user input before rendering"},{"number":15,"question":"15. How would you handle different URL requests in Node.js?","options":[{"key":"A","text":"A. Create separate HTML static files for every URL path"},{"key":"B","text":"B. Redirect client browsers using CSS class rules"},{"key":"C","text":"C. Define route handlers for specific paths using Express"},{"key":"D","text":"D. Inspect the active browser URL using document.getElementById()"}],"correctKey":"C","answerText":"Answer: C. Define route handlers for specific paths using Express"},{"number":16,"question":"16. What approach would you use to convert a JavaScript object into a JSON string to send it to a server?","options":[{"key":"A","text":"A. Use JSON.parse() to convert the object into a string"},{"key":"B","text":"B. Use toString() method directly on the object"},{"key":"C","text":"C. Use document.write() to output the object as a string"},{"key":"D","text":"D. Use JSON.stringify() to convert the object into a JSON string"}],"correctKey":"D","answerText":"Answer: D. Use JSON.stringify() to convert the object into a JSON string"},{"number":17,"question":"17. What approach would you use to prevent Cross-Site Request Forgery (CSRF)?","options":[{"key":"A","text":"A. Add hidden dummy fields inside the form"},{"key":"B","text":"B. Disable form submission handlers using JavaScript"},{"key":"C","text":"C. Validate unique CSRF tokens on each submission"},{"key":"D","text":"D. Restrict form styling using custom CSS rules"}],"correctKey":"C","answerText":"Answer: C. Validate unique CSRF tokens on each submission"},{"number":18,"question":"18. How would you add a new item to an HTML list using DOM manipulation?","options":[{"key":"A","text":"A. Insert raw list text using the CSS content property"},{"key":"B","text":"B. B.Replace the inner HTML of the entire list node"},{"key":"C","text":"C. Create an <li> with createElement() and append it via appendChild()"},{"key":"D","text":"D. Create an <li> with createElement() and append it via appendChild()"}],"correctKey":"C","answerText":"Answer: C. Create an <li> with createElement() and append it via appendChild()"},{"number":19,"question":"19. How would you fetch server data using AJAX without blocking user interactions?","options":[{"key":"A","text":"A. Send asynchronous background requests without reloading the page"},{"key":"B","text":"B. Trigger a page reload before dispatching each request"},{"key":"C","text":"C. Replace the active document with a blank HTML response"},{"key":"D","text":"D. Cache response payloads exclusively inside CSS stylesheets"}],"correctKey":"A","answerText":"Answer: A. Send asynchronous background requests without reloading the page"},{"number":20,"question":"20. What approach would you use to reduce the risk of a malicious website submitting an unauthorized request using a user's active session?","options":[{"key":"A","text":"A. Use appropriate CSRF protection for the submitted request"},{"key":"B","text":"B. Use CSS Grid for the form layout"},{"key":"C","text":"C. Use an array to store the user's session"},{"key":"D","text":"D. Use a JavaScript hover effect on the submit button"}],"correctKey":"A","answerText":"Answer: A. Use appropriate CSRF protection for the submitted request"}]},{"id":"module-5","label":"Module 5","title":"MODULE 5","questions":[{"number":1,"question":"1. How would you use Azure App Service to make an HTML/CSS/JavaScript website available on the Internet?","options":[{"key":"A","text":"A. Create an Azure Storage container without uploading files"},{"key":"B","text":"B. Create an Azure Function without any code"},{"key":"C","text":"C. Create an Azure DevOps project without a repository"},{"key":"D","text":"D. Create a Web App and deploy the website files to it"}],"correctKey":"D","answerText":"Answer: D. Create a Web App and deploy the website files to it"},{"number":2,"question":"2. What approach would you use to deploy a static website using Azure Static Web Apps?","options":[{"key":"A","text":"A. Install the website on a local computer only"},{"key":"B","text":"B. Connect the website source code and deploy it through Static Web Apps"},{"key":"C","text":"C. Create a virtual machine and manually install a browser"},{"key":"D","text":"D. Store the HTML files only in an email account"}],"correctKey":"B","answerText":"Answer: B. Connect the website source code and deploy it through Static Web Apps"},{"number":3,"question":"3. How would you use Azure Functions in a web application?","options":[{"key":"A","text":"A. Store static multimedia assets"},{"key":"B","text":"B. Manage user identity and passwords"},{"key":"C","text":"C. Run serverless code in response to events"},{"key":"D","text":"D. Render frontend UI styling"}],"correctKey":"C","answerText":"Answer: C. Run serverless code in response to events"},{"number":4,"question":"4. What approach would you use to deploy website changes automatically?","options":[{"key":"A","text":"A. Configure a CI/CD pipeline"},{"key":"B","text":"B. Download and copy files manually"},{"key":"C","text":"C. Restart client web browsers"},{"key":"D","text":"D. Rewrite source markup on the live host"}],"correctKey":"A","answerText":"Answer: A. Configure a CI/CD pipeline"},{"number":5,"question":"5. How would you use Azure DevOps Pipelines to automate website deployment?","options":[{"key":"A","text":"A. Use the pipeline only to write HTML code"},{"key":"B","text":"B. Use the pipeline to replace the web browser"},{"key":"C","text":"C. Use the pipeline only to store images"},{"key":"D","text":"D. Configure a pipeline to build and deploy the website"}],"correctKey":"D","answerText":"Answer: D. Configure a pipeline to build and deploy the website"},{"number":6,"question":"6. How would you use Azure CDN to improve website performance?","options":[{"key":"A","text":"A. Host the web database on edge nodes"},{"key":"B","text":"B. Cache static content on edge servers close to users"},{"key":"C","text":"C. Manage user authentication tokens"},{"key":"D","text":"D. Speed up server-side script compilation"}],"correctKey":"B","answerText":"Answer: B. Cache static content on edge servers close to users"},{"number":7,"question":"7. What approach would you use to store uploaded files from a web application on Azure?","options":[{"key":"A","text":"A. Store the files inside the Azure App Service itself"},{"key":"B","text":"B. Use Azure Blob Storage to store and manage uploaded files"},{"key":"C","text":"C. Use Azure Functions to permanently hold the uploaded files"},{"key":"D","text":"D. Use Azure DevOps to archive the uploaded files"}],"correctKey":"B","answerText":"Answer: B. Use Azure Blob Storage to store and manage uploaded files"},{"number":8,"question":"8. How would you use Azure DevOps Pipelines to manage application deployments?","options":[{"key":"A","text":"A. Design interactive website UI layouts"},{"key":"B","text":"B. Maintain regular SQL database backups"},{"key":"C","text":"C. Monitor real-time active user sessions"},{"key":"D","text":"D. Automate build, test, and release on every code commit"}],"correctKey":"D","answerText":"Answer: D. Automate build, test, and release on every code commit"},{"number":9,"question":"9. What approach would you use to serve web media files from Azure Storage?","options":[{"key":"A","text":"A. Store files in Blob Storage and reference their public URLs"},{"key":"B","text":"B. Hardcode binary media data into JavaScript files"},{"key":"C","text":"C. Push media files directly to the Azure DevOps repo"},{"key":"D","text":"D. Use Azure Functions to generate media on demand"}],"correctKey":"A","answerText":"Answer: A. Store files in Blob Storage and reference their public URLs"},{"number":10,"question":"10. What approach would you use to make frequently accessed website content available efficiently to users through Azure?","options":[{"key":"A","text":"A. Use Azure Functions to create every webpage"},{"key":"B","text":"B. Use Azure CDN to cache and deliver content"},{"key":"C","text":"C. Use Azure DevOps to replace the browser"},{"key":"D","text":"D. Use Azure Storage only for executing JavaScript"}],"correctKey":"B","answerText":"Answer: B. Use Azure CDN to cache and deliver content"},{"number":11,"question":"11. What approach would you use to deploy a site to Azure Static Web Apps via GitHub?","options":[{"key":"A","text":"A. Upload files manually via the Azure portal"},{"key":"B","text":"B. Connect the repository to trigger automated deployments on push"},{"key":"C","text":"C. Serve markup directly from Azure Function handlers"},{"key":"D","text":"D. Store HTML source code in Azure SQL Database"}],"correctKey":"B","answerText":"Answer: B. Connect the repository to trigger automated deployments on push"},{"number":12,"question":"12. How would you manage environment configurations in Azure App Service?","options":[{"key":"A","text":"A. Hardcode sensitive values inside client JavaScript"},{"key":"B","text":"B. Save environment settings in Azure Blob Storage"},{"key":"C","text":"C. Store environment variables in App Service Application Settings"},{"key":"D","text":"D. Create dedicated HTML files per deployment environment"}],"correctKey":"C","answerText":"Answer: C. Store environment variables in App Service Application Settings"},{"number":13,"question":"13. How would you architect a serverless web application using Azure cloud services?","options":[{"key":"A","text":"A. Static Web Apps for UI, Functions for API, Blob Storage for media"},{"key":"B","text":"B. Storage for UI, Static Web Apps for API, Functions for media"},{"key":"C","text":"C. Functions for UI, Storage for API, Static Web Apps for media"},{"key":"D","text":"D. Azure CDN exclusively for UI, API endpoints, and storage"}],"correctKey":"A","answerText":"Answer: A. Static Web Apps for UI, Functions for API, Blob Storage for media"},{"number":14,"question":"14. What approach would you use to reduce latency for a global Azure-hosted website?","options":[{"key":"A","text":"A. Scale up the App Service compute instance size"},{"key":"B","text":"B. Include additional client-side script bundles"},{"key":"C","text":"C. Recompress project files before each build pipeline"},{"key":"D","text":"D. Cache static assets across edge servers using Azure CDN"}],"correctKey":"D","answerText":"Answer: D. Cache static assets across edge servers using Azure CDN"},{"number":15,"question":"15. How would you use Azure DevOps Pipelines to revert a failed release?","options":[{"key":"A","text":"A. Delete and recreate the Azure resource group"},{"key":"B","text":"B. Manually upload past source builds to Blob Storage"},{"key":"C","text":"C. Redeploy the last stable build from the pipeline history"},{"key":"D","text":"D. Configure Azure CDN to permanently lock previous cache files"}],"correctKey":"C","answerText":"Answer: C. Redeploy the last stable build from the pipeline history"},{"number":16,"question":"16. What approach would you use to track live performance metrics of an App Service app?","options":[{"key":"A","text":"A. Inspect rendered page source in the browser"},{"key":"B","text":"B. Enable Azure Monitor and Application Insights"},{"key":"C","text":"C. Review storage container download metrics"},{"key":"D","text":"D. Inspect completed CI/CD build terminal logs"}],"correctKey":"B","answerText":"Answer: B. Enable Azure Monitor and Application Insights"},{"number":17,"question":"17. What approach would you use to secure an Azure Function HTTP endpoint?","options":[{"key":"A","text":"A. Add verification conditions inside HTML template tags"},{"key":"B","text":"B. Obfuscate the function URL inside CSS stylesheets"},{"key":"C","text":"C. Enforce Function access keys or Azure AD authentication"},{"key":"D","text":"D. Route traffic through Azure CDN with caching disabled"}],"correctKey":"C","answerText":"Answer: C. Enforce Function access keys or Azure AD authentication"},{"number":18,"question":"18. What would you do if a website needs both file storage and faster delivery of frequently accessed content?","options":[{"key":"A","text":"A. Use Azure Storage for files and Azure CDN for content delivery"},{"key":"B","text":"B. Use Azure Functions for file storage and App Service for caching"},{"key":"C","text":"C. Use Azure DevOps for file storage and Functions for caching"},{"key":"D","text":"D. Use Static Web Apps for storing all files and HTML tables for delivery"}],"correctKey":"A","answerText":"Answer: A. Use Azure Storage for files and Azure CDN for content delivery"},{"number":19,"question":"19. How would you run backend tasks in a serverless Azure environment?","options":[{"key":"A","text":"A. Provision dedicated virtual server instances manuall"},{"key":"B","text":"B. Trigger Azure Functions on demand without managing servers"},{"key":"C","text":"C. Bundle backend processing scripts into frontend static bundles"},{"key":"D","text":"D. Execute database queries directly inside client browsers"}],"correctKey":"B","answerText":"Answer: B. Trigger Azure Functions on demand without managing servers"},{"number":20,"question":"20. How does Azure Static Web Apps differ from Azure App Service?","options":[{"key":"A","text":"A. Static Web Apps supports server runtimes, while App Service does not"},{"key":"B","text":"B. Static Web Apps is tailored for static UI, while App Service runs full backend stacks"},{"key":"C","text":"C. Both services provide identical serverless hosting capabilities"},{"key":"D","text":"D. Static Web Apps requires manual VM configuration"}],"correctKey":"B","answerText":"Answer: B. Static Web Apps is tailored for static UI, while App Service runs full backend stacks"}]}];
+      let activeModuleIndex = 0;
+      const answersByModule = {};
+      const scoreVisibleByModule = {};
 
-    const state = {
-      activeModuleId: QUIZ_MODULES[0].id,
-      selections: {},
-      showAllScores: false,
-      dark: true
-    };
-
-    const savedTheme = localStorage.getItem('single-quiz-theme');
-    if (savedTheme === 'light') state.dark = false;
-
-    function applyTheme() {
-      const root = document.documentElement;
-      const btn = document.getElementById('themeToggle');
-      if (state.dark) {
-        root.classList.add('dark');
-        btn.textContent = 'Light Mode';
-        localStorage.setItem('single-quiz-theme', 'dark');
-      } else {
-        root.classList.remove('dark');
-        btn.textContent = 'Dark Mode';
-        localStorage.setItem('single-quiz-theme', 'light');
-      }
-    }
-
-    function escapeHtml(str) {
-      return String(str)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;');
-    }
-
-    function renderDiagram(type) {
-      switch (type) {
-        case 'm1_q14_linked_list':
-          return '<div class="q-diagram"><svg viewBox="0 0 360 76" width="340" style="color:var(--text)"><text x="14" y="14" font-size="10" font-weight="600" fill="currentColor" font-family="monospace">HEAD</text><line x1="27" y1="18" x2="27" y2="34" stroke="currentColor" stroke-width="1.4"/><polygon points="27,36 24,30 30,30" fill="currentColor"/><rect x="8" y="38" width="54" height="24" fill="none" stroke="currentColor" stroke-width="1.4"/><line x1="38" y1="38" x2="38" y2="62" stroke="currentColor" stroke-width="1.2"/><text x="23" y="54" text-anchor="middle" font-size="11" fill="currentColor" font-family="monospace">10</text><circle cx="50" cy="50" r="2.5" fill="currentColor"/><line x1="53" y1="50" x2="90" y2="50" stroke="currentColor" stroke-width="1.4"/><polygon points="92,50 86,47 86,53" fill="currentColor"/><rect x="94" y="38" width="54" height="24" fill="none" stroke="currentColor" stroke-width="1.4"/><line x1="124" y1="38" x2="124" y2="62" stroke="currentColor" stroke-width="1.2"/><text x="109" y="54" text-anchor="middle" font-size="11" fill="currentColor" font-family="monospace">20</text><circle cx="136" cy="50" r="2.5" fill="currentColor"/><line x1="139" y1="50" x2="176" y2="50" stroke="currentColor" stroke-width="1.4"/><polygon points="178,50 172,47 172,53" fill="currentColor"/><rect x="180" y="38" width="84" height="24" fill="none" stroke="currentColor" stroke-width="1.4"/><line x1="214" y1="38" x2="214" y2="62" stroke="currentColor" stroke-width="1.2"/><text x="197" y="54" text-anchor="middle" font-size="11" fill="currentColor" font-family="monospace">30</text><text x="239" y="54" text-anchor="middle" font-size="10" fill="currentColor" font-family="monospace">NULL</text></svg></div>';
-        case 'm1_q15_linked_list':
-          return '<div class="q-diagram"><svg viewBox="0 0 430 76" width="400" style="color:var(--text)"><text x="14" y="14" font-size="10" font-weight="600" fill="currentColor" font-family="monospace">HEAD</text><line x1="27" y1="18" x2="27" y2="34" stroke="currentColor" stroke-width="1.4"/><polygon points="27,36 24,30 30,30" fill="currentColor"/><rect x="8" y="38" width="52" height="24" fill="none" stroke="currentColor" stroke-width="1.4"/><line x1="38" y1="38" x2="38" y2="62" stroke="currentColor" stroke-width="1.2"/><text x="23" y="54" text-anchor="middle" font-size="11" fill="currentColor" font-family="monospace">10</text><circle cx="49" cy="50" r="2.5" fill="currentColor"/><line x1="52" y1="50" x2="88" y2="50" stroke="currentColor" stroke-width="1.4"/><polygon points="90,50 84,47 84,53" fill="currentColor"/><rect x="92" y="38" width="52" height="24" fill="none" stroke="currentColor" stroke-width="1.4"/><line x1="122" y1="38" x2="122" y2="62" stroke="currentColor" stroke-width="1.2"/><text x="107" y="54" text-anchor="middle" font-size="11" fill="currentColor" font-family="monospace">20</text><circle cx="133" cy="50" r="2.5" fill="currentColor"/><line x1="136" y1="50" x2="172" y2="50" stroke="currentColor" stroke-width="1.4"/><polygon points="174,50 168,47 168,53" fill="currentColor"/><rect x="176" y="38" width="52" height="24" fill="none" stroke="currentColor" stroke-width="1.4"/><line x1="206" y1="38" x2="206" y2="62" stroke="currentColor" stroke-width="1.2"/><text x="191" y="54" text-anchor="middle" font-size="11" fill="currentColor" font-family="monospace">30</text><circle cx="217" cy="50" r="2.5" fill="currentColor"/><line x1="220" y1="50" x2="256" y2="50" stroke="currentColor" stroke-width="1.4"/><polygon points="258,50 252,47 252,53" fill="currentColor"/><rect x="260" y="38" width="84" height="24" fill="none" stroke="currentColor" stroke-width="1.4"/><line x1="294" y1="38" x2="294" y2="62" stroke="currentColor" stroke-width="1.2"/><text x="277" y="54" text-anchor="middle" font-size="11" fill="currentColor" font-family="monospace">40</text><text x="319" y="54" text-anchor="middle" font-size="10" fill="currentColor" font-family="monospace">NULL</text></svg></div>';
-        case 'm1_q18_array':
-          return '<div class="q-diagram"><div class="arr-box"><div class="arr-cell">30</div><div class="arr-cell">10</div><div class="arr-cell">20</div></div></div>';
-        case 'm1_q19_array':
-          return '<div class="q-diagram"><div class="arr-box"><div class="arr-cell">10</div><div class="arr-cell">20</div><div class="arr-cell">30</div></div></div>';
-        case 'm1_q20_matrix':
-          return '<div class="q-diagram"><div class="matrix-wrap"><div class="matrix-bracket-l"></div><div class="matrix-grid"><span>0</span><span>0</span><span>5</span><span>0</span><span>0</span><span>0</span><span>8</span><span>0</span><span>0</span></div><div class="matrix-bracket-r"></div></div></div>';
-        case 'm4_q2_expr_tree':
-          return '<div class="q-diagram"><svg viewBox="0 0 210 155" width="200" style="color:var(--text)"><line x1="112" y1="34" x2="78" y2="62" stroke="currentColor" stroke-width="1.4"/><line x1="138" y1="34" x2="165" y2="62" stroke="currentColor" stroke-width="1.4"/><line x1="56" y1="88" x2="36" y2="115" stroke="currentColor" stroke-width="1.4"/><line x1="76" y1="88" x2="96" y2="115" stroke="currentColor" stroke-width="1.4"/><circle cx="125" cy="24" r="15" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/><text x="125" y="29" text-anchor="middle" font-size="15" font-weight="700" fill="currentColor">*</text><circle cx="66" cy="76" r="15" fill="var(--green-bg)" stroke="var(--green-border)" stroke-width="1.5"/><text x="66" y="81" text-anchor="middle" font-size="14" font-weight="700" fill="currentColor">+</text><circle cx="174" cy="76" r="15" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.5"/><text x="174" y="80" text-anchor="middle" font-size="12" font-weight="600" fill="currentColor">5</text><circle cx="30" cy="130" r="15" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.5"/><text x="30" y="134" text-anchor="middle" font-size="12" font-weight="600" fill="currentColor">10</text><circle cx="102" cy="130" r="15" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.5"/><text x="102" y="134" text-anchor="middle" font-size="12" font-weight="600" fill="currentColor">20</text></svg></div>';
-        case 'm4_q5_graph':
-          return '<div class="q-diagram"><svg viewBox="0 0 220 110" width="210" style="color:var(--text)"><line x1="42" y1="24" x2="172" y2="24" stroke="currentColor" stroke-width="1.8"/><line x1="36" y1="36" x2="96" y2="80" stroke="currentColor" stroke-width="1.8"/><circle cx="28" cy="24" r="15" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/><text x="28" y="28" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">A</text><circle cx="186" cy="24" r="15" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/><text x="186" y="28" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">B</text><circle cx="106" cy="88" r="15" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/><text x="106" y="92" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">C</text></svg></div>';
-        case 'm4_q6_edges':
-          return '<div class="q-diagram mono" style="flex-direction:column;font-size:13px"><strong>Edges:</strong><span>&#8226; A &mdash; B</span><span>&#8226; A &mdash; C</span><span>&#8226; B &mdash; D</span></div>';
-        case 'm4_q7_bfs_graph':
-          return '<div class="q-diagram" style="gap:14px;align-items:center;flex-wrap:wrap"><div class="mono" style="font-size:12px;padding:8px 10px;border:1px solid var(--border);border-radius:6px;background:var(--surface)"><div>A &rarr; B, C</div><div>B &rarr; D, E</div></div><svg viewBox="0 0 180 135" width="170" style="color:var(--text)"><line x1="90" y1="24" x2="54" y2="62" stroke="currentColor" stroke-width="1.5"/><line x1="90" y1="24" x2="128" y2="62" stroke="currentColor" stroke-width="1.5"/><line x1="54" y1="62" x2="30" y2="108" stroke="currentColor" stroke-width="1.5"/><line x1="54" y1="62" x2="82" y2="108" stroke="currentColor" stroke-width="1.5"/><circle cx="90" cy="24" r="14" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.5"/><text x="90" y="28" text-anchor="middle" font-size="12" font-weight="700" fill="currentColor">A</text><circle cx="54" cy="62" r="14" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.5"/><text x="54" y="66" text-anchor="middle" font-size="12" font-weight="700" fill="currentColor">B</text><circle cx="128" cy="62" r="14" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.5"/><text x="128" y="66" text-anchor="middle" font-size="12" font-weight="700" fill="currentColor">C</text><circle cx="30" cy="108" r="14" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.5"/><text x="30" y="112" text-anchor="middle" font-size="12" font-weight="700" fill="currentColor">D</text><circle cx="82" cy="108" r="14" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.5"/><text x="82" y="112" text-anchor="middle" font-size="12" font-weight="700" fill="currentColor">E</text></svg></div>';
-        case 'm4_q8_weighted_graph':
-          return '<div class="q-diagram"><svg viewBox="0 0 180 140" width="175" style="color:var(--text)"><line x1="36" y1="30" x2="144" y2="30" stroke="currentColor" stroke-width="1.6"/><line x1="144" y1="30" x2="144" y2="110" stroke="currentColor" stroke-width="1.6"/><line x1="36" y1="30" x2="36" y2="110" stroke="currentColor" stroke-width="1.6"/><line x1="36" y1="110" x2="144" y2="110" stroke="currentColor" stroke-width="1.6"/><text x="90" y="21" text-anchor="middle" font-size="11" font-weight="600" fill="currentColor">4</text><text x="157" y="74" text-anchor="middle" font-size="11" font-weight="600" fill="currentColor">3</text><text x="22" y="74" text-anchor="middle" font-size="11" font-weight="600" fill="currentColor">2</text><text x="90" y="128" text-anchor="middle" font-size="11" font-weight="600" fill="currentColor">1</text><circle cx="36" cy="30" r="14" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.5"/><text x="36" y="34" text-anchor="middle" font-size="12" font-weight="700" fill="currentColor">A</text><circle cx="144" cy="30" r="14" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.5"/><text x="144" y="34" text-anchor="middle" font-size="12" font-weight="700" fill="currentColor">B</text><circle cx="36" cy="110" r="14" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.5"/><text x="36" y="114" text-anchor="middle" font-size="12" font-weight="700" fill="currentColor">C</text><circle cx="144" cy="110" r="14" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.5"/><text x="144" y="114" text-anchor="middle" font-size="12" font-weight="700" fill="currentColor">D</text></svg></div>';
-        case 'm4_q18_expr_tree':
-          return '<div class="q-diagram"><svg viewBox="0 0 180 115" width="175" style="color:var(--text)"><line x1="78" y1="32" x2="48" y2="70" stroke="currentColor" stroke-width="1.4"/><line x1="102" y1="32" x2="132" y2="70" stroke="currentColor" stroke-width="1.4"/><circle cx="90" cy="22" r="15" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/><text x="90" y="27" text-anchor="middle" font-size="14" font-weight="700" fill="currentColor">+</text><circle cx="40" cy="86" r="15" fill="var(--green-bg)" stroke="var(--green-border)" stroke-width="1.5"/><text x="40" y="90" text-anchor="middle" font-size="11" font-weight="600" fill="currentColor">10</text><circle cx="140" cy="86" r="15" fill="var(--green-bg)" stroke="var(--green-border)" stroke-width="1.5"/><text x="140" y="90" text-anchor="middle" font-size="11" font-weight="600" fill="currentColor">20</text></svg></div>';
-        default:
-          return '';
-      }
-    }
-
-    function getStats(mod) {
-      let answered = 0, correct = 0;
-      mod.questions.forEach(q => {
-        const picked = state.selections[q.id];
-        if (picked !== undefined) {
-          answered++;
-          if (picked === q.correctIndex) correct++;
-        }
+      MODULES.forEach(function (mod) {
+        answersByModule[mod.id] = {};
+        scoreVisibleByModule[mod.id] = false;
       });
-      return { answered, correct, total: mod.questions.length };
-    }
 
-    function render() {
-      const activeMod = QUIZ_MODULES.find(m => m.id === state.activeModuleId) || QUIZ_MODULES[0];
-      const activeStats = getStats(activeMod);
+      const tabsEl = document.getElementById('module-tabs');
+      const listEl = document.getElementById('questions-list');
+      const progressEl = document.getElementById('module-progress');
+      const showScoreBtn = document.getElementById('show-score-btn');
+      const resetModuleBtn = document.getElementById('reset-module-btn');
+      const scoreBoxEl = document.getElementById('score-box');
+      const scoreHeadingEl = document.getElementById('score-heading');
+      const scoreMetaEl = document.getElementById('score-meta');
 
-      // Tabs
-      const tabsEl = document.getElementById('moduleTabs');
-      tabsEl.innerHTML = QUIZ_MODULES.map(mod => {
-        const s = getStats(mod);
-        const isActive = mod.id === activeMod.id;
-        return '<button type="button" role="tab" aria-selected="' + isActive + '" class="tab-btn ' + (isActive ? 'active' : '') + '" data-mod="' + mod.id + '">' +
-          '<span>' + escapeHtml(mod.tabLabel) + '</span>' +
-          '<span class="tab-count">' + s.answered + '/' + s.total + '</span>' +
-          '</button>';
-      }).join('');
-
-      tabsEl.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          state.activeModuleId = btn.getAttribute('data-mod');
-          render();
-          window.scrollTo({ top: 0, behavior: 'smooth' });
+      function renderTabs() {
+        tabsEl.innerHTML = '';
+        MODULES.forEach(function (mod, idx) {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.role = 'tab';
+          btn.className = 'tab-btn' + (idx === activeModuleIndex ? ' active' : '');
+          btn.setAttribute('aria-selected', idx === activeModuleIndex ? 'true' : 'false');
+          btn.textContent = mod.label;
+          btn.addEventListener('click', function () {
+            activeModuleIndex = idx;
+            renderAll();
+          });
+          tabsEl.appendChild(btn);
         });
-      });
+      }
 
-      document.getElementById('resetModuleBtn').disabled = activeStats.answered === 0;
+      function renderQuestions() {
+        const mod = MODULES[activeModuleIndex];
+        const modAnswers = answersByModule[mod.id];
+        listEl.innerHTML = '';
 
-      // Header
-      document.getElementById('moduleHeader').innerHTML =
-        '<div>' +
-          '<h2 class="module-title">' + escapeHtml(activeMod.pdfModuleHeading) + ' &mdash; ' + escapeHtml(activeMod.pdfSectionHeading) + '</h2>' +
-          '<p class="module-topic">' + escapeHtml(activeMod.topicSummary) + '</p>' +
-        '</div>' +
-        '<div class="module-stats">Answered: <strong>' + activeStats.answered + '</strong> / ' + activeStats.total + ' &middot; Correct: <strong style="color:var(--green-border)">' + activeStats.correct + '</strong></div>';
+        mod.questions.forEach(function (q) {
+          const selectedKey = modAnswers[q.number] || null;
+          const isAnswered = selectedKey !== null;
+          const isWrongSelection = isAnswered && selectedKey !== q.correctKey;
 
-      // Questions
-      const listEl = document.getElementById('questionsList');
-      listEl.innerHTML = activeMod.questions.map(q => {
-        const picked = state.selections[q.id];
-        const isAnswered = picked !== undefined;
-        const isCorrect = isAnswered && picked === q.correctIndex;
+          const card = document.createElement('article');
+          card.className = 'q-card';
 
-        let extraHtml = '';
-        if (q.subLines && q.subLines.length) {
-          extraHtml += '<div class="q-sublines">' + q.subLines.map(escapeHtml).join('\\n') + '</div>';
-        }
-        if (q.code) {
-          extraHtml += '<pre class="q-code"><code>' + escapeHtml(q.code) + '</code></pre>';
-        }
-        if (q.diagram) {
-          extraHtml += renderDiagram(q.diagram);
-        }
+          const title = document.createElement('h2');
+          title.className = 'q-title';
+          title.textContent = q.question;
+          card.appendChild(title);
 
-        const optionsHtml = q.options.map((opt, idx) => {
-          let cls = 'opt-btn';
-          let badge = '';
-          if (isAnswered) {
-            if (idx === q.correctIndex) {
-              cls += ' correct';
-              badge = '<span class="opt-badge">' + (picked === idx ? '&#10003; Correct' : '&#10003; Correct Answer') + '</span>';
-            } else if (picked === idx) {
-              cls += ' wrong';
-              badge = '<span class="opt-badge">&#10007; Wrong</span>';
+          const optsWrap = document.createElement('div');
+          optsWrap.className = 'options';
+
+          q.options.forEach(function (opt) {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'opt-btn';
+            btn.disabled = isAnswered;
+
+            const labelSpan = document.createElement('span');
+            labelSpan.textContent = opt.text;
+            btn.appendChild(labelSpan);
+
+            if (isAnswered) {
+              const isSelected = opt.key === selectedKey;
+              const isCorrectOption = opt.key === q.correctKey;
+
+              if (isCorrectOption) {
+                btn.classList.add('is-correct');
+                const badge = document.createElement('span');
+                badge.className = 'opt-badge correct';
+                badge.textContent = isSelected ? '✓ Correct' : '✓ Correct Answer';
+                btn.appendChild(badge);
+              } else if (isSelected) {
+                btn.classList.add('is-wrong');
+                const badge = document.createElement('span');
+                badge.className = 'opt-badge wrong';
+                badge.textContent = '✕ Wrong';
+                btn.appendChild(badge);
+              } else {
+                btn.classList.add('is-dimmed');
+              }
             } else {
-              cls += ' muted';
+              btn.addEventListener('click', function () {
+                answersByModule[mod.id][q.number] = opt.key;
+                renderQuestions();
+                renderProgressAndScore();
+              });
+            }
+
+            optsWrap.appendChild(btn);
+          });
+
+          card.appendChild(optsWrap);
+
+          if (isWrongSelection) {
+            const callout = document.createElement('div');
+            callout.className = 'answer-callout';
+            callout.textContent = q.answerText;
+            card.appendChild(callout);
+          }
+
+          listEl.appendChild(card);
+        });
+      }
+
+      function renderProgressAndScore() {
+        const mod = MODULES[activeModuleIndex];
+        const modAnswers = answersByModule[mod.id];
+        const total = mod.questions.length;
+        let answered = 0;
+        let correct = 0;
+        let wrong = 0;
+
+        mod.questions.forEach(function (q) {
+          const picked = modAnswers[q.number];
+          if (picked) {
+            answered++;
+            if (picked === q.correctKey) {
+              correct++;
+            } else {
+              wrong++;
             }
           }
-          return '<button type="button" class="' + cls + '" ' + (isAnswered ? 'disabled' : '') + ' data-qid="' + q.id + '" data-idx="' + idx + '">' +
-            '<span>' + escapeHtml(opt) + '</span>' + badge +
-            '</button>';
-        }).join('');
-
-        const feedbackHtml = isAnswered
-          ? '<div class="feedback-bar ' + (isCorrect ? 'correct' : 'wrong') + '" role="status">' +
-              '<strong>' + (isCorrect ? 'Correct! ' : 'Wrong answer. ') + '</strong>' + escapeHtml(q.answerText) +
-            '</div>'
-          : '';
-
-        return '<article class="q-card">' +
-          '<h3 class="q-text">' + escapeHtml(q.question) + '</h3>' +
-          extraHtml +
-          '<div class="options">' + optionsHtml + '</div>' +
-          feedbackHtml +
-        '</article>';
-      }).join('');
-
-      listEl.querySelectorAll('.opt-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const qid = btn.getAttribute('data-qid');
-          const idx = Number(btn.getAttribute('data-idx'));
-          if (state.selections[qid] === undefined) {
-            state.selections[qid] = idx;
-            render();
-          }
         });
+
+        progressEl.textContent = answered + ' / ' + total + ' answered';
+
+        if (scoreVisibleByModule[mod.id]) {
+          const pct = Math.round((correct / total) * 100);
+          scoreHeadingEl.textContent = mod.label + ' Score: ' + correct + ' / ' + total + ' (' + pct + '%)';
+          scoreMetaEl.textContent = 'Correct: ' + correct + '  ·  Wrong: ' + wrong + '  ·  Unanswered: ' + (total - answered);
+          scoreBoxEl.classList.add('visible');
+        } else {
+          scoreBoxEl.classList.remove('visible');
+        }
+      }
+
+      function renderAll() {
+        renderTabs();
+        renderQuestions();
+        renderProgressAndScore();
+      }
+
+      showScoreBtn.addEventListener('click', function () {
+        const mod = MODULES[activeModuleIndex];
+        scoreVisibleByModule[mod.id] = true;
+        renderProgressAndScore();
+        scoreBoxEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       });
 
-      // Score Card
-      const pct = activeStats.total ? Math.round((activeStats.correct / activeStats.total) * 100) : 0;
-      let totalCorrect = 0, totalAnswered = 0, totalQuestions = 0;
-      const miniHtml = QUIZ_MODULES.map(m => {
-        const s = getStats(m);
-        totalCorrect += s.correct;
-        totalAnswered += s.answered;
-        totalQuestions += s.total;
-        const mPct = s.total ? Math.round((s.correct / s.total) * 100) : 0;
-        return '<button type="button" class="score-mini ' + (m.id === activeMod.id ? 'active' : '') + '" data-jump="' + m.id + '">' +
-          '<div style="font-size:12px;font-weight:700">' + escapeHtml(m.tabLabel) + '</div>' +
-          '<div class="mono" style="font-size:15px;font-weight:700;color:var(--green-border);margin-top:4px">' + s.correct + '/' + s.total + '</div>' +
-          '<div style="font-size:12px;color:var(--text-muted);margin-top:2px">' + s.answered + ' answered &middot; ' + mPct + '%</div>' +
-          '</button>';
-      }).join('');
-
-      const scoreEl = document.getElementById('scoreCard');
-      scoreEl.innerHTML =
-        '<div class="score-top">' +
-          '<div>' +
-            '<h2 style="margin:0;font-size:18px;font-weight:700">' + escapeHtml(activeMod.tabLabel) + ' Score Summary</h2>' +
-            '<p style="margin:4px 0 0;font-size:14px;color:var(--text-muted)">You scored <strong>' + activeStats.correct + ' / ' + activeStats.total + '</strong> (' + pct + '%) &middot; ' + activeStats.answered + ' of ' + activeStats.total + ' answered</p>' +
-          '</div>' +
-          '<div class="actions">' +
-            '<button type="button" id="toggleAllScoresBtn" class="btn btn-primary">' + (state.showAllScores ? 'Hide All Modules Score' : 'Show All Modules Score') + '</button>' +
-            '<button type="button" id="topBtn" class="btn">Top</button>' +
-          '</div>' +
-        '</div>' +
-        (state.showAllScores
-          ? '<div style="margin-top:16px;font-size:13px;font-weight:600">All Modules Overall: <span class="mono" style="color:var(--accent)">' + totalCorrect + ' / ' + totalQuestions + ' correct (' + totalAnswered + ' answered)</span></div><div class="score-grid">' + miniHtml + '</div>'
-          : '');
-
-      document.getElementById('toggleAllScoresBtn').addEventListener('click', () => {
-        state.showAllScores = !state.showAllScores;
-        render();
-      });
-      document.getElementById('topBtn').addEventListener('click', () => {
+      resetModuleBtn.addEventListener('click', function () {
+        const mod = MODULES[activeModuleIndex];
+        answersByModule[mod.id] = {};
+        scoreVisibleByModule[mod.id] = false;
+        renderQuestions();
+        renderProgressAndScore();
         window.scrollTo({ top: 0, behavior: 'smooth' });
       });
-      scoreEl.querySelectorAll('.score-mini').forEach(btn => {
-        btn.addEventListener('click', () => {
-          state.activeModuleId = btn.getAttribute('data-jump');
-          render();
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-      });
-    }
 
-    document.getElementById('themeToggle').addEventListener('click', () => {
-      state.dark = !state.dark;
-      applyTheme();
-    });
-
-    document.getElementById('showScoreBtn').addEventListener('click', () => {
-      state.showAllScores = true;
-      render();
-      document.getElementById('scoreCard').scrollIntoView({ behavior: 'smooth', block: 'center' });
-    });
-
-    document.getElementById('resetModuleBtn').addEventListener('click', () => {
-      const activeMod = QUIZ_MODULES.find(m => m.id === state.activeModuleId) || QUIZ_MODULES[0];
-      activeMod.questions.forEach(q => { delete state.selections[q.id]; });
-      render();
-    });
-
-    applyTheme();
-    render();
+      renderAll();
+    })();
   </script>
 </body>
 </html>
